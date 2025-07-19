@@ -1,0 +1,41 @@
+import supabase from '../lib/supabase';
+import { useState } from 'react';
+import styles from '../styles/signIn.module.css';
+
+function SignIn() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const signInUser = async () => {
+        try {
+            const { error } = await supabase.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                console.error(error);
+                setErrorMessage("Login failed. Please check your credentials and try again.");
+            }
+        }
+        catch (e) {
+            console.error(e);
+            setErrorMessage("Server error. Please try again.");
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <h1>Sign Into M3</h1>
+            <p>U-M Email</p>
+            <input type="email" value={email} placeholder="name@umich.edu" onChange={(e) => setEmail(e.target.value)} />
+            <p>Password</p>
+            <input type="password" value={password} placeholder="Your Password" onChange={(e) => setPassword(e.target.value)} />
+            <button type="button" onClick={signInUser}>Sign In</button>
+            <p>{errorMessage}</p>
+        </div>
+    );
+}
+
+export default SignIn;
