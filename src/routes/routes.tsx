@@ -1,13 +1,13 @@
-import App from "./pages/App";
-import SignIn from "./pages/SignIn";
-import Error from "./pages/Error";
-import Home from "./pages/Home";
-import Map from "./pages/Map";
-import EquipmentCatalog from "./pages/EquipmentCatalog";
-import MakerspaceCatalog from "./pages/MakerspaceCatalog";
-import Dashboard from "./pages/Dashboard";
-import AskMaizey from "./pages/AskMaizey";
-import Blog from "./pages/Blog";
+import App from "../pages/App";
+import SignIn from "../pages/SignIn";
+import Error from "../pages/Error";
+import Home from "../pages/Home";
+import Map from "../pages/Map";
+import EquipmentCatalog from "../pages/EquipmentCatalog";
+import MakerspaceCatalog from "../pages/MakerspaceCatalog";
+import Dashboard from "../pages/Dashboard";
+import AskMaizey from "../pages/AskMaizey";
+import Blog from "../pages/Blog";
 
 const routes = [
     {

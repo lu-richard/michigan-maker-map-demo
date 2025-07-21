@@ -7,6 +7,7 @@ function SignIn() {
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
+    // Function for signing the user in
     const signInUser = async () => {
         try {
             const { error } = await supabase.auth.signInWithPassword({
@@ -15,13 +16,12 @@ function SignIn() {
             });
 
             if (error) {
-                console.error(error);
-                setErrorMessage("Login failed. Please check your credentials and try again.");
+                throw Error("Failed to sign in user");
             }
         }
         catch (e) {
             console.error(e);
-            setErrorMessage("Server error. Please try again.");
+            setErrorMessage("Login failed. Please check your credentials and try again.");
         }
     };
 
