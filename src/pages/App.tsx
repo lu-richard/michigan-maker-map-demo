@@ -39,6 +39,9 @@ const useAllData = () => {
       try {
         const [makerspaceData, equipmentData] = await Promise.all([fetchMakerspaces(), fetchEquipment()]);
 
+        console.log(makerspaceData);
+        console.log(equipmentData);
+        
         setMakerspaces(makerspaceData);
         setEquipment(equipmentData);
       }
