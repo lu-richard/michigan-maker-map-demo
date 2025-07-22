@@ -68,11 +68,11 @@ function App() {
     <>
       {
         loading ? <Loading /> :
-        <div>
+        <>
           <p>This is the main page</p>
           {/* Any child or granchild component rendered by this Outlet will have access to the outletContext object through the useOutletContext() hook */}
           <Outlet context={outletContext} />
-        </div>
+        </>
       }
     </>
   )

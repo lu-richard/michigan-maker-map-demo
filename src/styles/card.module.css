@@ -1,5 +1,25 @@
 .card {
-    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
     background-color: #fff;
     filter: drop-shadow(0px 4px 4px rgb(0, 0, 0, 0.1));
+    border-radius: 1rem;
+    text-decoration: none;
+    color: #000;
 }
+
+.location {
+    margin: 0.3rem 0 1.25rem 0;
+}
+
+.name {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* .main-image {
+    align-self: flex-start;
+    max-height: 60%;
+    max-width: 100%;
+} */
