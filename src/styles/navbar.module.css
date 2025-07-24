@@ -1,6 +1,23 @@
 .navbar {
     display: flex;
-    padding: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem 2rem 2rem;
     background-color: #00274C;
     color: #fff;
+}
+
+.tabs {
+    align-self: flex-end;
+    margin-right: 3rem;
+}
+
+.tab {
+    text-decoration: none;
+    color: #fff;
+    margin-inline: 2rem;
+}
+
+.logo * {
+    font-weight: 500;
 }
