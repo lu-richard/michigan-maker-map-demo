@@ -1,12 +1,15 @@
 import { useParams, useOutletContext } from "react-router-dom";
-import type { OutletContext } from "../types/types";
-import type { Makerspace } from "../types/types";
+import type { OutletContext, Makerspace, Equipment } from "../types/types";
 import supabase from "../lib/supabase";
 import styles from '../styles/makerspaceDetail.module.css';
+import { useState, useEffect } from "react";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function MakerspaceDetail() {
-    const { makerspaces }: OutletContext = useOutletContext();
+    const { makerspaces, equipment }: OutletContext = useOutletContext();
     const { id } = useParams();
+    const [makerspaceEquipment, setMakerspaceEquipment] = useState<Equipment[]>([]);
     let makerspace: Makerspace | undefined = makerspaces.find((mkspc) => mkspc["makerspace_id"] == id);
     let coverImage = "";
 
@@ -19,17 +22,54 @@ function MakerspaceDetail() {
         coverImage = data.publicUrl;
     }
 
+    const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        (e.currentTarget as HTMLElement).classList.toggle(styles.active);
+    };
+
+    useEffect(() =>{
+        if (makerspace) {
+            setMakerspaceEquipment(equipment.filter((eq) => eq["makerspace_id"] == makerspace["makerspace_id"]));
+        }
+    }, []);
+
     return (
         <>
             {
                 makerspace ?
-                <div>
-                    <h1>{makerspace["makerspace_name"]}</h1>
-                    <p>{makerspace.building}</p>
-                    <p>{makerspace.rooms.map((room, index) => <span key={room}>{room}{index < makerspace.rooms.length - 1 && ', '}</span>)}</p>
-                    <img src={coverImage} className={styles["main-image"]} />
-                    <p>{makerspace.description}</p>
-                </div>
+                <>
+                    <div className={styles["top-bar"]}>
+                        <div>
+                            <h1>{makerspace["makerspace_name"]}</h1>
+                            <p>{makerspace.building}</p>
+                            <p>{makerspace.rooms.map((room, index) => <span key={room}>{room}{index < makerspace.rooms.length - 1 && ', '}</span>)}</p>
+                        </div>
+                        <div className={styles.audience}>
+                            <h3>Who Can Use This Space?</h3>
+                            <ul>
+                                {makerspace.audience?.map((aud, index) => <li key={index}>{aud}</li>)}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className={styles["main-content"]}>
+                        <img src={coverImage} className={styles["main-image"]} />
+                        <section className={styles["text-content"]}>
+                            <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
+                            <p>{makerspace.description}</p>
+                            <button type="button" className={styles.collapsible} onClick={toggleEquipmentList}>
+                                <span className={styles["collapsible-title"]}>Equipment</span>
+                                <KeyboardArrowDownIcon className={styles.expand} />
+                                <KeyboardArrowUpIcon className={styles.collapse} />
+                            </button>
+                            <ul className={styles["equipment-list"]}>
+                                {makerspaceEquipment.map((mkspcEq) => <li key={mkspcEq["equipment_id"]}>{mkspcEq["equipment_name"]}</li>)}
+                            </ul>
+                            <div className={styles.contact}>
+                                <h4 className={styles.h4}>Contact</h4>
+                                <p>{makerspace["contact_email"]}<br />{`(${makerspace["contact_phone"].substring(0, 3)}) ${makerspace["contact_phone"].substring(3, 6)}-${makerspace["contact_phone"].substring(6)}`}</p>
+                            </div>
+                        </section>
+                    </div>
+                </>
                 : <p>The page you are looking for does not exist.</p>
             }
         </>

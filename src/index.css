@@ -6,9 +6,20 @@
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --main-bg-color: #fff;
+  --text-color: #000;
+  --navy-blue: #00274C;
+  --maize: #FFCB05;
+  --arb-blue: #2F65A7;
+  --angell-ash: #989C97;
 }
 
 #root {
   min-height: 100vh;
 }
 
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+}

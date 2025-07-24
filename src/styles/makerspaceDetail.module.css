@@ -1,3 +1,73 @@
 .main-image {
-    max-width: 50vw;
+    display: block;
+    margin: 0 auto;
+    max-width: 45vw;
+    align-self: flex-start;
+}
+
+.main-content {
+    padding: 3rem 4rem;
+    display: flex;
+}
+
+.top-bar {
+    padding: 5rem 20rem;
+    background-color: var(--arb-blue);
+    color: #fff;
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+.audience {
+    margin: 0.5rem 0 0 30rem;
+}
+
+.text-content {
+    font-size: 1.1rem;
+    margin-left: 2rem;
+}
+
+.status {
+    margin-bottom: 1rem;
+}
+
+.h4 {
+    font-weight: 400;
+    text-decoration: underline;
+}
+
+.contact {
+    margin-top: 3rem;
+    font-size: 1rem;
+}
+
+.collapsible {
+    margin-top: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.collapsible + .equipment-list {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.collapsible.active + .equipment-list {
+    max-height: none;
+}
+
+.collapsible .collapse, .collapsible.active .expand {
+    display: none;
+}
+
+.collapsible .expand, .collapsible.active .collapse {
+    display: inline-block;
+}
+
+.collapsible.active .collapsible-title {
+    text-decoration: underline;
 }
