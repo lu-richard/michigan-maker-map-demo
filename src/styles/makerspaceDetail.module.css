@@ -11,7 +11,7 @@
 }
 
 .top-bar {
-    padding: 5rem 20rem;
+    padding: 3rem 20rem;
     background-color: var(--arb-blue);
     color: #fff;
     display: flex;
@@ -70,4 +70,18 @@
 
 .collapsible.active .collapsible-title {
     text-decoration: underline;
+}
+
+.tags {
+    margin-top: 1rem;
+    display: flex;
+}
+
+.tag {
+    padding: 0.5rem 1rem;
+    background-color: var(--maize);
+    border-radius: 1.5rem;
+    color: var(--text-color);
+    margin-right: 0.75rem;
+    font-size: 0.9rem;
 }

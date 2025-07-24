@@ -42,6 +42,9 @@ function MakerspaceDetail() {
                             <h1>{makerspace["makerspace_name"]}</h1>
                             <p>{makerspace.building}</p>
                             <p>{makerspace.rooms.map((room, index) => <span key={room}>{room}{index < makerspace.rooms.length - 1 && ', '}</span>)}</p>
+                            <div className={styles.tags}>
+                                {makerspace.theme && makerspace.theme.map((tag) => <p key={tag} className={styles.tag}>{tag}</p>)}
+                            </div>
                         </div>
                         <div className={styles.audience}>
                             <h3>Who Can Use This Space?</h3>
