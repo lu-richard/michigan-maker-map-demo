@@ -5,6 +5,7 @@ import supabase from '../lib/supabase';
 import type { Session } from '@supabase/supabase-js';
 import type { Makerspace, Equipment } from '../types/types';
 import Loading from './Loading';
+import Navbar from '../components/Navbar';
 
 // Custom, reusable hook for fetching all data from Supabase necessary for UI
 const useAllData = () => {
@@ -66,7 +67,7 @@ function App() {
       {
         loading ? <Loading /> :
         <div>
-          <p>This is the main page</p>
+          <Navbar />
           {/* Any child or granchild component rendered by this Outlet will have access to the outletContext object through the useOutletContext() hook */}
           <Outlet context={outletContext} />
         </div>
