@@ -3,14 +3,14 @@ import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import supabase from '../lib/supabase';
 import type { Session } from '@supabase/supabase-js';
-import type { Makerspace, Equipment } from '../types/types';
+import type { Makerspace, Equipment, MakerspacesById, EquipmentById } from '../types/types';
 import Loading from './Loading';
 import Navbar from '../components/Navbar';
 
 // Custom, reusable hook for fetching all data from Supabase necessary for UI
 const useAllData = () => {
-  const [makerspaces, setMakerspaces] = useState<Makerspace[]>([]);
-  const [equipment, setEquipment] = useState<Equipment[]>([]);
+  const [makerspaces, setMakerspaces] = useState<MakerspacesById>({});
+  const [equipment, setEquipment] = useState<EquipmentById>({});
   const [loading, setLoading] = useState(true);
 
   // Helper function for fetching makerspace rows
@@ -39,9 +39,15 @@ const useAllData = () => {
     const fetchAllPosts = async () => {
       try {
         const [makerspaceData, equipmentData] = await Promise.all([fetchMakerspaces(), fetchEquipment()]);
+
+        let makerspacesObj: MakerspacesById = {};
+        let equipmentObj: EquipmentById = {};
+
+        makerspaceData.forEach((makerspace) => makerspacesObj[makerspace["makerspace_id"]] = makerspace);
+        equipmentData.forEach((eq) => equipmentObj[eq["equipment_id"]] = eq);
         
-        setMakerspaces(makerspaceData);
-        setEquipment(equipmentData);
+        setMakerspaces(makerspacesObj);
+        setEquipment(equipmentObj);
       }
       catch (e) {
         console.error(e);

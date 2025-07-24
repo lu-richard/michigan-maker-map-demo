@@ -12,8 +12,8 @@ function MakerspaceCatalog() {
         <div className={styles.container}>
             <h1 className={styles["main-heading"]}>U-M Makerspaces</h1>
             <input type="text" value={searchValue} placeholder="Search makerspaces by name, description, location, equipment, theme, or audience" className={styles["search-bar"]} onChange={(e) => setSearchValue(e.target.value)} />
-            <div className={styles.grid}>
-                {makerspaces.map((makerspace) => <MakerspaceCard key={makerspace["makerspace_id"]} makerspace={makerspace} /> )}
+            <div className={styles["makerspace-grid"]}>
+                {Object.values(makerspaces).map((makerspace) => <MakerspaceCard key={makerspace["makerspace_id"]} makerspace={{ id: makerspace["makerspace_id"], cover_image: makerspace["cover_image"], name: makerspace["makerspace_name"], building: makerspace.building, rooms: makerspace.rooms, description: makerspace.description }} /> )}
             </div>
         </div>
     );

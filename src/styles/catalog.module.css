@@ -1,8 +1,16 @@
-.grid {
+.makerspace-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(15rem, 1fr));
     /* grid-template-rows: repeat(3, minmax(1fr, 1fr)); */
     gap: 1.5rem;
+    max-width: 85vw;
+    margin: 0 auto;
+}
+
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10rem, 1fr));
+    gap: 1rem;
     max-width: 85vw;
     margin: 0 auto;
 }

@@ -3,11 +3,45 @@ import type { Session } from '@supabase/supabase-js';
 
 export type Makerspace = Tables<'makerspaces'>;
 export type Equipment = Tables<'equipment'>;
-export type UserCredential = Tables<'credentials'>;
+export type EquipmentModel = Tables<'equipment_models'>;
+export type Credential = Tables<'credentials'>;
+export type CredentialModel = Tables<'credential_models'>;
 export type Profile = Tables<'profiles'>;
+
+export interface MakerspacesById {
+    [key: string]: Makerspace;
+}
+
+export interface EquipmentById {
+    [key: string]: Equipment;
+}
+
+interface MakerspaceCardPackage {
+    building: string;
+    cover_image: string | null;
+    description: string | null;
+    id: string;
+    name: string;
+    rooms: string[];
+}
+export interface MakerspaceCardProps {
+    makerspace: MakerspaceCardPackage;
+}
+
+
+interface EquipmentCardPackage {
+    id: string;
+    name: string;
+    building: string;
+    rooms: string[];
+}
+export interface EquipmentCardProps {
+    equipment: EquipmentCardPackage;
+}
+
 export interface OutletContext {
     session: Session | null;
     setSession: React.Dispatch<React.SetStateAction<Session | null>>;
-    makerspaces: Makerspace[],
-    equipment: Equipment[]
-};
+    makerspaces: MakerspacesById;
+    equipment: EquipmentById;
+}

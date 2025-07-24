@@ -2,35 +2,32 @@ import { useParams, useOutletContext } from "react-router-dom";
 import type { OutletContext, Makerspace, Equipment } from "../types/types";
 import supabase from "../lib/supabase";
 import styles from '../styles/makerspaceDetail.module.css';
-import { useState, useEffect } from "react";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function MakerspaceDetail() {
     const { makerspaces, equipment }: OutletContext = useOutletContext();
     const { id } = useParams();
-    const [makerspaceEquipment, setMakerspaceEquipment] = useState<Equipment[]>([]);
-    let makerspace: Makerspace | undefined = makerspaces.find((mkspc) => mkspc["makerspace_id"] == id);
+    let makerspaceEquipment: Equipment[] = [];
+    let makerspace: Makerspace | undefined = makerspaces[id!];
     let coverImage = "";
 
-    if (makerspace && makerspace["cover_image"]) {
-        const { data } = supabase
-            .storage
-            .from('makerspace-photos')
-            .getPublicUrl(makerspace["cover_image"]);
+    if (makerspace) {
+        makerspaceEquipment = Object.values(equipment).filter((eq) => eq["makerspace_id"] == id);
         
-        coverImage = data.publicUrl;
+        if (makerspace["cover_image"]) {
+            const { data } = supabase
+                .storage
+                .from('makerspace-photos')
+                .getPublicUrl(makerspace["cover_image"]);
+        
+            coverImage = data.publicUrl;
+        }
     }
 
     const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         (e.currentTarget as HTMLElement).classList.toggle(styles.active);
     };
-
-    useEffect(() =>{
-        if (makerspace) {
-            setMakerspaceEquipment(equipment.filter((eq) => eq["makerspace_id"] == makerspace["makerspace_id"]));
-        }
-    }, []);
 
     return (
         <>
