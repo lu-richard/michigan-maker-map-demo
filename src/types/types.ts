@@ -16,6 +16,10 @@ export interface EquipmentById {
     [key: string]: Equipment;
 }
 
+export interface EquipmentModelById {
+    [key: string]: EquipmentModel;
+}
+
 interface MakerspaceCardPackage {
     building: string;
     cover_image: string | null;
@@ -34,6 +38,8 @@ interface EquipmentCardPackage {
     name: string;
     building: string;
     rooms: string[];
+    type: string;
+    capabilities: string[] | null;
 }
 export interface EquipmentCardProps {
     equipment: EquipmentCardPackage;
@@ -44,4 +50,5 @@ export interface OutletContext {
     setSession: React.Dispatch<React.SetStateAction<Session | null>>;
     makerspaces: MakerspacesById;
     equipment: EquipmentById;
+    equipmentModels: EquipmentModelById;
 }

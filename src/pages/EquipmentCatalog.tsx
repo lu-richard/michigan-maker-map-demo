@@ -6,14 +6,14 @@ import EquipmentCard from '../components/EquipmentCard';
 
 function EquipmentCatalog() {
     const [searchValue, setSearchValue] = useState("");
-    const { equipment, makerspaces }: OutletContext = useOutletContext();
+    const { equipment, equipmentModels, makerspaces }: OutletContext = useOutletContext();
 
     return (
         <div className={styles.container}>
             <h1 className={styles["main-heading"]}>U-M Equipment</h1>
             <input type="text" value={searchValue} placeholder="Search equipment by model, make, type, function, material, or  other specifications" className={styles["search-bar"]} onChange={(e) => setSearchValue(e.target.value)} />
             <div className={styles["equipment-grid"]}>
-                {Object.values(equipment).map((eq) => <EquipmentCard key={eq["equipment_id"]} equipment={{ id: eq["equipment_id"], name: eq["equipment_name"], building: makerspaces[eq["makerspace_id"]].building, rooms: makerspaces[eq["makerspace_id"]].rooms }} />)}
+                {Object.values(equipment).map((eq) => <EquipmentCard key={eq["equipment_id"]} equipment={{ id: eq["equipment_id"], name: eq["equipment_name"], building: makerspaces[eq["makerspace_id"]].building, rooms: makerspaces[eq["makerspace_id"]].rooms, type: equipmentModels[eq["equipment_model_id"]]["equipment_type"], capabilities: equipmentModels[eq["equipment_model_id"]].capabilities }} />)}
             </div>
         </div>
     );

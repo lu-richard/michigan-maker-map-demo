@@ -1,5 +1,5 @@
 import type { MakerspaceCardProps } from "../types/types";
-import styles from '../styles/card.module.css';
+import styles from '../styles/makerspaceCard.module.css';
 import supabase from "../lib/supabase";
 import { Link } from "react-router-dom";
 
@@ -18,7 +18,7 @@ function MakerspaceCard({ makerspace }: MakerspaceCardProps) {
 
     return (
         <Link to={detailPagePath} className={styles.card}>
-            <img src={coverImage} />
+            {coverImage !== "" && <img src={coverImage} />}
             <h1 className={styles.name}>{makerspace.name}</h1>
             <div className={styles.location}>
                 <p>{makerspace.building}</p>
