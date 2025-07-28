@@ -1,21 +1,58 @@
-import { useOutletContext } from "react-router-dom";
-import type { OutletContext } from "../types/types";
+// import { useOutletContext } from "react-router-dom";
+import type { MakerspaceCardData } from "../types/types";
 import MakerspaceCard from "../components/MakerspaceCard";
 import styles from '../styles/catalog.module.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import supabase from "../lib/supabase";
+import Loading from "./Loading";
+
+const useMakerspaceCatalogData = () => {
+  const [makerspaceCards, setMakerspaceCards] = useState<MakerspaceCardData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMakerspaceCards = async () => {
+      try {
+        const { data, error } = await supabase.from('makerspaces').select('makerspace_id, makerspace_name, cover_image, building, rooms, description');
+
+        if (error) {
+            throw new Error("Failed to fetch makerspace cards");
+        }
+
+        setMakerspaceCards(data);
+      }
+      catch (e) {
+        console.error(e);
+      }
+      finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMakerspaceCards();
+  }, []);
+
+  return { makerspaceCards, loading };
+};
 
 function MakerspaceCatalog() {
     const [searchValue, setSearchValue] = useState("");
-    const { makerspaces }: OutletContext = useOutletContext();
+    const { makerspaceCards, loading } = useMakerspaceCatalogData();
+    // const { makerspaces }: OutletContext = useOutletContext();
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles["main-heading"]}>U-M Makerspaces</h1>
-            <input type="text" value={searchValue} placeholder="Search makerspaces by name, description, location, equipment, theme, or audience" className={styles["search-bar"]} onChange={(e) => setSearchValue(e.target.value)} />
-            <div className={styles["makerspace-grid"]}>
-                {Object.values(makerspaces).map((makerspace) => <MakerspaceCard key={makerspace["makerspace_id"]} makerspace={{ id: makerspace["makerspace_id"], cover_image: makerspace["cover_image"], name: makerspace["makerspace_name"], building: makerspace.building, rooms: makerspace.rooms, description: makerspace.description }} /> )}
-            </div>
-        </div>
+        <>
+            {
+                loading ? <Loading /> :
+                <div className={styles.container}>
+                    <h1 className={styles["main-heading"]}>U-M Makerspaces</h1>
+                    <input type="text" value={searchValue} placeholder="Search makerspaces by name, description, location, equipment, theme, or audience" className={styles["search-bar"]} onChange={(e) => setSearchValue(e.target.value)} />
+                    <div className={styles["makerspace-grid"]}>
+                        {makerspaceCards.map((makerspaceCard) => <MakerspaceCard key={makerspaceCard["makerspace_id"]} makerspaceCard={makerspaceCard} /> )}
+                    </div>
+                </div>
+            }
+        </>
     );
 }
 

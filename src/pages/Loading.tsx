@@ -1,8 +1,10 @@
+import styles from '../styles/loading.module.css';
+
 function Loading() {
     return (
-        <>
-            <p>Loading...</p>
-        </>
+        <div className={styles.container}>
+            <div className={styles.spinner}></div>
+        </div>
     );
 }
 

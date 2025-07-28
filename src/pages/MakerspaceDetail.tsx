@@ -1,28 +1,53 @@
-import { useParams, useOutletContext } from "react-router-dom";
-import type { OutletContext, Makerspace, Equipment } from "../types/types";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import type { MakerspaceDetailData } from "../types/types";
 import supabase from "../lib/supabase";
 import styles from '../styles/makerspaceDetail.module.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Loading from "./Loading";
+
+const useMakerspaceDetailData = () => {
+    const { id } = useParams();
+    const [makerspace, setMakerspace] = useState<MakerspaceDetailData | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchMakerspace = async () => {
+            try {
+                const { data, error } = await supabase.from('view_makerspace_detail_pages').select().eq('makerspace_id', id!).maybeSingle();
+
+                if (error) {
+                    throw new Error("Failed to fetch makerspace");
+                }
+                
+                setMakerspace(data as MakerspaceDetailData | null);
+            }
+            catch (e) {
+                console.error(e);
+            }
+            finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMakerspace();
+    }, []);
+
+    return { makerspace, loading };
+};
 
 function MakerspaceDetail() {
-    const { makerspaces, equipment }: OutletContext = useOutletContext();
-    const { id } = useParams();
-    let makerspaceEquipment: Equipment[] = [];
-    let makerspace: Makerspace | undefined = makerspaces[id!];
-    let coverImage = "";
+    const { makerspace, loading } = useMakerspaceDetailData();
+    let coverImage: string | null = null;
 
-    if (makerspace) {
-        makerspaceEquipment = Object.values(equipment).filter((eq) => eq["makerspace_id"] == id);
-        
-        if (makerspace["cover_image"]) {
-            const { data } = supabase
-                .storage
-                .from('makerspace-photos')
-                .getPublicUrl(makerspace["cover_image"]);
-        
-            coverImage = data.publicUrl;
-        }
+    if (makerspace && makerspace["cover_image"]) {
+        const { data } = supabase
+            .storage
+            .from('makerspace-photos')
+            .getPublicUrl(makerspace["cover_image"]);
+    
+        coverImage = data.publicUrl;
     }
 
     const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -32,13 +57,14 @@ function MakerspaceDetail() {
     return (
         <>
             {
+                loading ? <Loading /> :
                 makerspace ?
                 <>
                     <div className={styles["top-bar"]}>
                         <div>
                             <h1>{makerspace["makerspace_name"]}</h1>
                             <p>{makerspace.building}</p>
-                            <p>{makerspace.rooms.map((room, index) => <span key={room}>{room}{index < makerspace.rooms.length - 1 && ', '}</span>)}</p>
+                            {makerspace.rooms && <p>{makerspace.rooms.map((room, index) => <span key={room}>{room}{index < makerspace.rooms!.length - 1 && ', '}</span>)}</p>}
                             <div className={styles.tags}>
                                 {makerspace.theme && makerspace.theme.map((tag) => <p key={tag} className={styles.tag}>{tag}</p>)}
                             </div>
@@ -51,7 +77,7 @@ function MakerspaceDetail() {
                         </div>
                     </div>
                     <div className={styles["main-content"]}>
-                        <img src={coverImage} className={styles["main-image"]} />
+                        {coverImage && <img src={coverImage} className={styles["main-image"]} />}
                         <section className={styles["text-content"]}>
                             <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
                             <p>{makerspace.description}</p>
@@ -61,7 +87,7 @@ function MakerspaceDetail() {
                                 <KeyboardArrowUpIcon className={styles.collapse} />
                             </button>
                             <ul className={styles["equipment-list"]}>
-                                {makerspaceEquipment.map((mkspcEq) => <li key={mkspcEq["equipment_id"]}>{mkspcEq["equipment_name"]}</li>)}
+                                {makerspace["equipment_list"].map((makerspaceEquipment) => <li key={makerspaceEquipment["equipment_id"]}>{makerspaceEquipment["equipment_name"]}</li>)}
                             </ul>
                             <div className={styles.contact}>
                                 <h4 className={styles.h4}>Contact</h4>
