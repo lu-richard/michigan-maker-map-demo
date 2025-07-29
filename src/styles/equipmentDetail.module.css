@@ -1,0 +1,23 @@
+.main-image {
+    display: block;
+    margin: 0 auto;
+    max-width: 45vw;
+    align-self: flex-start;
+}
+
+.main-content {
+    padding: 3rem 4rem;
+    display: flex;
+}
+
+.text-content {
+    font-size: 1.1rem;
+    margin-left: 2rem;
+}
+
+.top-bar {
+    padding: 3rem 20rem;
+    background-color: var(--arb-blue);
+    color: #fff;
+    display: flex;
+}

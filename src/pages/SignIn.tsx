@@ -34,13 +34,19 @@ function SignIn() {
 
     return (
         <div className={styles.container}>
-            <h1>Sign Into M3</h1>
-            <p>U-M Email</p>
-            <input type="email" value={email} placeholder="name@umich.edu" onChange={(e) => setEmail(e.target.value)} />
-            <p>Password</p>
-            <input type="password" value={password} placeholder="Your Password" onChange={(e) => setPassword(e.target.value)} />
-            <button type="button" onClick={signInUser}>Sign In</button>
-            <p>{errorMessage}</p>
+            <div className={styles.card}>
+                <h1>Sign Into M3</h1>
+                <div className={styles.question}>
+                    <p>U-M Email</p>
+                    <input type="email" value={email} placeholder="name@umich.edu" className={styles["text-field"]} onChange={(e) => setEmail(e.target.value)} />
+                </div>
+                <div className={styles.question}>
+                    <p>Password</p>
+                    <input type="password" value={password} placeholder="Your Password" className={styles["text-field"]} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <button type="button" className={styles["submit-button"]} onClick={signInUser}>Sign In</button>
+                <p className={styles["error-message"]}>{errorMessage}</p>
+            </div>
         </div>
     );
 }

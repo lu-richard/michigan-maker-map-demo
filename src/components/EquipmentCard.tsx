@@ -1,8 +1,10 @@
 import type { EquipmentCardProps } from "../types/types";
 import styles from '../styles/equipmentCard.module.css';
 import supabase from "../lib/supabase";
+import { Link } from "react-router-dom";
 
 function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
+    const detailPagePath = `/equipment-detail/${equipmentCard["equipment_id"]}`;
     let coverImage: string | null = null;
 
     if (equipmentCard["manufacturer_image_urls"] && equipmentCard["manufacturer_image_urls"].length > 0) {
@@ -15,7 +17,7 @@ function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
     }
 
     return (
-        <div className={styles.card}>
+        <Link to={detailPagePath} className={styles.card}>
             {coverImage && <img src={coverImage} />}
             <h1 className={styles.type}>{equipmentCard["equipment_type"]}</h1>
             <h2 className={styles.name}>{equipmentCard["equipment_model_name"]}</h2>
@@ -25,7 +27,7 @@ function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
             </div>
             <p className={styles.functions}>Functions</p>
             {equipmentCard.capabilities && <p>{equipmentCard.capabilities.map((capability, index) => <span key={capability}>{capability}{index < equipmentCard.capabilities!.length - 1 && ', '}</span>)}</p>}
-        </div>
+        </Link>
     );
 }
 

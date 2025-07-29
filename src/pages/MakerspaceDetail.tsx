@@ -41,7 +41,7 @@ function MakerspaceDetail() {
     const { makerspace, loading } = useMakerspaceDetailData();
     let coverImage: string | null = null;
 
-    if (makerspace && makerspace["cover_image"]) {
+    if (makerspace?.["cover_image"]) {
         const { data } = supabase
             .storage
             .from('makerspace-photos')

@@ -15,7 +15,6 @@
     background-color: var(--arb-blue);
     color: #fff;
     display: flex;
-    /* justify-content: space-between; */
 }
 
 .audience {

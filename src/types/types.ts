@@ -63,3 +63,5 @@ interface MakerspaceEquipment {
 export type MakerspaceDetailData = Omit<Tables<'view_makerspace_detail_pages'>, 'equipment_list'> & {
     equipment_list: MakerspaceEquipment[];
 };
+
+export type EquipmentDetailData = Tables<'view_equipment_detail_pages'>;

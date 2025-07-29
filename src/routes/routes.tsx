@@ -4,6 +4,7 @@ import Error from "../pages/Error";
 import Home from "../pages/Home";
 import Map from "../pages/Map";
 import EquipmentCatalog from "../pages/EquipmentCatalog";
+import EquipmentDetail from "../pages/EquipmentDetail";
 import MakerspaceCatalog from "../pages/MakerspaceCatalog";
 import MakerspaceDetail from "../pages/MakerspaceDetail";
 import Dashboard from "../pages/Dashboard";
@@ -26,6 +27,7 @@ const routes = [
                     { path: 'makerspaces', element: <MakerspaceCatalog /> },
                     { path: 'makerspace-detail/:id', element: <MakerspaceDetail /> },
                     { path: 'equipment', element: <EquipmentCatalog /> },
+                    { path: 'equipment-detail/:id', element: <EquipmentDetail /> },
                     { path: 'dashboard', element: <Dashboard /> },
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
