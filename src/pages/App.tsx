@@ -1,8 +1,9 @@
 import styles from '../styles/app.module.css';
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import Navbar from '../components/Navbar';
+import supabase from '../lib/supabase';
 
 // // Custom, reusable hook for fetching all data from Supabase necessary for UI
 // const useAllData = () => {
@@ -76,15 +77,33 @@ import Navbar from '../components/Navbar';
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
-  // const { makerspaces, equipment, equipmentModels, loading } = useAllData();
-  // const outletContext = { session, setSession, makerspaces, equipment, equipmentModels };
+  const [loading, setLoading] = useState(true);
+  const outletContext = { session, setSession, loading };
+
+  useEffect(() => {
+    supabase.auth.getSession().then(
+      ({ data: { session } }) => {
+        setSession(session);
+        setLoading(false);
+      }
+    );
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setLoading(false);
+      }
+    );
+
+    return subscription.unsubscribe;
+  }, []);
 
   return (
     <>
       <div>
-        <Navbar />
+        {session && <Navbar session={session} />}
         {/* Any child or granchild component rendered by this Outlet will have access to the outletContext object through the useOutletContext() hook */}
-        <Outlet />
+        <Outlet context={outletContext} />
       </div>
     </>
   )

@@ -1,23 +1,30 @@
 import supabase from '../lib/supabase';
 import { useState } from 'react';
 import styles from '../styles/signIn.module.css';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import type { OutletContext } from '../types/types';
 
 function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const { setSession }: OutletContext = useOutletContext();
+    const navigate = useNavigate();
 
     // Function for signing the user in
     const signInUser = async () => {
         try {
-            const { error } = await supabase.auth.signInWithPassword({
+            const { data, error } = await supabase.auth.signInWithPassword({
                 email,
                 password
             });
 
             if (error) {
-                throw Error("Failed to sign in user");
+                throw new Error("Failed to sign in user");
             }
+
+            setSession(data.session);
+            navigate('/');
         }
         catch (e) {
             console.error(e);

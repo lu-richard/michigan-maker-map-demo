@@ -9,6 +9,7 @@ import MakerspaceDetail from "../pages/MakerspaceDetail";
 import Dashboard from "../pages/Dashboard";
 import AskMaizey from "../pages/AskMaizey";
 import Blog from "../pages/Blog";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const routes = [
     {
@@ -16,20 +17,21 @@ const routes = [
         element: <App />,
         errorElement: <Error />,
         children: [
-            { index: true, element: <Home /> },
-            { path: 'map', element: <Map /> },
-            { path: 'makerspaces', element: <MakerspaceCatalog /> },
-            { path: 'makerspace-detail/:id', element: <MakerspaceDetail /> },
-            { path: 'equipment', element: <EquipmentCatalog /> },
-            { path: 'dashboard', element: <Dashboard /> },
-            { path: 'askmaizey', element: <AskMaizey /> },
-            { path: 'blog', element: <Blog /> },
+            { path: 'signin', element: <SignIn /> },
+            {
+                element: <ProtectedRoute />,
+                children: [
+                    { index: true, element: <Home /> },
+                    { path: 'map', element: <Map /> },
+                    { path: 'makerspaces', element: <MakerspaceCatalog /> },
+                    { path: 'makerspace-detail/:id', element: <MakerspaceDetail /> },
+                    { path: 'equipment', element: <EquipmentCatalog /> },
+                    { path: 'dashboard', element: <Dashboard /> },
+                    { path: 'askmaizey', element: <AskMaizey /> },
+                    { path: 'blog', element: <Blog /> },
+                ]
+            },
         ]
-    },
-    {
-        path: '/signin',
-        element: <SignIn />,
-        errorElement: <Error />,
     },
 ];
 

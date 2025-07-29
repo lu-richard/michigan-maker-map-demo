@@ -5,6 +5,7 @@ import styles from '../styles/catalog.module.css';
 import { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import Loading from "./Loading";
+import SearchIcon from '@mui/icons-material/Search';
 
 const useMakerspaceCatalogData = () => {
   const [makerspaceCards, setMakerspaceCards] = useState<MakerspaceCardData[]>([]);
@@ -46,7 +47,10 @@ function MakerspaceCatalog() {
                 loading ? <Loading /> :
                 <div className={styles.container}>
                     <h1 className={styles["main-heading"]}>U-M Makerspaces</h1>
-                    <input type="text" value={searchValue} placeholder="Search makerspaces by name, description, location, equipment, theme, or audience" className={styles["search-bar"]} onChange={(e) => setSearchValue(e.target.value)} />
+                    <div className={styles["search-bar"]}>
+                      <div className={styles["search-icon"]}><SearchIcon /></div>
+                      <input type="text" value={searchValue} placeholder="Search makerspaces by name, description, location, equipment, theme, or audience" className={styles["text-field"]} onChange={(e) => setSearchValue(e.target.value)} />
+                    </div>
                     <div className={styles["makerspace-grid"]}>
                         {makerspaceCards.map((makerspaceCard) => <MakerspaceCard key={makerspaceCard["makerspace_id"]} makerspaceCard={makerspaceCard} /> )}
                     </div>

@@ -1,7 +1,22 @@
 import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
+import type { Session } from '@supabase/supabase-js';
+import supabase from '../lib/supabase';
 
-function Navbar() {
+function Navbar({ session }: { session: Session | null }) {
+    const signOutUser = async () => {
+        try {
+            const { error } = await supabase.auth.signOut();
+
+            if (error) {
+                throw new Error("Failed to sign out user")
+            }
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+    
     return (
         <div className={styles["navbar"]}>
             <div className={styles["logo"]}>
@@ -16,6 +31,13 @@ function Navbar() {
                 <Link to='askmaizey' className={styles.tab}>Ask MAIZEY</Link>
                 <Link to='blog' className={styles.tab}>Blog</Link>
             </div>
+            {
+                session &&
+                <div>
+                    <p>{session.user.email}</p>
+                    <button type="button" onClick={signOutUser}>Sign Out</button>
+                </div>
+            }
         </div>
     );
 }

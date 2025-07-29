@@ -5,6 +5,7 @@ import type { EquipmentCardData } from '../types/types';
 import EquipmentCard from '../components/EquipmentCard';
 import supabase from '../lib/supabase';
 import Loading from './Loading';
+import SearchIcon from '@mui/icons-material/Search';
 
 const useEquipmentCatalogData = () => {
   const [equipmentCards, setEquipmentCards] = useState<EquipmentCardData[]>([]);
@@ -45,7 +46,10 @@ function EquipmentCatalog() {
                 loading ? <Loading /> :
                 <div className={styles.container}>
                     <h1 className={styles["main-heading"]}>U-M Equipment</h1>
-                    <input type="text" value={searchValue} placeholder="Search equipment by model, make, type, function, material, or  other specifications" className={styles["search-bar"]} onChange={(e) => setSearchValue(e.target.value)} />
+                    <div className={styles["search-bar"]}>
+                      <div className={styles["search-icon"]}><SearchIcon /></div>
+                      <input type="text" value={searchValue} placeholder="Search equipment by model, make, type, function, material, or  other specifications" className={styles["text-field"]} onChange={(e) => setSearchValue(e.target.value)} />
+                    </div>
                     <div className={styles["equipment-grid"]}>
                         {equipmentCards.map((equipmentCard) => <EquipmentCard key={equipmentCard["equipment_id"]} equipmentCard={equipmentCard} />)}
                     </div>
