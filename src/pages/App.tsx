@@ -1,4 +1,3 @@
-import styles from '../styles/app.module.css';
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import type { Session } from '@supabase/supabase-js';
