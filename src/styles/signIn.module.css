@@ -37,6 +37,14 @@
     cursor: pointer;
 }
 
+.submit-button:hover {
+    background-color: #336eb6;
+}
+
+.submit-button:active {
+    background-color: #2b5c97;
+}
+
 .error-message {
     color: rgb(185, 0, 0);
     margin-top: 1rem;

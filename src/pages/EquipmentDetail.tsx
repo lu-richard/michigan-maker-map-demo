@@ -56,15 +56,37 @@ function EquipmentDetail() {
                 <>
                     <div className={styles["top-bar"]}>
                         <div>
-                            <h1>{equipment["equipment_type"]}</h1>
-                            <p>{equipment.building}</p>
-                            {equipment.rooms && <p>{equipment.rooms.map((room, index) => <span key={room}>{room}{index < equipment.rooms!.length - 1 && ', '}</span>)}</p>}
+                            <h1 className={styles.title}>{equipment["equipment_type"]}<span className={styles["equipment-model-name"]}>{equipment["equipment_model_name"]}</span></h1>
+                            <section className={styles["top-bar-subinfo"]}>
+                                <p className={styles.subheading}>{equipment["makerspace_name"]}</p>
+                                <p>{equipment.building}</p>
+                                <p>{equipment.rooms?.map((room, index) => <span key={room}>{room}{index < equipment.rooms!.length - 1 && ', '}</span>)}</p>
+                            </section>
+                        </div>
+                        <div className={styles["top-bar-side-info"]}>
+                            <h4 className={`${styles.subheading} ${styles.functions}`}>Functions</h4>
+                            <p>{equipment.capabilities?.map((capability, index) => <span key={capability}>{capability}{index < equipment.capabilities!.length - 1 && ', '}</span>)}</p>
+                            <h4 className={`${styles.subheading} ${styles["credential-model"]}`}>Necessary Credential:</h4>
+                            <p>{equipment["credential_model_name"]}</p>
                         </div>
                     </div>
                     <div className={styles["main-content"]}>
-                        {coverImage && <img src={coverImage} className={styles["main-image"]} />}
+                        {coverImage && <div className={styles["image-container"]}><img src={coverImage} className={styles["cover-image"]} /></div>}
                         <section className={styles["text-content"]}>
-                            <p>{equipment["equipment_type"]}</p>
+                            <section className={styles["text-content-section"]}>
+                                <h2 className={styles["text-content-heading"]}>Status & Usage</h2>
+                                <p>Current Status: {equipment["equipment_status"] || "N/A"}</p>
+                                {equipment.materials && <p>Materials: {equipment.materials.map((material, index) => <span key={material}>{material}{index < equipment.materials!.length - 1 && ', '}</span>)}</p>}
+                                <p>CNC: {equipment["is_cnc"] ? "Yes" : "No"}</p>
+                                {typeof equipment["equipment_specific_specs"] === "object" && equipment["equipment_specific_specs"] && Object.entries(equipment["equipment_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
+                                <p>{equipment.notes}</p>
+                            </section>
+                            <section className={styles["text-content-section"]}>
+                                <h2 className={styles["text-content-heading"]}>Specifications</h2>
+                                <p>Model: {equipment.model}</p>
+                                <p>Make: {equipment.make}</p>
+                                {typeof equipment["equipment_model_specific_specs"] === "object" && equipment["equipment_model_specific_specs"] && Object.entries(equipment["equipment_model_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
+                            </section>
                         </section>
                     </div>
                 </>

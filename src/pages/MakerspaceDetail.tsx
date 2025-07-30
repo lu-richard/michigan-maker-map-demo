@@ -64,9 +64,9 @@ function MakerspaceDetail() {
                         <div>
                             <h1>{makerspace["makerspace_name"]}</h1>
                             <p>{makerspace.building}</p>
-                            {makerspace.rooms && <p>{makerspace.rooms.map((room, index) => <span key={room}>{room}{index < makerspace.rooms!.length - 1 && ', '}</span>)}</p>}
+                            <p>{makerspace.rooms?.map((room, index) => <span key={room}>{room}{index < makerspace.rooms!.length - 1 && ', '}</span>)}</p>
                             <div className={styles.tags}>
-                                {makerspace.theme && makerspace.theme.map((tag) => <p key={tag} className={styles.tag}>{tag}</p>)}
+                                {makerspace.theme?.map((tag) => <p key={tag} className={styles.tag}>{tag}</p>)}
                             </div>
                         </div>
                         <div className={styles.audience}>
@@ -77,7 +77,7 @@ function MakerspaceDetail() {
                         </div>
                     </div>
                     <div className={styles["main-content"]}>
-                        {coverImage && <img src={coverImage} className={styles["main-image"]} />}
+                        {coverImage && <img src={coverImage} className={styles["cover-image"]} />}
                         <section className={styles["text-content"]}>
                             <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
                             <p>{makerspace.description}</p>

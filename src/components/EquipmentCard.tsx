@@ -23,10 +23,10 @@ function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
             <h2 className={styles.name}>{equipmentCard["equipment_model_name"]}</h2>
             <div className={styles.location}>
                 <p>{equipmentCard.building}</p>
-                {equipmentCard.rooms && <p>{equipmentCard.rooms.map((room, index) => <span key={room}>{room}{index < equipmentCard.rooms!.length - 1 && ', '}</span>)}</p>}
+                <p>{equipmentCard.rooms?.map((room, index) => <span key={room}>{room}{index < equipmentCard.rooms!.length - 1 && ', '}</span>)}</p>
             </div>
             <p className={styles.functions}>Functions</p>
-            {equipmentCard.capabilities && <p>{equipmentCard.capabilities.map((capability, index) => <span key={capability}>{capability}{index < equipmentCard.capabilities!.length - 1 && ', '}</span>)}</p>}
+            <p>{equipmentCard.capabilities?.map((capability, index) => <span key={capability}>{capability}{index < equipmentCard.capabilities!.length - 1 && ', '}</span>)}</p>
         </Link>
     );
 }
