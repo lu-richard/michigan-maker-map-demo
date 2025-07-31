@@ -10,11 +10,30 @@ import SearchIcon from '@mui/icons-material/Search';
 const useMakerspaceCatalogData = () => {
   const [makerspaceCards, setMakerspaceCards] = useState<MakerspaceCardData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearchValue(searchValue), 500);
+
+    return () => clearTimeout(timeout);
+  }, [searchValue]);
 
   useEffect(() => {
     const fetchMakerspaceCards = async () => {
       try {
-        const { data, error } = await supabase.from('makerspaces').select('makerspace_id, makerspace_name, cover_image, building, rooms, description');
+        setLoading(true);
+
+        let query = supabase.from('makerspaces').select('makerspace_id, makerspace_name, cover_image, building, rooms, description');
+
+        if (debouncedSearchValue !== "") {
+          query = query.textSearch('makerspace_name', debouncedSearchValue, {
+            type: 'websearch',
+            config: 'english',
+          });
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             throw new Error("Failed to fetch makerspace cards");
@@ -31,15 +50,13 @@ const useMakerspaceCatalogData = () => {
     };
 
     fetchMakerspaceCards();
-  }, []);
+  }, [debouncedSearchValue]);
 
-  return { makerspaceCards, loading };
+  return { searchValue, setSearchValue, makerspaceCards, loading };
 };
 
 function MakerspaceCatalog() {
-    const [searchValue, setSearchValue] = useState("");
-    const { makerspaceCards, loading } = useMakerspaceCatalogData();
-    // const { makerspaces }: OutletContext = useOutletContext();
+    const { searchValue, setSearchValue, makerspaceCards, loading } = useMakerspaceCatalogData();
 
     return (
         <>

@@ -77,14 +77,20 @@ function EquipmentDetail() {
                                 <h2 className={styles["text-content-heading"]}>Status & Usage</h2>
                                 <p>Current Status: {equipment["equipment_status"] || "N/A"}</p>
                                 {equipment.materials && <p>Materials: {equipment.materials.map((material, index) => <span key={material}>{material}{index < equipment.materials!.length - 1 && ', '}</span>)}</p>}
-                                <p>CNC: {equipment["is_cnc"] ? "Yes" : "No"}</p>
                                 {typeof equipment["equipment_specific_specs"] === "object" && equipment["equipment_specific_specs"] && Object.entries(equipment["equipment_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
-                                <p>{equipment.notes}</p>
+                                {
+                                    equipment.notes &&
+                                    <>
+                                        <br />
+                                        <p>{equipment.notes}</p>
+                                    </>
+                                }
                             </section>
                             <section className={styles["text-content-section"]}>
                                 <h2 className={styles["text-content-heading"]}>Specifications</h2>
                                 <p>Model: {equipment.model}</p>
                                 <p>Make: {equipment.make}</p>
+                                <p>CNC: {equipment["is_cnc"] ? "Yes" : "No"}</p>
                                 {typeof equipment["equipment_model_specific_specs"] === "object" && equipment["equipment_model_specific_specs"] && Object.entries(equipment["equipment_model_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
                             </section>
                         </section>

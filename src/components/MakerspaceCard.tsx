@@ -4,7 +4,7 @@ import supabase from "../lib/supabase";
 import { Link } from "react-router-dom";
 
 function MakerspaceCard({ makerspaceCard }: MakerspaceCardProps) {
-    const detailPagePath = `/makerspace-detail/${makerspaceCard["makerspace_id"]}`;
+    const makerspaceDetailPath = `/makerspace-detail/${makerspaceCard["makerspace_id"]}`;
     let coverImage: string | null = null;
 
     if (makerspaceCard["cover_image"]) {
@@ -17,7 +17,7 @@ function MakerspaceCard({ makerspaceCard }: MakerspaceCardProps) {
     }
 
     return (
-        <Link to={detailPagePath} className={styles.card}>
+        <Link to={makerspaceDetailPath} className={styles.card}>
             {coverImage && <img src={coverImage} />}
             <h1 className={styles.name}>{makerspaceCard["makerspace_name"]}</h1>
             <div className={styles.location}>

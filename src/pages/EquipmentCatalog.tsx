@@ -10,11 +10,30 @@ import SearchIcon from '@mui/icons-material/Search';
 const useEquipmentCatalogData = () => {
   const [equipmentCards, setEquipmentCards] = useState<EquipmentCardData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setDebouncedSearchValue(searchValue), 500);
+
+    return () => clearTimeout(timeout);
+  }, [searchValue]);
 
   useEffect(() => {
     const fetchEquipmentCards = async () => {
       try {
-        const { data, error } = await supabase.from('view_equipment_cards').select();
+        setLoading(true);
+        
+        let query = supabase.from('view_equipment_cards').select();
+
+        if (debouncedSearchValue !== "") {
+          query = query.textSearch('equipment_type', debouncedSearchValue, {
+            type: 'websearch',
+            config: 'english',
+          });
+        }
+
+        const { data, error } = await query;
 
         if (error) {
             throw new Error("Failed to fetch equipment cards");
@@ -31,14 +50,13 @@ const useEquipmentCatalogData = () => {
     };
 
     fetchEquipmentCards();
-  }, []);
+  }, [debouncedSearchValue]);
 
-  return { equipmentCards, loading };
+  return { searchValue, setSearchValue, equipmentCards, loading };
 };
 
 function EquipmentCatalog() {
-    const [searchValue, setSearchValue] = useState("");
-    const { equipmentCards, loading } = useEquipmentCatalogData();
+    const { searchValue, setSearchValue, equipmentCards, loading } = useEquipmentCatalogData();
 
     return (
         <>

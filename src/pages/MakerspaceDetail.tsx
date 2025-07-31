@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import type { MakerspaceDetailData } from "../types/types";
 import supabase from "../lib/supabase";
@@ -87,7 +87,11 @@ function MakerspaceDetail() {
                                 <KeyboardArrowUpIcon className={styles.collapse} />
                             </button>
                             <ul className={styles["equipment-list"]}>
-                                {makerspace["equipment_list"].map((makerspaceEquipment) => <li key={makerspaceEquipment["equipment_id"]}>{makerspaceEquipment["equipment_name"]}</li>)}
+                                {makerspace["equipment_list"].map((makerspaceEquipment) => {
+                                    const equipmentDetailPath = `/equipment-detail/${makerspaceEquipment["equipment_id"]}`;
+
+                                    return <li key={makerspaceEquipment["equipment_id"]}><Link to={equipmentDetailPath}>{makerspaceEquipment["equipment_name"]}</Link></li>;
+                                })}
                             </ul>
                             <div className={styles.contact}>
                                 <h4 className={styles.h4}>Contact</h4>

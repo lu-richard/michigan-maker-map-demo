@@ -4,7 +4,7 @@ import supabase from "../lib/supabase";
 import { Link } from "react-router-dom";
 
 function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
-    const detailPagePath = `/equipment-detail/${equipmentCard["equipment_id"]}`;
+    const equipmentDetailPath = `/equipment-detail/${equipmentCard["equipment_id"]}`;
     let coverImage: string | null = null;
 
     if (equipmentCard["manufacturer_image_urls"] && equipmentCard["manufacturer_image_urls"].length > 0) {
@@ -17,7 +17,7 @@ function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
     }
 
     return (
-        <Link to={detailPagePath} className={styles.card}>
+        <Link to={equipmentDetailPath} className={styles.card}>
             {coverImage && <img src={coverImage} />}
             <h1 className={styles.type}>{equipmentCard["equipment_type"]}</h1>
             <h2 className={styles.name}>{equipmentCard["equipment_model_name"]}</h2>
