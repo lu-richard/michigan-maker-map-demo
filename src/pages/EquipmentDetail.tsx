@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import Loading from "./Loading";
 import styles from '../styles/equipmentDetail.module.css';
+import labels from "../constants/labels";
 
 const useEquipmentDetailData = () => {
     const { id } = useParams();
@@ -91,7 +92,7 @@ function EquipmentDetail() {
                                 <p>Model: {equipment.model}</p>
                                 <p>Make: {equipment.make}</p>
                                 <p>CNC: {equipment["is_cnc"] ? "Yes" : "No"}</p>
-                                {typeof equipment["equipment_model_specific_specs"] === "object" && equipment["equipment_model_specific_specs"] && Object.entries(equipment["equipment_model_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
+                                {typeof equipment["equipment_model_specific_specs"] === "object" && equipment["equipment_model_specific_specs"] && Object.entries(equipment["equipment_model_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{labels[key as keyof typeof labels] || key}: {value}</p>)}
                             </section>
                         </section>
                     </div>
