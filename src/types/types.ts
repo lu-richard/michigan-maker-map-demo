@@ -8,60 +8,39 @@ export type Credential = Tables<'credentials'>;
 export type CredentialModel = Tables<'credential_models'>;
 export type Profile = Tables<'profiles'>;
 export type EquipmentCardData = Tables<'view_equipment_cards'>;
+export type MakerspaceCardData = Tables<'view_makerspace_cards'>;
 
-// export interface MakerspacesById {
-//     [key: string]: Makerspace;
+
+// export interface MakerspaceCardData {
+//     building: string
+//     cover_image: string | null
+//     description: string | null
+//     makerspace_id: string
+//     makerspace_name: string
+//     rooms: string[] | null
 // }
 
-// export interface EquipmentById {
-//     [key: string]: Equipment;
-// }
 
-// export interface EquipmentModelById {
-//     [key: string]: EquipmentModel;
-// }
-
-export interface MakerspaceCardData {
-    building: string
-    cover_image: string | null
-    description: string | null
-    makerspace_id: string
-    makerspace_name: string
-    rooms: string[] | null
-}
-export interface MakerspaceCardProps {
-    makerspaceCard: MakerspaceCardData;
-}
-
-
-// interface EquipmentCard {
-//     id: string;
-//     name: string;
-//     building: string;
-//     rooms: string[];
-//     type: string;
-//     capabilities: string[] | null;
-// }
 export interface EquipmentCardProps {
     equipmentCard: EquipmentCardData;
 }
 
-export interface OutletContext {
-    session: Session | null;
-    setSession: React.Dispatch<React.SetStateAction<Session | null>>;
-    loading: boolean;
-    // makerspaces: MakerspacesById;
-    // equipment: EquipmentById;
-    // equipmentModels: EquipmentModelById;
+export interface MakerspaceCardProps {
+    makerspaceCard: MakerspaceCardData;
 }
 
 interface MakerspaceEquipment {
     equipment_id: string;
     equipment_name: string;
 }
-
 export type MakerspaceDetailData = Omit<Tables<'view_makerspace_detail_pages'>, 'equipment_list'> & {
     equipment_list: MakerspaceEquipment[];
 };
 
 export type EquipmentDetailData = Tables<'view_equipment_detail_pages'>;
+
+export interface OutletContext {
+    session: Session | null;
+    setSession: React.Dispatch<React.SetStateAction<Session | null>>;
+    loading: boolean;
+}

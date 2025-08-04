@@ -24,10 +24,10 @@ const useMakerspaceCatalogData = () => {
       try {
         setLoading(true);
 
-        let query = supabase.from('makerspaces').select('makerspace_id, makerspace_name, cover_image, building, rooms, description');
+        let query = supabase.from('view_makerspace_cards').select();
 
         if (debouncedSearchValue !== "") {
-          query = query.textSearch('makerspace_name', debouncedSearchValue, {
+          query = query.textSearch('fts', debouncedSearchValue, {
             type: 'websearch',
             config: 'english',
           });
@@ -68,9 +68,15 @@ function MakerspaceCatalog() {
                       <div className={styles["search-icon"]}><SearchIcon /></div>
                       <input type="text" value={searchValue} placeholder="Search makerspaces by name, description, location, equipment, theme, or audience" className={styles["text-field"]} onChange={(e) => setSearchValue(e.target.value)} />
                     </div>
-                    <div className={styles["makerspace-grid"]}>
+                    {
+                      makerspaceCards.length > 0 ?
+                      <div className={styles["makerspace-grid"]}>
                         {makerspaceCards.map((makerspaceCard) => <MakerspaceCard key={makerspaceCard["makerspace_id"]} makerspaceCard={makerspaceCard} /> )}
-                    </div>
+                      </div> :
+                      <div className={styles["no-results-message"]}>
+                        <p>No results found.</p>
+                      </div>
+                    }
                 </div>
             }
         </>

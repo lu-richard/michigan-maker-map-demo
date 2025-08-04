@@ -68,9 +68,15 @@ function EquipmentCatalog() {
                       <div className={styles["search-icon"]}><SearchIcon /></div>
                       <input type="text" value={searchValue} placeholder="Search equipment by model, make, type, function, material, or  other specifications" className={styles["text-field"]} onChange={(e) => setSearchValue(e.target.value)} />
                     </div>
-                    <div className={styles["equipment-grid"]}>
+                    {
+                      equipmentCards.length > 0 ?
+                      <div className={styles["equipment-grid"]}>
                         {equipmentCards.map((equipmentCard) => <EquipmentCard key={equipmentCard["equipment_id"]} equipmentCard={equipmentCard} />)}
-                    </div>
+                      </div> :
+                      <div>
+                        <p className={styles["no-results-message"]}>No results found.</p>
+                      </div>
+                    }
                 </div>
             }
         </>
