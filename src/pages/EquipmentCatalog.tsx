@@ -27,7 +27,7 @@ const useEquipmentCatalogData = () => {
         let query = supabase.from('view_equipment_cards').select();
 
         if (debouncedSearchValue !== "") {
-          query = query.textSearch('equipment_type', debouncedSearchValue, {
+          query = query.textSearch('fts', debouncedSearchValue, {
             type: 'websearch',
             config: 'english',
           });
@@ -63,19 +63,19 @@ function EquipmentCatalog() {
             {
                 loading ? <Loading /> :
                 <div className={styles.container}>
-                    <h1 className={styles["main-heading"]}>U-M Equipment</h1>
-                    <div className={styles["search-bar"]}>
-                      <div className={styles["search-icon"]}><SearchIcon /></div>
-                      <input type="text" value={searchValue} placeholder="Search equipment by model, make, type, function, material, or  other specifications" className={styles["text-field"]} onChange={(e) => setSearchValue(e.target.value)} />
+                    <div className={styles["top-bar"]}>
+                      <h1 className={styles["main-heading"]}>U-M Equipment</h1>
+                      <div className={styles["search-bar"]}>
+                        <div className={styles["search-icon"]}><SearchIcon /></div>
+                        <input type="text" value={searchValue} placeholder="Search equipment by model, make, type, function, material, or location" className={styles["text-field"]} onChange={(e) => setSearchValue(e.target.value)} />
+                      </div>
                     </div>
                     {
                       equipmentCards.length > 0 ?
                       <div className={styles["equipment-grid"]}>
                         {equipmentCards.map((equipmentCard) => <EquipmentCard key={equipmentCard["equipment_id"]} equipmentCard={equipmentCard} />)}
                       </div> :
-                      <div>
-                        <p className={styles["no-results-message"]}>No results found.</p>
-                      </div>
+                      <p className={styles["no-results-message"]}>No results found.</p>
                     }
                 </div>
             }
