@@ -10,7 +10,6 @@ function ProtectedRoute() {
     }
 
     if (!session) {
-        console.log("AHHH");
         return <Navigate to="/signin" />;
     }
 

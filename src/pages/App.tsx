@@ -90,7 +90,6 @@ function App() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-        setLoading(false);
       }
     );
 

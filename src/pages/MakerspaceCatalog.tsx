@@ -24,7 +24,7 @@ const useMakerspaceCatalogData = () => {
       try {
         setLoading(true);
 
-        let query = supabase.from('view_makerspace_cards').select();
+        let query = supabase.schema('private').from('view_makerspace_cards').select();
 
         if (debouncedSearchValue !== "") {
           query = query.textSearch('fts', debouncedSearchValue, {

@@ -7,8 +7,8 @@ export type EquipmentModel = Tables<'equipment_models'>;
 export type Credential = Tables<'credentials'>;
 export type CredentialModel = Tables<'credential_models'>;
 export type Profile = Tables<'profiles'>;
-export type EquipmentCardData = Tables<'view_equipment_cards'>;
-export type MakerspaceCardData = Tables<'view_makerspace_cards'>;
+export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
+export type MakerspaceCardData = Tables<{ schema: 'private' }, 'view_makerspace_cards'>;
 
 
 // export interface MakerspaceCardData {

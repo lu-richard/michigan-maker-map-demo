@@ -66,7 +66,7 @@ function EquipmentDetail() {
                         </div>
                         <div className={styles["top-bar-side-info"]}>
                             <h4 className={`${styles.subheading} ${styles.functions}`}>Functions</h4>
-                            <p>{equipment.capabilities?.map((capability, index) => <span key={capability}>{capability}{index < equipment.capabilities!.length - 1 && ', '}</span>)}</p>
+                            <p>{equipment.capabilities?.map((capability, index) => <span key={index}>{capability}{index < equipment.capabilities!.length - 1 && ', '}</span>)}</p>
                             <h4 className={`${styles.subheading} ${styles["credential-model"]}`}>Necessary Credential:</h4>
                             <p>{equipment["credential_model_name"]}</p>
                         </div>

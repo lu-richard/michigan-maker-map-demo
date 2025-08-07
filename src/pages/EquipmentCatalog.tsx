@@ -24,7 +24,7 @@ const useEquipmentCatalogData = () => {
       try {
         setLoading(true);
         
-        let query = supabase.from('view_equipment_cards').select();
+        let query = supabase.schema('private').from('view_equipment_cards').select();
 
         if (debouncedSearchValue !== "") {
           query = query.textSearch('fts', debouncedSearchValue, {

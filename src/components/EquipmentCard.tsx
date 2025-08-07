@@ -26,7 +26,7 @@ function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
                 <p>{equipmentCard.rooms?.map((room, index) => <span key={room}>{room}{index < equipmentCard.rooms!.length - 1 && ', '}</span>)}</p>
             </div>
             <p className={styles.functions}>Functions</p>
-            <p>{equipmentCard.capabilities?.map((capability, index) => <span key={capability}>{capability}{index < equipmentCard.capabilities!.length - 1 && ', '}</span>)}</p>
+            <p>{equipmentCard.capabilities?.map((capability, index) => <span key={index}>{capability}{index < equipmentCard.capabilities!.length - 1 && ', '}</span>)}</p>
         </Link>
     );
 }
