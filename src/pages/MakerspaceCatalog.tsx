@@ -7,11 +7,16 @@ import supabase from "../lib/supabase";
 import Loading from "./Loading";
 import SearchIcon from '@mui/icons-material/Search';
 
+// Reusable hook for fetching makerspace catalog data: makerspace cards based on search value, limit, and order
 const useMakerspaceCatalogData = () => {
   const [makerspaceCards, setMakerspaceCards] = useState<MakerspaceCardData[]>([]);
   const [loading, setLoading] = useState(true);
+
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
+  const [searchLimit, setSearchLimit] = useState(9);
+  const [isDescending, setIsDescending] = useState(false);
+  const [isOrderedByBuilding, setIsOrderedByBuilding] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(() => setDebouncedSearchValue(searchValue), 500);
@@ -33,7 +38,7 @@ const useMakerspaceCatalogData = () => {
           });
         }
 
-        const { data, error } = await query;
+        const { data, error } = await query.order(isOrderedByBuilding ? 'building' : 'makerspace_name', { ascending: !isDescending}).limit(searchLimit);
 
         if (error) {
             throw new Error("Failed to fetch makerspace cards");
@@ -50,19 +55,30 @@ const useMakerspaceCatalogData = () => {
     };
 
     fetchMakerspaceCards();
-  }, [debouncedSearchValue]);
+  }, [debouncedSearchValue, searchLimit, isDescending, isOrderedByBuilding]);
 
-  return { searchValue, setSearchValue, makerspaceCards, loading };
+  return { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByBuilding, setIsOrderedByBuilding, makerspaceCards, loading };
 };
 
 function MakerspaceCatalog() {
-    const { searchValue, setSearchValue, makerspaceCards, loading } = useMakerspaceCatalogData();
+    const { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByBuilding, setIsOrderedByBuilding, makerspaceCards, loading } = useMakerspaceCatalogData();
 
     return (
         <>
             {
                 loading ? <Loading /> :
                 <div className={styles.container}>
+                    <div className={styles["side-bar"]}>
+                      <h3 className={styles["side-bar-heading"]}>Filters</h3>
+                      <label className={styles.filter}>
+                        <input type="checkbox" checked={isDescending} className={styles.checkbox} onChange={() => setIsDescending((isDescending) => !isDescending)} />
+                        Reverse Alphabetical
+                      </label>
+                      <label className={styles.filter}>
+                        <input type="checkbox" checked={isOrderedByBuilding} className={styles.checkbox} onChange={() => setIsOrderedByBuilding((isOrderedByBuilding) => !isOrderedByBuilding)} />
+                        Building
+                      </label>
+                    </div>
                     <div className={styles["top-bar"]}>
                       <h1 className={styles["main-heading"]}>U-M Makerspaces</h1>
                       <div className={styles["search-bar"]}>
@@ -72,9 +88,16 @@ function MakerspaceCatalog() {
                     </div>
                     {
                       makerspaceCards.length > 0 ?
-                      <div className={styles["makerspace-grid"]}>
-                        {makerspaceCards.map((makerspaceCard) => <MakerspaceCard key={makerspaceCard["makerspace_id"]} makerspaceCard={makerspaceCard} /> )}
-                      </div> :
+                      <>
+                        <div className={styles["makerspace-grid"]}>
+                          {makerspaceCards.map((makerspaceCard) => <MakerspaceCard key={makerspaceCard["makerspace_id"]} makerspaceCard={makerspaceCard} /> )}
+                        </div>
+                        <p className={styles["num-results"]}>Results 1-{makerspaceCards.length}</p>
+                        {
+                          makerspaceCards.length === searchLimit &&
+                          <button type="button" className={styles["more-results-button"]} onClick={() => setSearchLimit((searchLimit) => searchLimit + 9)}>See More</button>
+                        }
+                      </> :
                       <p className={styles["no-results-message"]}>No results found.</p>
                     }
                 </div>
