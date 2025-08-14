@@ -43,4 +43,7 @@ export interface OutletContext {
     session: Session | null;
     setSession: React.Dispatch<React.SetStateAction<Session | null>>;
     loading: boolean;
+    profile: Profile | null;
 }
+
+

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
+import type { Profile } from '../types/types';
 
 // // Custom, reusable hook for fetching all data from Supabase necessary for UI
 // const useAllData = () => {
@@ -77,7 +78,8 @@ import supabase from '../lib/supabase';
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const outletContext = { session, setSession, loading };
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const outletContext = { session, setSession, loading, profile };
 
   useEffect(() => {
     supabase.auth.getSession().then(
@@ -96,6 +98,31 @@ function App() {
     return subscription.unsubscribe;
   }, []);
 
+    // Fetch profile when session changes
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (session?.user?.id) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .single();
+
+        if (error) {
+          console.error('Profile fetch error:', error);
+          setProfile(null);
+        } else {
+          console.log('Fetched profile:', data);
+          setProfile(data);
+        }
+      } else {
+        setProfile(null);
+      }
+    };
+
+  fetchProfile();
+}, [session]);
+  console.log('Outlet context in App:', outletContext);
   return (
     <>
       <>
