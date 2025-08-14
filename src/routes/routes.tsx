@@ -29,6 +29,8 @@ const routes = [
                     { path: 'equipment', element: <EquipmentCatalog /> },
                     { path: 'equipment-detail/:id', element: <EquipmentDetail /> },
                     { path: 'dashboard', element: <Dashboard /> },
+                    { path: 'dashboard/my-access', element: <Dashboard /> },
+                    { path: 'dashboard/wishlist', element: <Dashboard /> },
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
                 ]

@@ -1,7 +1,9 @@
+import DashboardNavBar from '../components/DashboardNavBar';
+
 function Dashboard() {
     return (
         <>
-            <p>This is the dashboard page</p>
+            <DashboardNavBar />
         </>
     );
 }
