@@ -1,4 +1,3 @@
-// import { useOutletContext } from "react-router-dom";
 import type { MakerspaceCardData } from "../types/types";
 import MakerspaceCard from "../components/MakerspaceCard";
 import styles from '../styles/catalog.module.css';
@@ -11,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const useMakerspaceCatalogData = () => {
   const [makerspaceCards, setMakerspaceCards] = useState<MakerspaceCardData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
@@ -41,13 +41,14 @@ const useMakerspaceCatalogData = () => {
         const { data, error } = await query.order(isOrderedByBuilding ? 'building' : 'makerspace_name', { ascending: !isDescending}).limit(searchLimit);
 
         if (error) {
-            throw new Error("Failed to fetch makerspace cards");
+            throw new Error(`${error}`);
         }
 
         setMakerspaceCards(data);
       }
       catch (e) {
         console.error(e);
+        setErrorMessage("An error occurred. Please refresh this page.");
       }
       finally {
         setLoading(false);
@@ -57,16 +58,17 @@ const useMakerspaceCatalogData = () => {
     fetchMakerspaceCards();
   }, [debouncedSearchValue, searchLimit, isDescending, isOrderedByBuilding]);
 
-  return { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByBuilding, setIsOrderedByBuilding, makerspaceCards, loading };
+  return { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByBuilding, setIsOrderedByBuilding, makerspaceCards, loading, errorMessage };
 };
 
 function MakerspaceCatalog() {
-    const { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByBuilding, setIsOrderedByBuilding, makerspaceCards, loading } = useMakerspaceCatalogData();
+    const { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByBuilding, setIsOrderedByBuilding, makerspaceCards, loading, errorMessage } = useMakerspaceCatalogData();
 
     return (
         <>
             {
                 loading ? <Loading /> :
+                errorMessage ? <p className={styles["error-message"]}>{errorMessage}</p> :
                 <div className={styles.container}>
                     <div className={styles["side-bar"]}>
                       <h3 className={styles["side-bar-heading"]}>Filters</h3>

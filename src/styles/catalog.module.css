@@ -104,3 +104,8 @@
 .more-results-button:active {
     background-color: #2b5c97;
 }
+
+.error-message {
+    text-align: center;
+    margin-top: 35vh;
+}

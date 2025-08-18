@@ -10,6 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 const useEquipmentCatalogData = () => {
   const [equipmentCards, setEquipmentCards] = useState<EquipmentCardData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearchValue, setDebouncedSearchValue] = useState(searchValue);
@@ -40,13 +41,14 @@ const useEquipmentCatalogData = () => {
         const { data, error } = await query.order(isOrderedByModelName ? 'equipment_model_name' : 'equipment_type', { ascending: !isDescending }).limit(searchLimit);
 
         if (error) {
-            throw new Error("Failed to fetch equipment cards");
+            throw new Error(`${error}`);
         }
 
         setEquipmentCards(data);
       }
       catch (e) {
         console.error(e);
+        setErrorMessage("An error occurred. Please refresh this page.");
       }
       finally {
         setLoading(false);
@@ -56,16 +58,17 @@ const useEquipmentCatalogData = () => {
     fetchEquipmentCards();
   }, [debouncedSearchValue, searchLimit, isDescending, isOrderedByModelName]);
 
-  return { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByModelName, setIsOrderedByModelName, equipmentCards, loading };
+  return { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByModelName, setIsOrderedByModelName, equipmentCards, loading, errorMessage };
 };
 
 function EquipmentCatalog() {
-    const { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByModelName, setIsOrderedByModelName, equipmentCards, loading } = useEquipmentCatalogData();
+    const { searchValue, setSearchValue, searchLimit, setSearchLimit, isDescending, setIsDescending, isOrderedByModelName, setIsOrderedByModelName, equipmentCards, loading, errorMessage } = useEquipmentCatalogData();
 
     return (
         <>
             {
                 loading ? <Loading /> :
+                errorMessage ? <p className={styles["error-message"]}>{errorMessage}</p> :
                 <div className={styles.container}>
                     <div className={styles["side-bar"]}>
                       <h3 className={styles["side-bar-heading"]}>Filters</h3>

@@ -1,20 +1,20 @@
-import { Outlet, Navigate } from "react-router-dom";
 import Loading from "../pages/Loading";
+import { Navigate, Outlet } from "react-router-dom";
 import { AppContext } from "../pages/App";
 import { useContext } from "react";
 
-function ProtectedRoute() {
+function UnauthenticatedRoute() {
     const { session, loading } = useContext(AppContext);
 
     if (loading) {
         return <Loading />;
     }
 
-    if (!session) {
-        return <Navigate to="/signin" />;
+    if (session) {
+        return <Navigate to="/" />;
     }
 
     return <Outlet />;
 }
 
-export default ProtectedRoute;
+export default UnauthenticatedRoute;

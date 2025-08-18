@@ -39,8 +39,8 @@ export type MakerspaceDetailData = Omit<Tables<'view_makerspace_detail_pages'>, 
 
 export type EquipmentDetailData = Tables<'view_equipment_detail_pages'>;
 
-export interface OutletContext {
+export interface AppContextType {
     session: Session | null;
-    setSession: React.Dispatch<React.SetStateAction<Session | null>>;
+    setSession?: React.Dispatch<React.SetStateAction<Session | null>>;
     loading: boolean;
 }

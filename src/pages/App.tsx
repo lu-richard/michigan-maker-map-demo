@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createContext } from 'react';
 import type { Session } from '@supabase/supabase-js';
+import type { AppContextType } from '../types/types';
 import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
 
@@ -74,10 +75,14 @@ import supabase from '../lib/supabase';
 //   return { makerspaces, equipment, equipmentModels, loading };
 // };
 
+export const AppContext = createContext<AppContextType>({
+  session: null,
+  loading: true
+});
+
 function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const outletContext = { session, setSession, loading };
 
   useEffect(() => {
     supabase.auth.getSession().then(
@@ -97,14 +102,11 @@ function App() {
   }, []);
 
   return (
-    <>
-      <>
-        {session && <Navbar session={session} />}
-        {/* Any child or granchild component rendered by this Outlet will have access to the outletContext object through the useOutletContext() hook */}
-        <Outlet context={outletContext} />
-      </>
-    </>
-  )
+      <AppContext.Provider value={{ session, setSession, loading }}>
+        {session && <Navbar />}
+        <Outlet />
+      </AppContext.Provider>
+  );
 }
 
 export default App;

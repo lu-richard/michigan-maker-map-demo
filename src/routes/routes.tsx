@@ -1,4 +1,5 @@
 import App from "../pages/App";
+import SignUp from "../pages/SignUp";
 import SignIn from "../pages/SignIn";
 import Error from "../pages/Error";
 import Home from "../pages/Home";
@@ -11,6 +12,7 @@ import Dashboard from "../pages/Dashboard";
 import AskMaizey from "../pages/AskMaizey";
 import Blog from "../pages/Blog";
 import ProtectedRoute from "../components/ProtectedRoute";
+import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
 
 const routes = [
     {
@@ -18,7 +20,13 @@ const routes = [
         element: <App />,
         errorElement: <Error />,
         children: [
-            { path: 'signin', element: <SignIn /> },
+            {
+                element: <UnauthenticatedRoute />,
+                children: [
+                    { path: 'signup', element: <SignUp /> },
+                    { path: 'signin', element: <SignIn /> },
+                ]
+            },
             {
                 element: <ProtectedRoute />,
                 children: [

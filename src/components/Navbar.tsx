@@ -1,9 +1,40 @@
 import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
-import type { Session } from '@supabase/supabase-js';
 import supabase from '../lib/supabase';
+import { AppContext } from '../pages/App';
+import { useState, useEffect, useContext } from 'react';
 
-function Navbar({ session }: { session: Session | null }) {
+const useProfileData = () => {
+    const [firstName, setFirstName] = useState<string | null>(null);
+    const [lastName, setLastName] = useState<string | null>(null);
+    const { session } = useContext(AppContext);
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const { data, error } = await supabase.from('profiles').select('first_name, last_name').eq('user_id', session!.user.id).single();
+
+                if (error) {
+                    throw new Error(`${error}`);
+                }
+
+                setFirstName(data.first_name);
+                setLastName(data.last_name);
+            }
+            catch (e) {
+                console.error(e);
+            }
+        };
+
+        fetchProfile();
+    }, []);
+
+    return { firstName, lastName, session };
+};
+
+function Navbar() {
+    const { firstName, lastName, session } = useProfileData();
+
     const signOutUser = async () => {
         try {
             const { error } = await supabase.auth.signOut();
@@ -31,13 +62,11 @@ function Navbar({ session }: { session: Session | null }) {
                 <Link to='askmaizey' className={styles.tab}>Ask MAIZEY</Link>
                 <Link to='blog' className={styles.tab}>Blog</Link>
             </div>
-            {
-                session &&
-                <div>
-                    <p>{session.user.email}</p>
-                    <button type="button" onClick={signOutUser}>Sign Out</button>
-                </div>
-            }
+            <div>
+                { firstName && lastName && <p>{firstName} {lastName}</p> }
+                <p>{session!.user.email}</p>
+                <button type="button" onClick={signOutUser}>Sign Out</button>
+            </div>
         </div>
     );
 }
