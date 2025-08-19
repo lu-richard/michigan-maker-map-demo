@@ -9,6 +9,7 @@ import labels from "../constants/labels";
 const useEquipmentDetailData = () => {
     const { id } = useParams();
     const [equipment, setEquipment] = useState<EquipmentDetailData | null>(null);
+    const [coverImage, setCoverImage] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -21,6 +22,15 @@ const useEquipmentDetailData = () => {
                 }
 
                 setEquipment(data);
+
+                if (data?.manufacturer_image_urls?.length) {
+                    const { data: image } = supabase
+                        .storage
+                        .from('equipment-model-photos')
+                        .getPublicUrl(data["manufacturer_image_urls"][0]);
+                    
+                    setCoverImage(image.publicUrl);
+                }
             }
             catch (e) {
                 console.error(e);
@@ -33,21 +43,11 @@ const useEquipmentDetailData = () => {
         fetchEquipment();
     }, []);
 
-    return { equipment, loading };
+    return { equipment, coverImage, loading };
 };
 
 function EquipmentDetail() {
-    const { equipment, loading } = useEquipmentDetailData();
-    let coverImage: string | null = null;
-
-    if (equipment?.manufacturer_image_urls?.length) {
-        const { data } = supabase
-            .storage
-            .from('equipment-model-photos')
-            .getPublicUrl(equipment["manufacturer_image_urls"][0]);
-        
-        coverImage = data.publicUrl;
-    }
+    const { equipment, coverImage, loading } = useEquipmentDetailData();
     
     return (
         <>
@@ -96,8 +96,8 @@ function EquipmentDetail() {
                             </section>
                         </section>
                     </div>
-                </>
-                : <p>The page you are looking for does not exist.</p>
+                </> :
+                <p>The page you are looking for does not exist.</p>
             }
         </>
     );

@@ -6,20 +6,9 @@ export type Equipment = Tables<'equipment'>;
 export type EquipmentModel = Tables<'equipment_models'>;
 export type Credential = Tables<'credentials'>;
 export type CredentialModel = Tables<'credential_models'>;
-export type Profile = Tables<'profiles'>;
+
 export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 export type MakerspaceCardData = Tables<{ schema: 'private' }, 'view_makerspace_cards'>;
-
-
-// export interface MakerspaceCardData {
-//     building: string
-//     cover_image: string | null
-//     description: string | null
-//     makerspace_id: string
-//     makerspace_name: string
-//     rooms: string[] | null
-// }
-
 
 export interface EquipmentCardProps {
     equipmentCard: EquipmentCardData;
@@ -38,6 +27,12 @@ export type MakerspaceDetailData = Omit<Tables<'view_makerspace_detail_pages'>, 
 };
 
 export type EquipmentDetailData = Tables<'view_equipment_detail_pages'>;
+
+export interface NavbarData {
+    first_name: string;
+    last_name: string;
+    image_url: string | null;
+}
 
 export interface AppContextType {
     session: Session | null;

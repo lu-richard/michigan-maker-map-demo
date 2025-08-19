@@ -21,3 +21,20 @@
 .logo * {
     font-weight: 500;
 }
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-photo {
+    width: 5rem;
+    clip-path: circle(35%);
+}
+
+.profile-email {
+    font-weight: 300;
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+}

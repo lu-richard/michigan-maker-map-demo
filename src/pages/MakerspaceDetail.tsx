@@ -10,6 +10,7 @@ import Loading from "./Loading";
 const useMakerspaceDetailData = () => {
     const { id } = useParams();
     const [makerspace, setMakerspace] = useState<MakerspaceDetailData | null>(null);
+    const [coverImage, setCoverImage] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,6 +23,15 @@ const useMakerspaceDetailData = () => {
                 }
                 
                 setMakerspace(data as MakerspaceDetailData | null);
+
+                if (data?.["cover_image"]) {
+                    const { data: image } = supabase
+                        .storage
+                        .from('makerspace-photos')
+                        .getPublicUrl(data["cover_image"]);
+                
+                    setCoverImage(image.publicUrl);
+                }
             }
             catch (e) {
                 console.error(e);
@@ -34,21 +44,12 @@ const useMakerspaceDetailData = () => {
         fetchMakerspace();
     }, []);
 
-    return { makerspace, loading };
+    return { makerspace, coverImage, loading };
 };
 
 function MakerspaceDetail() {
-    const { makerspace, loading } = useMakerspaceDetailData();
-    let coverImage: string | null = null;
-
-    if (makerspace?.["cover_image"]) {
-        const { data } = supabase
-            .storage
-            .from('makerspace-photos')
-            .getPublicUrl(makerspace["cover_image"]);
+    const { makerspace, coverImage, loading } = useMakerspaceDetailData();
     
-        coverImage = data.publicUrl;
-    }
 
     const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         (e.currentTarget as HTMLElement).classList.toggle(styles.active);
