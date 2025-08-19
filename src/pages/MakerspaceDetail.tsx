@@ -50,7 +50,6 @@ const useMakerspaceDetailData = () => {
 function MakerspaceDetail() {
     const { makerspace, coverImage, loading } = useMakerspaceDetailData();
     
-
     const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         (e.currentTarget as HTMLElement).classList.toggle(styles.active);
     };

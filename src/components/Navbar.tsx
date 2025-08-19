@@ -4,6 +4,9 @@ import supabase from '../lib/supabase';
 import type { NavbarData } from '../types/types';
 import { AppContext } from '../pages/App';
 import { useState, useEffect, useContext } from 'react';
+import BlockM from '../assets/Block_M-Hex.svg';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const useNavbarData = () => {
     const [profile, setProfile] = useState<NavbarData | null>(null);
@@ -44,6 +47,10 @@ const useNavbarData = () => {
 function Navbar() {
     const { profile, profilePhoto, session } = useNavbarData();
 
+    const toggleDropdown = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        (e.currentTarget as HTMLElement).classList.toggle(styles.active);
+    };
+
     const signOutUser = async () => {
         try {
             const { error } = await supabase.auth.signOut();
@@ -62,17 +69,31 @@ function Navbar() {
             {
                 profile &&
                 <div className={styles["navbar"]}>
-                    <div className={styles["logo"]}>
-                        <h1>Michigan Maker Map</h1>
-                        <h3>University of Michigan</h3>
+                    <div className={styles.logo}>
+                        <img src={BlockM} className={styles["logo-image"]} />
+                        <h1 className={styles["logo-heading"]}>| Michigan Maker Map</h1>
                     </div>
                     <div className={styles.tabs}>
-                        <Link to='map' className={styles.tab}>Map</Link>
-                        <Link to='makerspaces' className={styles.tab}>Find a Makerspace</Link>
-                        <Link to='equipment' className={styles.tab}>Find an Equipment</Link>
-                        <Link to='dashboard' className={styles.tab}>My Dashboard</Link>
+                        <button type="button" className={styles.tab} onClick={toggleDropdown}>
+                            Find
+                            <KeyboardArrowDownIcon className={styles.expand} />
+                            <KeyboardArrowUpIcon className={styles.collapse} />
+                            <div className={styles.dropdown}>
+                                <Link to='map' className={styles["dropdown-option"]}>Makerspace Map</Link>
+                                <Link to='makerspaces' className={styles["dropdown-option"]}>Search Makerspaces</Link>
+                                <Link to='equipment' className={styles["dropdown-option"]}>Search Equipment</Link>
+                            </div>
+                        </button>
+                        <button type="button" className={styles.tab} onClick={toggleDropdown}>
+                            Training
+                            <KeyboardArrowDownIcon className={styles.expand} />
+                            <KeyboardArrowUpIcon className={styles.collapse} />
+                            <div className={styles.dropdown}>
+                                <Link to='dashboard' className={styles["dropdown-option"]}>My Dashboard</Link>
+                            </div>
+                        </button>
                         <Link to='askmaizey' className={styles.tab}>Ask MAIZEY</Link>
-                        <Link to='blog' className={styles.tab}>Blog</Link>
+                        <Link to='blog' className={styles.tab}>Community</Link>
                     </div>
                     <div className={styles.profile}>
                         <img src={profilePhoto} className={styles["profile-photo"]} />
