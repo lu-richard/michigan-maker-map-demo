@@ -10,18 +10,61 @@
 .tabs {
     align-self: flex-end;
     margin-right: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tab {
-    text-decoration: none;
-    color: #fff;
+    position: relative;
     margin-inline: 2rem;
+}
+
+.tab-button {
     background: none;
     border: none;
     cursor: pointer;
-    display: inline-flex;
+    display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.tab-button .expand, .tab-button.active .collapse {
+    display: inline;
+}
+
+.tab-button.active .expand, .tab-button .collapse {
+    display: none;
+}
+
+.hover-line {
+    width: 100%;
+    border-top: 0.1rem solid #2e5e8b;
+    position: absolute;
+    display: none;
+}
+
+.tab-button:hover + .hover-line {
+    display: block;
+}
+
+.tab-button:focus + .hover-line {
+    display: block;
+    border-color: #fff;
+}
+
+.tab-link {
+    text-decoration: none;
+    color: #fff;
+}
+
+.tab-link:hover + .hover-line {
+    display: block;
+}
+
+.tab-link:focus + .hover-line {
+    display: block;
+    border-color: #fff;
 }
 
 .logo {
@@ -37,7 +80,7 @@
 .logo-heading {
     margin-left: 1rem;
     font-size: 1.8rem;
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .profile {
@@ -65,20 +108,11 @@
     max-height: 0;
     overflow: hidden;
     z-index: 3;
-    align-self: flex-start;
-    margin-top: 1.75rem;
+    margin-top: 0.5rem;
 }
 
-.tab.active .dropdown {
+.tab-button.active + .hover-line + .dropdown {
     max-height: none;
-}
-
-.tab .expand, .tab.active .collapse {
-    display: inline;
-}
-
-.tab.active .expand, .tab .collapse {
-    display: none;
 }
 
 .dropdown-option {

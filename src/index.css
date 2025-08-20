@@ -1,3 +1,5 @@
+@import './fonts.css';
+
 * {
   margin: 0;
   padding: 0;
@@ -5,7 +7,7 @@
 }
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Montserrat', Avenir, Helvetica, Arial, sans-serif;
   --main-bg-color: #fff;
   --text-color: #000;
   --navy-blue: #00274C;
@@ -24,4 +26,5 @@
 button {
   font-family: inherit;
   font-size: inherit;
+  color: inherit;
 }

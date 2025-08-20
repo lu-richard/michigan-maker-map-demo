@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
 import type { NavbarData } from '../types/types';
 import { AppContext } from '../pages/App';
-import { useState, useEffect, useContext } from 'react';
-import BlockM from '../assets/Block_M-Hex.svg';
+import { useState, useEffect, useContext, useRef } from 'react';
+import BlockM from '../assets/svgs/Block_M-Hex.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -46,9 +46,11 @@ const useNavbarData = () => {
 
 function Navbar() {
     const { profile, profilePhoto, session } = useNavbarData();
+    const findButtonRef = useRef<HTMLButtonElement>(null);
+    const trainingButtonRef = useRef<HTMLButtonElement>(null);
 
-    const toggleDropdown = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        (e.currentTarget as HTMLElement).classList.toggle(styles.active);
+    const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | null>) => {
+        ref.current?.classList.toggle(styles.active);
     };
 
     const signOutUser = async () => {
@@ -74,26 +76,38 @@ function Navbar() {
                         <h1 className={styles["logo-heading"]}>| Michigan Maker Map</h1>
                     </div>
                     <div className={styles.tabs}>
-                        <button type="button" className={styles.tab} onClick={toggleDropdown}>
-                            Find
-                            <KeyboardArrowDownIcon className={styles.expand} />
-                            <KeyboardArrowUpIcon className={styles.collapse} />
+                        <div className={styles.tab}>
+                            <button type="button" ref={findButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(findButtonRef)}>
+                                Find
+                                <KeyboardArrowDownIcon className={styles.expand} />
+                                <KeyboardArrowUpIcon className={styles.collapse} />
+                            </button>
+                            <div className={styles["hover-line"]}></div>
                             <div className={styles.dropdown}>
-                                <Link to='map' className={styles["dropdown-option"]}>Makerspace Map</Link>
-                                <Link to='makerspaces' className={styles["dropdown-option"]}>Search Makerspaces</Link>
-                                <Link to='equipment' className={styles["dropdown-option"]}>Search Equipment</Link>
+                                <Link to='map' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Makerspace Map</Link>
+                                <Link to='makerspaces' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Search Makerspaces</Link>
+                                <Link to='equipment' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Search Equipment</Link>
                             </div>
-                        </button>
-                        <button type="button" className={styles.tab} onClick={toggleDropdown}>
-                            Training
-                            <KeyboardArrowDownIcon className={styles.expand} />
-                            <KeyboardArrowUpIcon className={styles.collapse} />
+                        </div>
+                        <div className={styles.tab}>
+                            <button type="button" ref={trainingButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(trainingButtonRef)}>
+                                Training
+                                <KeyboardArrowDownIcon className={styles.expand} />
+                                <KeyboardArrowUpIcon className={styles.collapse} />
+                            </button>
+                            <div className={styles["hover-line"]}></div>
                             <div className={styles.dropdown}>
-                                <Link to='dashboard' className={styles["dropdown-option"]}>My Dashboard</Link>
+                                <Link to='dashboard' className={styles["dropdown-option"]} onClick={() => toggleDropdown(trainingButtonRef)}>My Dashboard</Link>
                             </div>
-                        </button>
-                        <Link to='askmaizey' className={styles.tab}>Ask MAIZEY</Link>
-                        <Link to='blog' className={styles.tab}>Community</Link>
+                        </div>
+                        <div className={styles.tab}>
+                            <Link to='askmaizey' className={styles["tab-link"]}>Ask MAIZEY</Link>
+                            <div className={styles["hover-line"]}></div>
+                        </div>
+                        <div className={styles.tab}>
+                            <Link to='blog' className={styles["tab-link"]}>Community</Link>
+                            <div className={styles["hover-line"]}></div>
+                        </div>
                     </div>
                     <div className={styles.profile}>
                         <img src={profilePhoto} className={styles["profile-photo"]} />

@@ -70,7 +70,7 @@ function MakerspaceDetail() {
                             </div>
                         </div>
                         <div className={styles.audience}>
-                            <h3>Who Can Use This Space?</h3>
+                            <h3 className={styles["audience-heading"]}>Who Can Use This Space?</h3>
                             <ul>
                                 {makerspace.audience?.map((aud, index) => <li key={index}>{aud}</li>)}
                             </ul>
