@@ -4,6 +4,7 @@ import type { Session } from '@supabase/supabase-js';
 import type { AppContextType } from '../types/types';
 import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
+import styles from '../styles/app.module.css';
 
 // // Custom, reusable hook for fetching all data from Supabase necessary for UI
 // const useAllData = () => {
@@ -103,8 +104,21 @@ function App() {
 
   return (
       <AppContext.Provider value={{ session, setSession, loading }}>
-        {session && <Navbar />}
-        <Outlet />
+        {
+          session &&
+          <header>
+            <Navbar />
+          </header>
+        }
+        <main>
+          <Outlet />
+        </main>
+        {
+          !loading &&
+          <footer>
+            <p className={styles.footer}>&copy; 2025 Michigan Map Maker</p>
+          </footer>
+        }
       </AppContext.Provider>
   );
 }

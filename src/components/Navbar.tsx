@@ -48,8 +48,9 @@ function Navbar() {
     const { profile, profilePhoto, session } = useNavbarData();
     const findButtonRef = useRef<HTMLButtonElement>(null);
     const trainingButtonRef = useRef<HTMLButtonElement>(null);
+    const profilePhotoImgRef = useRef<HTMLImageElement>(null);
 
-    const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | null>) => {
+    const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | HTMLImageElement | null>) => {
         ref.current?.classList.toggle(styles.active);
     };
 
@@ -71,10 +72,10 @@ function Navbar() {
             {
                 profile &&
                 <div className={styles["navbar"]}>
-                    <div className={styles.logo}>
+                    <Link to='/' className={styles.logo}>
                         <img src={BlockM} className={styles["logo-image"]} />
                         <h1 className={styles["logo-heading"]}>| Michigan Maker Map</h1>
-                    </div>
+                    </Link>
                     <div className={styles.tabs}>
                         <div className={styles.tab}>
                             <button type="button" ref={findButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(findButtonRef)}>
@@ -110,10 +111,15 @@ function Navbar() {
                         </div>
                     </div>
                     <div className={styles.profile}>
-                        <img src={profilePhoto} className={styles["profile-photo"]} />
-                        <p>{profile["first_name"]} {profile["last_name"]}</p>
-                        <p className={styles["profile-email"]}>{session!.user.email}</p>
-                        <button type="button" onClick={signOutUser}>Sign Out</button>
+                        <img src={profilePhoto} ref={profilePhotoImgRef} className={styles["profile-photo"]} onClick={() => toggleDropdown(profilePhotoImgRef)} />
+                        <div className={styles.dropdown}>
+                            <div className={styles["dropdown-profile"]}>
+                                <img src={profilePhoto} className={styles["profile-photo"]} />
+                                <p className={styles["profile-name"]}>{profile["first_name"]} {profile["last_name"]}</p>
+                                <p className={styles["profile-email"]}>{session!.user.email}</p>
+                                <button type="button" className={styles["sign-out-button"]} onClick={signOutUser}>Sign Out</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }

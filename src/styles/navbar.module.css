@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 3rem 2rem 4rem;
+    padding: 2rem 3rem 1.35rem 4rem;
     background-color: #00274C;
     color: #fff;
 }
@@ -39,9 +39,21 @@
 
 .hover-line {
     width: 100%;
-    border-top: 0.1rem solid #2e5e8b;
+    border-top: 0.1rem solid var(--arb-blue);
     position: absolute;
     display: none;
+    animation-name: slide-in;
+    animation-duration: 0.5s;
+}
+
+@keyframes slide-in {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
 }
 
 .tab-button:hover + .hover-line {
@@ -71,6 +83,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
 
 .logo-image {
@@ -84,14 +98,18 @@
 }
 
 .profile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    position: relative;
 }
 
 .profile-photo {
     width: 5rem;
     clip-path: circle(35%);
+}
+
+.profile-name {
+    margin-top: 0.25rem;
+    font-weight: 500;
+    font-size: 1.2rem;
 }
 
 .profile-email {
@@ -108,11 +126,16 @@
     max-height: 0;
     overflow: hidden;
     z-index: 3;
-    margin-top: 0.5rem;
 }
 
 .tab-button.active + .hover-line + .dropdown {
     max-height: none;
+}
+
+.profile-photo.active + .dropdown {
+    max-height: none;
+    transform: translateX(-4rem);
+    border-radius: 1rem;
 }
 
 .dropdown-option {
@@ -124,4 +147,30 @@
 
 .dropdown-option:hover {
     background-color: var(--neutral-100);
+}
+
+.dropdown-profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 2rem;
+}
+
+.sign-out-button {
+    background-color: var(--arb-blue);
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    color: #fff;
+    margin-top: 1rem;
+}
+
+.sign-out-button:hover {
+    background-color: #336eb6;
+}
+
+.sign-out-button:active {
+    background-color: #2b5c97;
 }
