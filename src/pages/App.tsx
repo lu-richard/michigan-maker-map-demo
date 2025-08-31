@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useState, useEffect, createContext } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import type { AppContextType } from '../types/types';
+import type { ProfileData, AppContextType } from '../types/types';
 import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
 import styles from '../styles/app.module.css';
@@ -77,25 +77,56 @@ import styles from '../styles/app.module.css';
 // };
 
 export const AppContext = createContext<AppContextType>({
-  session: null,
+  profile: null,
+  setProfile: null,
   loading: true
 });
 
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  // const [session, setSession] = useState<Session | null>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(
-      ({ data: { session } }) => {
-        setSession(session);
+    const fetchProfile = async (s: Session | null) => {
+        if (s) {
+          const { data, error } = await supabase.from('profiles').select('uniqname, first_name, middle_initial, last_name, image_url, pronouns, roles, system_theme, is_grad_student, locale').eq('user_id', s.user.id).single();
+
+          if (error) {
+              throw new Error(`${error}`);
+          }
+
+          setProfile(data);
+        }
+        else {
+          setProfile(null);
+        }
+    };
+
+    const fetchInitialSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        fetchProfile(session);
+      }
+      catch (e) {
+        console.error(e);
+      }
+      finally {
         setLoading(false);
       }
-    );
+    };
+
+    fetchInitialSession();
+    // supabase.auth.getSession().then(
+    //   ({ data: { session } }) => {
+    //     setSession(session);
+    //     fetchProfile(session);
+    //   }
+    // );
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setSession(session);
+        fetchProfile(session);
       }
     );
 
@@ -103,9 +134,9 @@ function App() {
   }, []);
 
   return (
-      <AppContext.Provider value={{ session, setSession, loading }}>
+      <AppContext.Provider value={{ profile, setProfile, loading }}>
         {
-          session &&
+          profile &&
           <header>
             <Navbar />
           </header>

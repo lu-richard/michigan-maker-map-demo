@@ -1,7 +1,6 @@
 import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
-import type { NavbarData } from '../types/types';
 import { AppContext } from '../pages/App';
 import { useState, useEffect, useContext, useRef } from 'react';
 import BlockM from '../assets/svgs/Block_M-Hex.svg';
@@ -9,43 +8,29 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 const useNavbarData = () => {
-    const [profile, setProfile] = useState<NavbarData | null>(null);
     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
-    const { session } = useContext(AppContext);
+    const { profile } = useContext(AppContext);
 
     useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const { data, error } = await supabase.from('profiles').select('first_name, last_name, image_url').eq('user_id', session!.user.id).single();
-
-                if (error) {
-                    throw new Error(`${error}`);
-                }
-
-                setProfile(data);
-
-                if (data["image_url"]) {
-                    const { data: image } = supabase
-                        .storage
-                        .from('profile-photos')
-                        .getPublicUrl(data["image_url"]);
-                    
-                    setProfilePhoto(image.publicUrl);
-                }
-            }
-            catch (e) {
-                console.error(e);
+        const fetchProfilePhoto = () => {
+            if (profile!["image_url"]) {
+                const { data: image } = supabase
+                    .storage
+                    .from('profile-photos')
+                    .getPublicUrl(profile!["image_url"]);
+                
+                setProfilePhoto(image.publicUrl);
             }
         };
 
-        fetchProfile();
+        fetchProfilePhoto();
     }, []);
 
-    return { profile, profilePhoto, session };
+    return { profile, profilePhoto };
 };
 
 function Navbar() {
-    const { profile, profilePhoto, session } = useNavbarData();
+    const { profile, profilePhoto } = useNavbarData();
     const findButtonRef = useRef<HTMLButtonElement>(null);
     const trainingButtonRef = useRef<HTMLButtonElement>(null);
     const profilePhotoImgRef = useRef<HTMLImageElement>(null);
@@ -99,6 +84,7 @@ function Navbar() {
                             <div className={styles["hover-line"]}></div>
                             <div className={styles.dropdown}>
                                 <Link to='dashboard' className={styles["dropdown-option"]} onClick={() => toggleDropdown(trainingButtonRef)}>My Dashboard</Link>
+                                <Link to='admindashboard' className={styles["dropdown-option"]} onClick={() => toggleDropdown(trainingButtonRef)}>Admin Dashboard</Link>
                             </div>
                         </div>
                         <div className={styles.tab}>
@@ -116,7 +102,7 @@ function Navbar() {
                             <div className={styles["dropdown-profile"]}>
                                 <img src={profilePhoto} className={styles["profile-photo"]} />
                                 <p className={styles["profile-name"]}>{profile["first_name"]} {profile["last_name"]}</p>
-                                <p className={styles["profile-email"]}>{session!.user.email}</p>
+                                {/* <p className={styles["profile-email"]}>{session!.user.email}</p> */}
                                 <button type="button" className={styles["sign-out-button"]} onClick={signOutUser}>Sign Out</button>
                             </div>
                         </div>

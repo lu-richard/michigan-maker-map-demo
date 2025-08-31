@@ -11,7 +11,7 @@ function SignIn() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { setSession } = useContext(AppContext);
+    // const { setProfile } = useContext(AppContext);
 
     // Function for signing the user in
     const signInUser = async () => {
@@ -27,7 +27,7 @@ function SignIn() {
                 throw new Error("Failed to sign in user");
             }
 
-            setSession!(data.session);
+            // setProfile!(data.session);
         }
         catch (e) {
             console.error(e);

@@ -13,6 +13,7 @@ import AskMaizey from "../pages/AskMaizey";
 import Blog from "../pages/Blog";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
+import AdminDashboard from "../pages/AdminDashboard";
 
 const routes = [
     {
@@ -37,6 +38,7 @@ const routes = [
                     { path: 'equipment', element: <EquipmentCatalog /> },
                     { path: 'equipment-detail/:id', element: <EquipmentDetail /> },
                     { path: 'dashboard', element: <Dashboard /> },
+                    { path: 'admindashboard', element: <AdminDashboard />},
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
                 ]

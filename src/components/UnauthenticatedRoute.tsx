@@ -4,13 +4,13 @@ import { AppContext } from "../pages/App";
 import { useContext } from "react";
 
 function UnauthenticatedRoute() {
-    const { session, loading } = useContext(AppContext);
+    const { profile, loading } = useContext(AppContext);
 
     if (loading) {
         return <Loading />;
     }
 
-    if (session) {
+    if (profile) {
         return <Navigate to="/" />;
     }
 

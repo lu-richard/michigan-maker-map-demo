@@ -14,7 +14,7 @@ function SignUp() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { setSession } = useContext(AppContext);
+    // const { setSession } = useContext(AppContext);
 
     // Funtion for signing a new user up
     const signUpUser = async () => {
@@ -37,7 +37,7 @@ function SignUp() {
                 throw new Error(`${error}`);
             }
 
-            setSession!(data.session);
+            // setSession!(data.session);
         }
         catch (e) {
             console.error(e);
