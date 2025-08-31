@@ -83,17 +83,17 @@ export const AppContext = createContext<AppContextType>({
 });
 
 function App() {
-  // const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProfile = async (s: Session | null) => {
+      try {
         if (s) {
           const { data, error } = await supabase.from('profiles').select('uniqname, first_name, middle_initial, last_name, image_url, pronouns, roles, system_theme, is_grad_student, locale').eq('user_id', s.user.id).single();
 
           if (error) {
-              throw new Error(`${error}`);
+            throw new Error(error.message);
           }
 
           setProfile(data);
@@ -101,15 +101,19 @@ function App() {
         else {
           setProfile(null);
         }
+      }
+      catch (e) {
+        throw e;
+      }
     };
 
     const fetchInitialSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-        fetchProfile(session);
+        await fetchProfile(session);
       }
       catch (e) {
-        console.error(e);
+        console.error((e as Error).message);
       }
       finally {
         setLoading(false);
@@ -145,7 +149,7 @@ function App() {
           <Outlet />
         </main>
         {
-          !loading &&
+          profile &&
           <footer>
             <p className={styles.footer}>&copy; 2025 Michigan Map Maker</p>
           </footer>

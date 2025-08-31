@@ -1,7 +1,6 @@
 import supabase from "../lib/supabase";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import styles from '../styles/signUpIn.module.css';
-import { AppContext } from "./App";
 import { Link } from "react-router-dom";
 import Loading from "./Loading";
 
@@ -14,14 +13,12 @@ function SignUp() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
 
-    // const { setSession } = useContext(AppContext);
-
     // Funtion for signing a new user up
     const signUpUser = async () => {
         try {
             setLoading(true);
 
-            const { data, error } = await supabase.auth.signUp({
+            const { error } = await supabase.auth.signUp({
                 email,
                 password,
                 options: {
@@ -36,8 +33,6 @@ function SignUp() {
             if (error) {
                 throw new Error(`${error}`);
             }
-
-            // setSession!(data.session);
         }
         catch (e) {
             console.error(e);

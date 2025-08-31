@@ -6,7 +6,7 @@ import supabase from "../lib/supabase";
 import Loading from "./Loading";
 import SearchIcon from '@mui/icons-material/Search';
 
-// Reusable hook for fetching makerspace catalog data: makerspace cards based on search value, limit, and order
+// Reusable hook for fetching makerspace cards based on search value, limit, and order
 const useMakerspaceCatalogData = () => {
   const [makerspaceCards, setMakerspaceCards] = useState<MakerspaceCardData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,13 +41,13 @@ const useMakerspaceCatalogData = () => {
         const { data, error } = await query.order(isOrderedByBuilding ? 'building' : 'makerspace_name', { ascending: !isDescending}).limit(searchLimit);
 
         if (error) {
-            throw new Error(`${error}`);
+            throw new Error(error.message);
         }
 
         setMakerspaceCards(data);
       }
       catch (e) {
-        console.error(e);
+        console.error((e as Error).message);
         setErrorMessage("An error occurred. Please refresh this page.");
       }
       finally {

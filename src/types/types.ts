@@ -7,16 +7,8 @@ import type { Tables, Database } from "../../database.types";
 // export type Credential = Tables<'credentials'>;
 // export type CredentialModel = Tables<'credential_models'>;
 
-export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 export type MakerspaceCardData = Tables<{ schema: 'private' }, 'view_makerspace_cards'>;
-
-export interface EquipmentCardProps {
-    equipmentCard: EquipmentCardData;
-}
-
-export interface MakerspaceCardProps {
-    makerspaceCard: MakerspaceCardData;
-}
+export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 
 interface MakerspaceEquipment {
     equipment_id: string;

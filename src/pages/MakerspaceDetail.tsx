@@ -19,7 +19,7 @@ const useMakerspaceDetailData = () => {
                 const { data, error } = await supabase.from('view_makerspace_detail_pages').select().eq('makerspace_id', id!).maybeSingle();
 
                 if (error) {
-                    throw new Error("Failed to fetch makerspace");
+                    throw new Error(error.message);
                 }
                 
                 setMakerspace(data as MakerspaceDetailData | null);
@@ -34,7 +34,7 @@ const useMakerspaceDetailData = () => {
                 }
             }
             catch (e) {
-                console.error(e);
+                console.error((e as Error).message);
             }
             finally {
                 setLoading(false);

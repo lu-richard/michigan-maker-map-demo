@@ -1,8 +1,7 @@
 import supabase from '../lib/supabase';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/signUpIn.module.css';
-import { AppContext } from './App';
 import Loading from './Loading';
 
 function SignIn() {
@@ -18,7 +17,7 @@ function SignIn() {
         try {
             setLoading(true);
 
-            const { data, error } = await supabase.auth.signInWithPassword({
+            const { error } = await supabase.auth.signInWithPassword({
                 email,
                 password
             });
@@ -26,8 +25,6 @@ function SignIn() {
             if (error) {
                 throw new Error("Failed to sign in user");
             }
-
-            // setProfile!(data.session);
         }
         catch (e) {
             console.error(e);

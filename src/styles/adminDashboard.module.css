@@ -1,0 +1,43 @@
+.container {
+    padding: 2rem 5rem;
+    min-height: 90vh;
+    background-color: var(--neutral-200);
+}
+
+.greeting {
+    padding: 2rem 3rem;
+    background-color: var(--main-bg-color);
+    border-radius: 2rem;
+    border: 1px solid var(--neutral-300);
+    color: var(--navy-blue);
+    font-size: 1.8rem;
+    margin: 0 5rem 2rem 5rem;
+}
+
+.verify-student-creds-section {
+    background-color: var(--main-bg-color);
+    border-radius: 2rem;
+    max-width: 40vw;
+    margin: 2rem 0;
+}
+
+.section-heading {
+    background-color: var(--navy-blue);
+    border-radius: 2rem 2rem 0 0;
+    padding: 1rem 2rem;
+    color: #fff;
+}
+
+.section-content {
+    padding: 2rem;
+}
+
+.resolve-student-reports-redirect {
+    padding: 2rem;
+    background-color: var(--main-bg-color);
+    border: 1px solid var(--neutral-300);
+    border-radius: 1.5rem;
+    display: flex;
+    max-width: 20vw;
+    margin: 2rem 0;
+}
