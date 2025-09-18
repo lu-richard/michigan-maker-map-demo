@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { AppContext } from "./App";
 import styles from '../styles/adminDashboard.module.css';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function AdminDashboard() {
     const { profile } = useContext(AppContext);
@@ -17,6 +18,7 @@ function AdminDashboard() {
             </section>
             <section className={styles["resolve-student-reports-redirect"]}>
                 <h2>Resolve Reports from Students</h2>
+                <button type="button" className={styles["redirect-button"]}><ArrowForwardIcon className={styles["redirect-icon"]} /></button>
             </section>
         </div>
     );
