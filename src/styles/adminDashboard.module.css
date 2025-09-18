@@ -1,53 +1,50 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5rem;
+    padding-inline: 6rem;
+    background-color: var(--main-bg-color);
+    filter: drop-shadow(0px 2px 2px rgb(0, 0, 0, 0.1));
+}
+
+.tab {
+    margin-right: 2.5rem;
+}
+
+.tab-name {
+    padding: 1.5rem;
+}
+
+.hover-line {
+    width: 100%;
+    height: 0.2rem;
+    background-color: var(--navy-blue);
+    max-height: 0;
+}
+
+.tab:hover .hover-line {
+    max-height: none;
+}
+
 .container {
-    padding: 2rem 5rem;
-    min-height: 90vh;
-    background-color: var(--neutral-200);
+    padding-inline: 6rem;
 }
 
 .greeting {
-    padding: 2rem 3rem;
-    background-color: var(--main-bg-color);
-    border-radius: 2rem;
-    border: 1px solid var(--neutral-300);
-    color: var(--navy-blue);
-    font-size: 1.8rem;
-    margin: 0 5rem 2rem 5rem;
+    font-weight: 600;
+    font-size: 2.4rem;
 }
 
-.verify-student-creds-section {
-    background-color: var(--main-bg-color);
-    border-radius: 2rem;
-    max-width: 40vw;
-    margin: 2rem 0;
+.main-content {
+    display: flex;
+    margin-top: 4rem;
+}
+
+.latest-notifications {
+    flex: 2;
 }
 
 .section-heading {
-    background-color: var(--navy-blue);
-    border-radius: 2rem 2rem 0 0;
-    padding: 1rem 2rem;
-    color: #fff;
-}
-
-.section-content {
-    padding: 2rem;
-}
-
-.resolve-student-reports-redirect {
-    padding: 2rem;
-    background-color: var(--main-bg-color);
-    border: 1px solid var(--neutral-300);
-    border-radius: 1.5rem;
-    display: flex;
-    max-width: 20vw;
-    margin: 2rem 0;
-}
-
-.redirect-button {
-    border: 1px solid var(--neutral-300);
-    padding: 1.5rem;
-    cursor: pointer;
-}
-
-.redirect-button .redirect-icon {
-    font-size: 2.5rem;
+    font-weight: 600;
+    font-size: 1.5rem;
 }
