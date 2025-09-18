@@ -7,6 +7,7 @@ import type { Tables, Database } from "../../database.types";
 // export type Credential = Tables<'credentials'>;
 // export type CredentialModel = Tables<'credential_models'>;
 
+export type IssueReport = Tables<'issue_reports'>;
 export type MakerspaceCardData = Tables<{ schema: 'private' }, 'view_makerspace_cards'>;
 export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 
