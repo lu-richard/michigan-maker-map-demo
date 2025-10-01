@@ -1,15 +1,20 @@
 import type { Tables, Database } from "../../database.types";
-// import type { Session } from '@supabase/supabase-js';
 
-// export type Makerspace = Tables<'makerspaces'>;
-// export type Equipment = Tables<'equipment'>;
-// export type EquipmentModel = Tables<'equipment_models'>;
-// export type Credential = Tables<'credentials'>;
-// export type CredentialModel = Tables<'credential_models'>;
-
-export type IssueReport = Tables<'issue_reports'>;
 export type MakerspaceCardData = Tables<{ schema: 'private' }, 'view_makerspace_cards'>;
 export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
+export type IssueReportCardData = Tables<'view_issue_report_cards'>;
+
+export interface UserCredential {
+    credential_id: string;
+    credential_name: string;
+    credential_status: string;
+    completion_date: string | null;
+    issuing_makerspace_name: string;
+}
+
+export type UserCredentialAdminData = Omit<Tables<'view_user_credentials_admin'>, 'user_credential_list'> & {
+    user_credential_list: UserCredential[];
+};
 
 interface MakerspaceEquipment {
     equipment_id: string;
@@ -22,16 +27,17 @@ export type MakerspaceDetailData = Omit<Tables<'view_makerspace_detail_pages'>, 
 export type EquipmentDetailData = Tables<'view_equipment_detail_pages'>;
 
 export interface ProfileData {
+    user_id: string;
     uniqname: string;
     first_name: string;
-    middle_initial: string | null;
+    middle_initial?: string | null;
     last_name: string;
-    image_url: string | null;
-    pronouns: string | null;
+    image_url?: string | null;
+    pronouns?: string | null;
     roles: Database["public"]["Enums"]["role"][] | null;
-    system_theme: Database["public"]["Enums"]["system_theme"];
-    is_grad_student: boolean;
-    locale: Database["public"]["Enums"]["locale"];
+    system_theme?: Database["public"]["Enums"]["system_theme"];
+    is_grad_student?: boolean;
+    locale?: Database["public"]["Enums"]["locale"];
 }
 
 export interface AppContextType {

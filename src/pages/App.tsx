@@ -90,7 +90,7 @@ function App() {
     const fetchProfile = async (s: Session | null) => {
       try {
         if (s) {
-          const { data, error } = await supabase.from('profiles').select('uniqname, first_name, middle_initial, last_name, image_url, pronouns, roles, system_theme, is_grad_student, locale').eq('user_id', s.user.id).single();
+          const { data, error } = await supabase.from('profiles').select('user_id, uniqname, first_name, middle_initial, last_name, image_url, pronouns, roles, system_theme, is_grad_student, locale').eq('user_id', s.user.id).single();
 
           if (error) {
             throw new Error(error.message);

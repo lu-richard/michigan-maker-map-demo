@@ -35,7 +35,6 @@ function Navbar() {
     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
 
     const findButtonRef = useRef<HTMLButtonElement>(null);
-    const trainingButtonRef = useRef<HTMLButtonElement>(null);
     const profilePhotoImgRef = useRef<HTMLImageElement>(null);
 
     const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | HTMLImageElement | null>) => {
@@ -91,16 +90,12 @@ function Navbar() {
                     </div>
                 </div>
                 <div className={styles.tab}>
-                    <button type="button" ref={trainingButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(trainingButtonRef)}>
-                        Training
-                        <KeyboardArrowDownIcon className={styles.expand} />
-                        <KeyboardArrowUpIcon className={styles.collapse} />
-                    </button>
+                    <Link to='dashboard' className={styles["tab-link"]}>Training</Link>
                     <div className={styles["hover-line"]}></div>
-                    <div className={styles.dropdown}>
-                        <Link to='dashboard' className={styles["dropdown-option"]} onClick={() => toggleDropdown(trainingButtonRef)}>My Dashboard</Link>
-                        <Link to='admindashboard' className={styles["dropdown-option"]} onClick={() => toggleDropdown(trainingButtonRef)}>Admin Dashboard</Link>
-                    </div>
+                </div>
+                <div className={styles.tab}>
+                    <Link to='admindashboard' className={styles["tab-link"]}>Admin Dashboard</Link>
+                    <div className={styles["hover-line"]}></div>
                 </div>
                 <div className={styles.tab}>
                     <Link to='askmaizey' className={styles["tab-link"]}>Ask MAIZEY</Link>

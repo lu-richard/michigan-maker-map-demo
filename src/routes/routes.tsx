@@ -14,6 +14,10 @@ import Blog from "../pages/Blog";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
 import AdminDashboard from "../pages/AdminDashboard";
+import AdminDashboardHome from "../pages/AdminDashboardHome";
+import AdminDashboardUsageStats from "../pages/AdminDashboardUsageStats";
+import AdminDashboardTraining from "../pages/AdminDashboardTraining";
+import AdminProfileDetail from "../pages/AdminProfileDetail";
 
 const routes = [
     {
@@ -38,7 +42,16 @@ const routes = [
                     { path: 'equipment', element: <EquipmentCatalog /> },
                     { path: 'equipment-detail/:id', element: <EquipmentDetail /> },
                     { path: 'dashboard', element: <Dashboard /> },
-                    { path: 'admindashboard', element: <AdminDashboard />},
+                    {
+                        path: 'admindashboard',
+                        element: <AdminDashboard />,
+                        children: [
+                            { index: true, element: <AdminDashboardHome /> },
+                            { path: 'training', element: <AdminDashboardTraining /> },
+                            { path: 'usage', element: <AdminDashboardUsageStats /> },
+                        ]
+                    },
+                    { path: 'admin-profile-detail/:id', element: <AdminProfileDetail /> },
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
                 ]
