@@ -38,4 +38,7 @@ export interface AppContextType {
     session: Session | null;
     setSession?: React.Dispatch<React.SetStateAction<Session | null>>;
     loading: boolean;
+    profile: Profile | null;
 }
+
+

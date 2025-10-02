@@ -6,15 +6,16 @@ import { useContext } from "react";
 function ProtectedRoute() {
     const { session, loading } = useContext(AppContext);
 
-    if (loading) {
+    if (context.loading) {
         return <Loading />;
     }
 
-    if (!session) {
+    if (!context.session) {
         return <Navigate to="/signin" />;
     }
 
-    return <Outlet />;
+    // Pass the context down! Context only flows down one layer, so we need to pass it explicitly.
+    return <Outlet context={context} />;
 }
 
 export default ProtectedRoute;

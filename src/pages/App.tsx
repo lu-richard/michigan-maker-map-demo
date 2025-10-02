@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
 import styles from '../styles/app.module.css';
 
+
 // // Custom, reusable hook for fetching all data from Supabase necessary for UI
 // const useAllData = () => {
 //   const [makerspaces, setMakerspaces] = useState<MakerspacesById>({});
@@ -85,6 +86,11 @@ function App() {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+
+<!--   const [profile, setProfile] = useState<Profile | null>(null);
+  const outletContext = { session, setSession, loading, profile }; -->
+
+
   useEffect(() => {
     supabase.auth.getSession().then(
       ({ data: { session } }) => {
@@ -102,6 +108,31 @@ function App() {
     return subscription.unsubscribe;
   }, []);
 
+    // Fetch profile when session changes
+  useEffect(() => {
+    const fetchProfile = async () => {
+      if (session?.user?.id) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', session.user.id)
+          .single();
+
+        if (error) {
+          console.error('Profile fetch error:', error);
+          setProfile(null);
+        } else {
+          console.log('Fetched profile:', data);
+          setProfile(data);
+        }
+      } else {
+        setProfile(null);
+      }
+    };
+
+  fetchProfile();
+}, [session]);
+  console.log('Outlet context in App:', outletContext);
   return (
       <AppContext.Provider value={{ session, setSession, loading }}>
         {
