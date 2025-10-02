@@ -34,6 +34,11 @@ export interface NavbarData {
     image_url: string | null;
 }
 
+export interface DashboardData {
+    first_name: string;
+    last_name: string;
+}
+
 export interface AppContextType {
     session: Session | null;
     setSession?: React.Dispatch<React.SetStateAction<Session | null>>;
