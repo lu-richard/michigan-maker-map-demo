@@ -2,9 +2,10 @@ import styles from '../styles/dashboardNavBar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const tabs = [
-    { to: '/dashboard', label: 'My Dashboard' },
-    { to: '/dashboard/my-access', label: 'My Access' },
+    { to: '/dashboard', label: 'Maker Profile' },
+    { to: '/dashboard/my-trainings', label: 'My Trainings' },
     { to: '/dashboard/wishlist', label: 'Wishlist' },
+    { to: '/dashboard/trainings', label: 'Trainings' },
 ];
 
 function DashboardNavBar() {

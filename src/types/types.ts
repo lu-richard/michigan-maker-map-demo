@@ -9,6 +9,7 @@ export type CredentialModel = Tables<'credential_models'>;
 
 export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 export type MakerspaceCardData = Tables<{ schema: 'private' }, 'view_makerspace_cards'>;
+export type CertificateData = Tables<{ schema: 'private' }, 'credential_summary'>;
 
 export interface EquipmentCardProps {
     equipmentCard: EquipmentCardData;
