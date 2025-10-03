@@ -3,7 +3,7 @@ import { useAppContext } from "../context/AppContext";
 import supabase from "../lib/supabase";
 import styles from "../styles/dataTable.module.css";
 import DashboardNavBar from "../components/DashboardNavBar";
-import type { CredentialModel } from "../types/types";
+import type { CertificateData } from "../types/types";
 
 // This type helps us sort our data
 type SortDirection = "asc" | "desc" | null;
@@ -13,24 +13,26 @@ export default function Certificates() {
   const { session } = useAppContext();
   
   // State variables to manage our component
-  const [credentials, setCredentials] = useState<CredentialModel[]>([]); // Store the credential data
+  const [credentials, setCredentials] = useState<CertificateData[]>([]); // Store the credential data
   const [loading, setLoading] = useState(false); // Track if we're loading data
   const [error, setError] = useState<string | null>(null); // Store any error messages
   
   // State for table functionality
   const [search, setSearch] = useState(""); // What the user is searching for
-  const [sortKey, setSortKey] = useState<keyof CredentialModel | null>(null); // Which column to sort by
+  const [sortKey, setSortKey] = useState<keyof CertificateData | null>(null); // Which column to sort by
   const [sortDirection, setSortDirection] = useState<SortDirection>(null); // Sort ascending or descending
   const [currentPage, setCurrentPage] = useState(1); // Which page we're on
   const [rowsPerPage, setRowsPerPage] = useState(10); // How many rows to show per page
 
   // Define what columns our table will have
   const columns = [
-    { key: "credential_name" as keyof CredentialModel, label: "Credential Name", sortable: true },
-    { key: "credential_status" as keyof CredentialModel, label: "Status", sortable: true },
-    { key: "issuing_makerspace_id" as keyof CredentialModel, label: "Issued By", sortable: true },
-    { key: "issue_date" as keyof CredentialModel, label: "Issue Date", sortable: true },
-    { key: "expiration_date" as keyof CredentialModel, label: "Expiration Date", sortable: true },
+    { key: "credential_id" as keyof CertificateData, label: "Credential ID", sortable: true },
+    { key: "credential_model_id" as keyof CertificateData, label: "Certificate Type", sortable: true },
+    { key: "credential_status" as keyof CertificateData, label: "Status", sortable: true },
+    { key: "issuing_makerspace_id" as keyof CertificateData, label: "Issued By", sortable: true },
+    { key: "issue_date" as keyof CertificateData, label: "Issue Date", sortable: true },
+    { key: "expiration_date" as keyof CertificateData, label: "Expiration Date", sortable: true },
+    { key: "created_at" as keyof CertificateData, label: "Created At", sortable: true },
   ];
 
   // This function runs when the component loads or when the user session changes
