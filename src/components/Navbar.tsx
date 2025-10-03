@@ -2,8 +2,8 @@ import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
 import type { NavbarData } from '../types/types';
-import { AppContext } from '../pages/App';
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useAppContext } from '../context/AppContext';
+import { useState, useEffect, useRef } from 'react';
 import BlockM from '../assets/svgs/Block_M-Hex.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -11,7 +11,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 const useNavbarData = () => {
     const [profile, setProfile] = useState<NavbarData | null>(null);
     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
-    const { session } = useContext(AppContext);
+    const { session } = useAppContext();
 
     useEffect(() => {
         const fetchProfile = async () => {

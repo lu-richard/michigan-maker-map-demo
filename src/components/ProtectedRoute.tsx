@@ -1,10 +1,10 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Loading from "../pages/Loading";
-import { AppContext } from "../pages/App";
-import { useContext } from "react";
+import { useAppContext } from '../context/AppContext';
+// import { useContext } from "react";
 
 function ProtectedRoute() {
-    const { session, loading } = useContext(AppContext);
+    const { session, loading } = useAppContext();
 
     if (loading) {
         return <Loading />;

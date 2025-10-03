@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import { useState, useEffect, createContext } from 'react';
+import { useState, useEffect } from 'react';
+import { AppContext } from '../context/AppContext';
 import type { Session } from '@supabase/supabase-js';
-import type { AppContextType } from '../types/types';
 import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
 import styles from '../styles/app.module.css';
@@ -75,11 +75,6 @@ import styles from '../styles/app.module.css';
 
 //   return { makerspaces, equipment, equipmentModels, loading };
 // };
-
-export const AppContext = createContext<AppContextType>({
-  session: null,
-  loading: true
-});
 
 function App() {
   const [session, setSession] = useState<Session | null>(null);
