@@ -27,12 +27,11 @@ export default function Certificates() {
   // Define what columns our table will have
   const columns = [
     { key: "credential_id" as keyof CertificateData, label: "Credential ID", sortable: true },
-    { key: "credential_model_id" as keyof CertificateData, label: "Certificate Type", sortable: true },
     { key: "credential_status" as keyof CertificateData, label: "Status", sortable: true },
     { key: "issuing_makerspace_id" as keyof CertificateData, label: "Issued By", sortable: true },
     { key: "issue_date" as keyof CertificateData, label: "Issue Date", sortable: true },
     { key: "expiration_date" as keyof CertificateData, label: "Expiration Date", sortable: true },
-    { key: "created_at" as keyof CertificateData, label: "Created At", sortable: true },
+
   ];
 
   // This function runs when the component loads or when the user session changes
