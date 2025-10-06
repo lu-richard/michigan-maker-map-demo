@@ -73,7 +73,7 @@ function Navbar() {
         <div className={styles["navbar"]}>
             <Link to='/' className={styles.logo}>
                 <img src={BlockM} className={styles["logo-image"]} />
-                <h1 className={styles["logo-heading"]}>| Michigan Maker Map</h1>
+                <h1 className={styles["logo-heading"]}>| Make Michigan</h1>
             </Link>
             <div className={styles.tabs}>
                 <div className={styles.tab}>
