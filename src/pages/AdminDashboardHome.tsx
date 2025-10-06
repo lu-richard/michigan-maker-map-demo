@@ -1,5 +1,5 @@
-import { useContext, useState, useEffect } from "react";
-import { AppContext } from "./App";
+import { useState, useEffect } from "react";
+import { useAppContext } from '../context/AppContext';
 import styles from '../styles/adminDashboardHome.module.css';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import PeopleIcon from '@mui/icons-material/People';
@@ -9,7 +9,7 @@ import Loading from "./Loading";
 import IssueReportCard from "../components/IssueReportCard";
 
 function AdminDashboardHome() {
-    const { profile } = useContext(AppContext);
+    const { profile } = useAppContext();
     const [issueReports, setIssueReports] = useState<IssueReportCardData[]>([]);
     const [loading, setLoading] = useState(true);
 

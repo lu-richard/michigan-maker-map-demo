@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { AppContext } from '../context/AppContext';
 import type { Session } from '@supabase/supabase-js';
+import type { ProfileData } from '../types/types';
 import Navbar from '../components/Navbar';
 import supabase from '../lib/supabase';
 import styles from '../styles/app.module.css';

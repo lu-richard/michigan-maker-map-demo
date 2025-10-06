@@ -2,9 +2,15 @@
 import { createContext, useContext } from "react";
 import type { AppContextType } from "../types/types";
 
+// export const AppContext = createContext<AppContextType>({
+//   session: null,
+//   loading: true,
+// });
+
 export const AppContext = createContext<AppContextType>({
-  session: null,
-  loading: true,
+  profile: null,
+  setProfile: null,
+  loading: true
 });
 
 export const useAppContext = () => useContext(AppContext);
