@@ -1,0 +1,64 @@
+.container {
+    padding: 8rem 15rem;
+}
+
+.main-content {
+    z-index: 2;
+    position: relative;
+}
+
+.text-content {
+    margin-bottom: 14rem;
+}
+
+.main-heading {
+    font-size: 4rem;
+    font-weight: 600;
+}
+
+.emphasis {
+    font-weight: 700;
+}
+
+.cover-image {
+    width: 100%;
+    opacity: 0.15;
+    clip-path: inset(15% 0 35% 0);
+    position: absolute;
+    top: -3.5rem;
+    left: 0;
+    z-index: 1;
+}
+
+.list {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1.75rem 0 0 1rem;
+}
+
+.point {
+    margin-bottom: 0.5rem;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.card {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 2rem 4rem;
+    border-radius: 1rem;
+    border: 0.1rem solid var(--neutral-200);
+    margin-inline: 2rem;
+    background-color: var(--main-bg-color);
+    filter: drop-shadow(0px 4px 4px rgb(0, 0, 0, 0.1));
+}
+
+.card-heading {
+    font-size: 1.5rem;
+    font-weight: 500;
+}

@@ -77,20 +77,54 @@ import styles from '../styles/app.module.css';
 // };
 
 function App() {
-  const [session, setSession] = useState<Session | null>(null);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(
-      ({ data: { session } }) => {
-        setSession(session);
+    const fetchProfile = async (s: Session | null) => {
+      try {
+        if (s) {
+          const { data, error } = await supabase.from('profiles').select('user_id, uniqname, first_name, middle_initial, last_name, image_url, pronouns, roles, system_theme, is_grad_student, locale').eq('user_id', s.user.id).single();
+
+          if (error) {
+            throw new Error(error.message);
+          }
+
+          setProfile(data);
+        }
+        else {
+          setProfile(null);
+        }
+      }
+      catch (e) {
+        throw e;
+      }
+    };
+
+    const fetchInitialSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        await fetchProfile(session);
+      }
+      catch (e) {
+        console.error((e as Error).message);
+      }
+      finally {
         setLoading(false);
       }
-    );
+    };
+
+    fetchInitialSession();
+    // supabase.auth.getSession().then(
+    //   ({ data: { session } }) => {
+    //     setSession(session);
+    //     fetchProfile(session);
+    //   }
+    // );
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setSession(session);
+        fetchProfile(session);
       }
     );
 
@@ -98,9 +132,9 @@ function App() {
   }, []);
 
   return (
-      <AppContext.Provider value={{ session, setSession, loading }}>
+      <AppContext.Provider value={{ profile, setProfile, loading }}>
         {
-          session &&
+          profile &&
           <header>
             <Navbar />
           </header>
@@ -109,7 +143,7 @@ function App() {
           <Outlet />
         </main>
         {
-          !loading &&
+          profile &&
           <footer>
             <p className={styles.footer}>&copy; 2025 Michigan Map Maker</p>
           </footer>

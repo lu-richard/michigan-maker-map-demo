@@ -15,6 +15,11 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
 import Certificates from "../pages/Certificates";
 import Training from "../pages/Training";
+import AdminDashboard from "../pages/AdminDashboard";
+import AdminDashboardHome from "../pages/AdminDashboardHome";
+import AdminDashboardUsageStats from "../pages/AdminDashboardUsageStats";
+import AdminDashboardTraining from "../pages/AdminDashboardTraining";
+import AdminProfileDetail from "../pages/AdminProfileDetail";
 
 const routes = [
     {
@@ -42,6 +47,16 @@ const routes = [
                     { path: 'dashboard/my-trainings', element: <Certificates /> },
                     { path: 'dashboard/wishlist', element: <Dashboard /> },
                     { path: 'dashboard/trainings', element: <Training /> },
+                    {
+                        path: 'admindashboard',
+                        element: <AdminDashboard />,
+                        children: [
+                            { index: true, element: <AdminDashboardHome /> },
+                            { path: 'training', element: <AdminDashboardTraining /> },
+                            { path: 'usage', element: <AdminDashboardUsageStats /> },
+                        ]
+                    },
+                    { path: 'admin-profile-detail/:id', element: <AdminProfileDetail /> },
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
                 ]

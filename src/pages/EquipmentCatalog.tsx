@@ -6,7 +6,7 @@ import supabase from '../lib/supabase';
 import Loading from './Loading';
 import SearchIcon from '@mui/icons-material/Search';
 
-// Reusable hook for fetching equipment catalog data: equipment cards based on search value, limit, and order
+// Reusable hook for fetching equipment cards based on search value, limit, and order
 const useEquipmentCatalogData = () => {
   const [equipmentCards, setEquipmentCards] = useState<EquipmentCardData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,13 +41,13 @@ const useEquipmentCatalogData = () => {
         const { data, error } = await query.order(isOrderedByModelName ? 'equipment_model_name' : 'equipment_type', { ascending: !isDescending }).limit(searchLimit);
 
         if (error) {
-            throw new Error(`${error}`);
+            throw new Error(error.message);
         }
 
         setEquipmentCards(data);
       }
       catch (e) {
-        console.error(e);
+        console.error((e as Error).message);
         setErrorMessage("An error occurred. Please refresh this page.");
       }
       finally {

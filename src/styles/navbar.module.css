@@ -134,7 +134,7 @@
 
 .profile-photo.active + .dropdown {
     max-height: none;
-    transform: translateX(-4rem);
+    transform: translateX(-7rem);
     border-radius: 1rem;
 }
 

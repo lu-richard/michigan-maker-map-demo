@@ -1,53 +1,43 @@
 import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
-import type { NavbarData } from '../types/types';
 import { useAppContext } from '../context/AppContext';
 import { useState, useEffect, useRef } from 'react';
 import BlockM from '../assets/svgs/Block_M-Hex.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
-const useNavbarData = () => {
-    const [profile, setProfile] = useState<NavbarData | null>(null);
-    const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
-    const { session } = useAppContext();
+// const useNavbarData = () => {
+//     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
+//     const { profile } = useContext(AppContext);
+// const useNavbarData = () => {
+//     const [profile, setProfile] = useState<NavbarData | null>(null);
+//     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
+//     const { session } = useAppContext();
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const { data, error } = await supabase.from('profiles').select('first_name, last_name, image_url').eq('user_id', session!.user.id).single();
+//     useEffect(() => {
+//         const fetchProfilePhoto = () => {
+//             if (profile!["image_url"]) {
+//                 const { data: image } = supabase
+//                     .storage
+//                     .from('profile-photos')
+//                     .getPublicUrl(profile!["image_url"]);
+                
+//                 setProfilePhoto(image.publicUrl);
+//             }
+//         };
 
-                if (error) {
-                    throw new Error(`${error}`);
-                }
+//         fetchProfilePhoto();
+//     }, []);
 
-                setProfile(data);
-
-                if (data["image_url"]) {
-                    const { data: image } = supabase
-                        .storage
-                        .from('profile-photos')
-                        .getPublicUrl(data["image_url"]);
-                    
-                    setProfilePhoto(image.publicUrl);
-                }
-            }
-            catch (e) {
-                console.error(e);
-            }
-        };
-
-        fetchProfile();
-    }, []);
-
-    return { profile, profilePhoto, session };
-};
+//     return { profile, profilePhoto };
+// };
 
 function Navbar() {
-    const { profile, profilePhoto, session } = useNavbarData();
+    const { profile } = useAppContext();
+    const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
+
     const findButtonRef = useRef<HTMLButtonElement>(null);
-    const trainingButtonRef = useRef<HTMLButtonElement>(null);
     const profilePhotoImgRef = useRef<HTMLImageElement>(null);
 
     const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | HTMLImageElement | null>) => {
@@ -66,64 +56,71 @@ function Navbar() {
             console.error(e);
         }
     };
+
+    useEffect(() => {
+        const fetchProfilePhoto = () => {
+            if (profile!["image_url"]) {
+                const { data: image } = supabase
+                    .storage
+                    .from('profile-photos')
+                    .getPublicUrl(profile!["image_url"]);
+                
+                setProfilePhoto(image.publicUrl);
+            }
+        };
+
+        fetchProfilePhoto();
+    }, []);
     
     return (
-        <>
-            {
-                profile &&
-                <div className={styles["navbar"]}>
-                    <Link to='/' className={styles.logo}>
-                        <img src={BlockM} className={styles["logo-image"]} />
-                        <h1 className={styles["logo-heading"]}>| Michigan Maker Map</h1>
-                    </Link>
-                    <div className={styles.tabs}>
-                        <div className={styles.tab}>
-                            <button type="button" ref={findButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(findButtonRef)}>
-                                Find
-                                <KeyboardArrowDownIcon className={styles.expand} />
-                                <KeyboardArrowUpIcon className={styles.collapse} />
-                            </button>
-                            <div className={styles["hover-line"]}></div>
-                            <div className={styles.dropdown}>
-                                <Link to='map' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Makerspace Map</Link>
-                                <Link to='makerspaces' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Search Makerspaces</Link>
-                                <Link to='equipment' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Search Equipment</Link>
-                            </div>
-                        </div>
-                        <div className={styles.tab}>
-                            <button type="button" ref={trainingButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(trainingButtonRef)}>
-                                Training
-                                <KeyboardArrowDownIcon className={styles.expand} />
-                                <KeyboardArrowUpIcon className={styles.collapse} />
-                            </button>
-                            <div className={styles["hover-line"]}></div>
-                            <div className={styles.dropdown}>
-                                <Link to='dashboard' className={styles["dropdown-option"]} onClick={() => toggleDropdown(trainingButtonRef)}>My Dashboard</Link>
-                            </div>
-                        </div>
-                        <div className={styles.tab}>
-                            <Link to='askmaizey' className={styles["tab-link"]}>Ask MAIZEY</Link>
-                            <div className={styles["hover-line"]}></div>
-                        </div>
-                        <div className={styles.tab}>
-                            <Link to='blog' className={styles["tab-link"]}>Community</Link>
-                            <div className={styles["hover-line"]}></div>
-                        </div>
-                    </div>
-                    <div className={styles.profile}>
-                        <img src={profilePhoto} ref={profilePhotoImgRef} className={styles["profile-photo"]} onClick={() => toggleDropdown(profilePhotoImgRef)} />
-                        <div className={styles.dropdown}>
-                            <div className={styles["dropdown-profile"]}>
-                                <img src={profilePhoto} className={styles["profile-photo"]} />
-                                <p className={styles["profile-name"]}>{profile["first_name"]} {profile["last_name"]}</p>
-                                <p className={styles["profile-email"]}>{session!.user.email}</p>
-                                <button type="button" className={styles["sign-out-button"]} onClick={signOutUser}>Sign Out</button>
-                            </div>
-                        </div>
+        <div className={styles["navbar"]}>
+            <Link to='/' className={styles.logo}>
+                <img src={BlockM} className={styles["logo-image"]} />
+                <h1 className={styles["logo-heading"]}>| Make Michigan</h1>
+            </Link>
+            <div className={styles.tabs}>
+                <div className={styles.tab}>
+                    <button type="button" ref={findButtonRef} className={styles["tab-button"]} onClick={() => toggleDropdown(findButtonRef)}>
+                        Find
+                        <KeyboardArrowDownIcon className={styles.expand} />
+                        <KeyboardArrowUpIcon className={styles.collapse} />
+                    </button>
+                    <div className={styles["hover-line"]}></div>
+                    <div className={styles.dropdown}>
+                        <Link to='map' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Makerspace Map</Link>
+                        <Link to='makerspaces' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Search Makerspaces</Link>
+                        <Link to='equipment' className={styles["dropdown-option"]} onClick={() => toggleDropdown(findButtonRef)}>Search Equipment</Link>
                     </div>
                 </div>
-            }
-        </>
+                <div className={styles.tab}>
+                    <Link to='dashboard' className={styles["tab-link"]}>Training</Link>
+                    <div className={styles["hover-line"]}></div>
+                </div>
+                <div className={styles.tab}>
+                    <Link to='admindashboard' className={styles["tab-link"]}>Admin Dashboard</Link>
+                    <div className={styles["hover-line"]}></div>
+                </div>
+                <div className={styles.tab}>
+                    <Link to='askmaizey' className={styles["tab-link"]}>Ask MAIZEY</Link>
+                    <div className={styles["hover-line"]}></div>
+                </div>
+                <div className={styles.tab}>
+                    <Link to='blog' className={styles["tab-link"]}>Community</Link>
+                    <div className={styles["hover-line"]}></div>
+                </div>
+            </div>
+            <div className={styles.profile}>
+                <img src={profilePhoto} ref={profilePhotoImgRef} className={styles["profile-photo"]} onClick={() => toggleDropdown(profilePhotoImgRef)} />
+                <div className={styles.dropdown}>
+                    <div className={styles["dropdown-profile"]}>
+                        <img src={profilePhoto} className={styles["profile-photo"]} />
+                        <p className={styles["profile-name"]}>{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
+                        <p className={styles["profile-email"]}>{profile!.uniqname}@umich.edu</p>
+                        <button type="button" className={styles["sign-out-button"]} onClick={signOutUser}>Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

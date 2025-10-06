@@ -4,13 +4,13 @@ import { useAppContext } from '../context/AppContext';
 // import { useContext } from "react";
 
 function ProtectedRoute() {
-    const { session, loading } = useAppContext();
+    const { profile, loading } = useAppContext();
 
     if (loading) {
         return <Loading />;
     }
 
-    if (!session) {
+    if (!profile) {
         return <Navigate to="/signin" />;
     }
 

@@ -18,7 +18,7 @@ const useEquipmentDetailData = () => {
                 const { data, error } = await supabase.from('view_equipment_detail_pages').select().eq('equipment_id', id!).maybeSingle();
 
                 if (error) {
-                    throw new Error("Failed to fetch equipment");
+                    throw new Error(error.message);
                 }
 
                 setEquipment(data);
@@ -33,7 +33,7 @@ const useEquipmentDetailData = () => {
                 }
             }
             catch (e) {
-                console.error(e);
+                console.error((e as Error).message);
             }
             finally {
                 setLoading(false);

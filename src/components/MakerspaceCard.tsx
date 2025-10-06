@@ -1,20 +1,23 @@
-import type { MakerspaceCardProps } from "../types/types";
+import type { MakerspaceCardData } from "../types/types";
 import styles from '../styles/makerspaceCard.module.css';
 import supabase from "../lib/supabase";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-function MakerspaceCard({ makerspaceCard }: MakerspaceCardProps) {
+function MakerspaceCard({ makerspaceCard }: { makerspaceCard: MakerspaceCardData}) {
     const makerspaceDetailPath = `/makerspace-detail/${makerspaceCard["makerspace_id"]}`;
-    let coverImage: string | null = null;
+    const [coverImage, setCoverImage] = useState<string | null>(null);
 
-    if (makerspaceCard["cover_image"]) {
-        const { data } = supabase
-            .storage
-            .from('makerspace-photos')
-            .getPublicUrl(makerspaceCard["cover_image"]);
+    useEffect(() => {
+        if (makerspaceCard["cover_image"]) {
+            const { data } = supabase
+                .storage
+                .from('makerspace-photos')
+                .getPublicUrl(makerspaceCard["cover_image"]);
 
-        coverImage = data.publicUrl;
-    }
+            setCoverImage(data.publicUrl);
+        }
+    }, []);
 
     return (
         <Link to={makerspaceDetailPath} className={styles.card}>

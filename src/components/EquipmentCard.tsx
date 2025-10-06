@@ -1,20 +1,23 @@
-import type { EquipmentCardProps } from "../types/types";
+import type { EquipmentCardData } from "../types/types";
 import styles from '../styles/equipmentCard.module.css';
 import supabase from "../lib/supabase";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-function EquipmentCard({ equipmentCard }: EquipmentCardProps) {
+function EquipmentCard({ equipmentCard }: { equipmentCard: EquipmentCardData }) {
     const equipmentDetailPath = `/equipment-detail/${equipmentCard["equipment_id"]}`;
-    let coverImage: string | null = null;
+    const [coverImage, setCoverImage] = useState<string | null>(null);
 
-    if (equipmentCard["manufacturer_image_urls"] && equipmentCard["manufacturer_image_urls"].length > 0) {
-        const { data } = supabase
-            .storage
-            .from('equipment-model-photos')
-            .getPublicUrl(equipmentCard["manufacturer_image_urls"][0]);
-        
-        coverImage = data.publicUrl;
-    }
+    useEffect(() => {
+        if (equipmentCard["manufacturer_image_urls"] && equipmentCard["manufacturer_image_urls"].length > 0) {
+            const { data } = supabase
+                .storage
+                .from('equipment-model-photos')
+                .getPublicUrl(equipmentCard["manufacturer_image_urls"][0]);
+            
+            setCoverImage(data.publicUrl);
+        }
+    }, []);
 
     return (
         <Link to={equipmentDetailPath} className={styles.card}>

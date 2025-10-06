@@ -28,6 +28,16 @@ const labels = {
     spindle_speed_range_high_rpm: "Spindle Speed Range - High (rpm)",
     max_speed_rpm: "Max Speed (rpm)",
     min_speed_rpm: "Min Speed (rpm)",
+    staff: "Staff",
+    shop_mentor: "Shop Mentor",
+    shop_manager: "Shop Manager",
+    alum: "Alumni",
+    student: "Student",
+    active: "Active",
+    pending: "Pending",
+    superseded: "Superseded",
+    expired: "Expired",
+    revoked: "Revoked",
 };
 
 export default labels;

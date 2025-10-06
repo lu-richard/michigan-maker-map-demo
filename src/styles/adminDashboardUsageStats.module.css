@@ -1,0 +1,52 @@
+.container {
+    padding-inline: 7rem;
+}
+
+.main-heading {
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+}
+
+.highlights {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 2rem 0 4rem 0;
+}
+
+.highlight {
+    padding: 1rem;
+    border-radius: 0.4rem;
+    border: 0.1rem solid var(--neutral-200);
+    margin-right: 1.5rem;
+}
+
+.emphasis {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.selected-equipment {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border: 0.1rem solid var(--neutral-300);
+    background: none;
+    border-radius: 0.5rem;
+    margin-left: 4rem;
+    align-self: flex-start;
+}
+
+.chart-top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.charts {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
