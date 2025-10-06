@@ -8,11 +8,13 @@ import EquipmentCatalog from "../pages/EquipmentCatalog";
 import EquipmentDetail from "../pages/EquipmentDetail";
 import MakerspaceCatalog from "../pages/MakerspaceCatalog";
 import MakerspaceDetail from "../pages/MakerspaceDetail";
-import Dashboard from "../pages/Dashboard";
+import Dashboard from "../pages/MakerProfile";
 import AskMaizey from "../pages/AskMaizey";
 import Blog from "../pages/Blog";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
+import Certificates from "../pages/Certificates";
+import Training from "../pages/Training";
 
 const routes = [
     {
@@ -37,6 +39,9 @@ const routes = [
                     { path: 'equipment', element: <EquipmentCatalog /> },
                     { path: 'equipment-detail/:id', element: <EquipmentDetail /> },
                     { path: 'dashboard', element: <Dashboard /> },
+                    { path: 'dashboard/my-trainings', element: <Certificates /> },
+                    { path: 'dashboard/wishlist', element: <Dashboard /> },
+                    { path: 'dashboard/trainings', element: <Training /> },
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
                 ]

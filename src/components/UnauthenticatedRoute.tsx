@@ -1,10 +1,10 @@
 import Loading from "../pages/Loading";
 import { Navigate, Outlet } from "react-router-dom";
-import { AppContext } from "../pages/App";
-import { useContext } from "react";
+import { useAppContext } from '../context/AppContext';
+// import { useContext } from "react";
 
 function UnauthenticatedRoute() {
-    const { session, loading } = useContext(AppContext);
+    const { session, loading } = useAppContext();
 
     if (loading) {
         return <Loading />;
