@@ -13,13 +13,13 @@ const useAdminProfileDetailData = () => {
     const [adminProfile, setAdminProfile] = useState<UserCredentialAdminData | null>(null);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
-    const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
+    // const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
 
-    useEffect(() => {
-        const timeout = setTimeout(() => setDebouncedSearchValue(searchValue), 500);
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => setDebouncedSearchValue(searchValue), 500);
 
-        return clearTimeout(timeout);
-    }, []);
+    //     return clearTimeout(timeout);
+    // }, []);
 
     useEffect(() => {
         const fetchAdminProfile = async () => {
