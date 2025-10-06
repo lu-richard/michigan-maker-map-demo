@@ -1,68 +1,65 @@
 import DashboardNavBar from '../components/DashboardNavBar';
 import styles from '../styles/dashboard.module.css';
-import type { DashboardData } from '../types/types';
-import supabase from '../lib/supabase';
-import { useState, useEffect } from 'react';
 import { useAppContext } from '../context/AppContext';
 
-    const useDashboardData = () => {
-    const [profile, setProfile] = useState<DashboardData | null>(null);
-    const { session } = useAppContext();
+//     const useDashboardData = () => {
+//     const [profile, setProfile] = useState<DashboardData | null>(null);
+//     const { session } = useAppContext();
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-            const userId = session?.user?.id;
-            if (!userId) return; // don't run until session exists
+//     useEffect(() => {
+//         const fetchProfile = async () => {
+//             const userId = session?.user?.id;
+//             if (!userId) return; // don't run until session exists
 
-            // Try sessionStorage cache first (one cache entry per user)
-            try {
-                const cached = sessionStorage.getItem(`profile:${userId}`);
-                if (cached) {
-                    setProfile(JSON.parse(cached));
-                    return;
-                }
-            } catch {
-                // ignore sessionStorage errors and continue to fetch
-            }
+//             // Try sessionStorage cache first (one cache entry per user)
+//             try {
+//                 const cached = sessionStorage.getItem(`profile:${userId}`);
+//                 if (cached) {
+//                     setProfile(JSON.parse(cached));
+//                     return;
+//                 }
+//             } catch {
+//                 // ignore sessionStorage errors and continue to fetch
+//             }
 
-            try {
-                const { data, error } = await supabase
-                  .from('profiles')
-                  .select('first_name, last_name')
-                  .eq('user_id', userId)
-                  .single();
+//             try {
+//                 const { data, error } = await supabase
+//                   .from('profiles')
+//                   .select('first_name, last_name')
+//                   .eq('user_id', userId)
+//                   .single();
 
-                if (error) {
-                    throw new Error(`${error}`);
-                }
+//                 if (error) {
+//                     throw new Error(`${error}`);
+//                 }
 
-                setProfile(data);
+//                 setProfile(data);
 
-                // store in sessionStorage so future mounts don't re-fetch
-                try {
-                    sessionStorage.setItem(`profile:${userId}`, JSON.stringify(data));
-                } catch {
-                    // ignore storage errors
-                }
-            }
-            catch (e) {
-                console.error(e);
-            }
-        };
+//                 // store in sessionStorage so future mounts don't re-fetch
+//                 try {
+//                     sessionStorage.setItem(`profile:${userId}`, JSON.stringify(data));
+//                 } catch {
+//                     // ignore storage errors
+//                 }
+//             }
+//             catch (e) {
+//                 console.error(e);
+//             }
+//         };
 
-        fetchProfile();
-    }, [session?.user?.id]);
+//         fetchProfile();
+//     }, [session?.user?.id]);
 
-    return { profile, session };
-};
+//     return { profile, session };
+// };
 
-function Dashboard() {
+function MakerProfile() {
     // const context = useContext(AppContext);
     // console.log('App context in Dashboard:', context);
     // const { profile } = context ?? {};
     // console.log('Profile data:', profile);
 
-    const { profile } = useDashboardData();
+    const { profile } = useAppContext();
     return (
         <>
             <DashboardNavBar />
@@ -92,4 +89,4 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default MakerProfile;

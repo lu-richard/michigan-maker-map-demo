@@ -10,7 +10,7 @@ type SortDirection = "asc" | "desc" | null;
 
 export default function Certificates() {
   // Get the current user's session from our app context
-  const { session } = useAppContext();
+  const { profile } = useAppContext();
   
   // State variables to manage our component
   const [credentials, setCredentials] = useState<CertificateData[]>([]); // Store the credential data
@@ -41,11 +41,11 @@ export default function Certificates() {
 
     // Function to fetch credentials from Supabase
     const fetchCredentials = async () => {
-      // If no user is logged in, don't fetch anything
-      if (!session?.user?.id) {
-        setCredentials([]);
-        return;
-      }
+      // If no user is logged in, don't fetch anything - A user can't access this page unless they are already logged in
+      // if (!session?.user?.id) {
+      //   setCredentials([]);
+      //   return;
+      // }
 
       setLoading(true); // Show loading state
       setError(null); // Clear any previous errors
@@ -57,7 +57,7 @@ export default function Certificates() {
           .schema("private")
           .from("credential_summary") // Remove the generic type parameter, just use the table name
           .select("*") // Get all columns
-          .eq("recipient_user_id", session.user.id) // Only get rows where recipient_user_id matches current user
+          .eq("recipient_user_id", profile!["user_id"]) // Only get rows where recipient_user_id matches current user
           .order("completion_date", { ascending: false }); // Sort by completion date, newest first
 
           setCredentials((data || []) as unknown as CertificateData[]);
@@ -94,7 +94,7 @@ export default function Certificates() {
     return () => {
       isMounted = false;
     };
-  }, [session?.user?.id]); // Re-run this effect when the user ID changes
+  }, [profile!["user_id"]]); // Re-run this effect when the user ID changes
 
   // This useMemo hook processes our data for display
   // It will re-run whenever the credentials, search term, or sort settings change
