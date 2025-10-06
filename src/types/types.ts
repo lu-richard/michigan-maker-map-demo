@@ -41,11 +41,6 @@ export interface ProfileData {
     locale?: Database["public"]["Enums"]["locale"];
 }
 
-export interface DashboardData {
-    first_name: string;
-    last_name: string;
-}
-
 export interface AppContextType {
     profile: ProfileData | null;
     setProfile: React.Dispatch<React.SetStateAction<ProfileData | null>> | null;

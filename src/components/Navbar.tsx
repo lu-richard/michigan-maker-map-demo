@@ -8,9 +8,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 // const useNavbarData = () => {
-//     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
-//     const { profile } = useContext(AppContext);
-// const useNavbarData = () => {
 //     const [profile, setProfile] = useState<NavbarData | null>(null);
 //     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
 //     const { session } = useAppContext();
