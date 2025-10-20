@@ -27,6 +27,37 @@
     font-weight: 600;
 }
 
+.big-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4rem 10rem;
+    background-color: var(--main-bg-color);
+    border-radius: 3rem;
+    filter: drop-shadow(0px 2px 8px rgb(0, 0, 0, 0.15));
+    margin: 1.5rem 0 5rem 0;
+}
+
+.big-card-heading {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+.chart {
+    text-align: center;
+}
+
+.single-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart-heading {
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
 .selected-equipment {
     display: flex;
     justify-content: center;
@@ -36,17 +67,10 @@
     background: none;
     border-radius: 0.5rem;
     margin-left: 4rem;
-    align-self: flex-start;
 }
 
-.chart-top-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.charts {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.pie-chart-heading {
+    margin-left: 6.3rem;
+    font-weight: 500;
+    font-size: 1.1rem;
 }

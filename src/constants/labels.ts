@@ -33,11 +33,11 @@ const labels = {
     shop_manager: "Shop Manager",
     alum: "Alumni",
     student: "Student",
-    active: "Active",
-    pending: "Pending",
-    superseded: "Superseded",
+    active_user: "Active",
+    pending_user: "Pending",
+    operator: "Operator",
     expired: "Expired",
-    revoked: "Revoked",
+    invalidated: "Invalidated",
 };
 
 export default labels;

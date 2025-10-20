@@ -11,16 +11,88 @@ function AdminDashboardUsageStats() {
     ];
 
     const settings = {
-        margin: { right: 50 },
-        width: 500,
-        height: 500,
+        margin: { left: 60 },
+        width: 300,
+        height: 300,
         hideLegend: false,
     };
 
     return (
         <div className={styles.container} >
-            <h2 className={styles["main-heading"]}>Weekly Highlights</h2>
-            <div className={styles.highlights}>
+            <h2 className={styles["main-heading"]}>Usage Statistics</h2>
+            <h3 className={styles["big-card-heading"]}>Facility-Wide Statistics</h3>
+            <div className={styles["big-card"]}>
+                <div className={styles.chart}>
+                    <h4 className={styles["chart-heading"]}>Cumulative Hours</h4>
+                    <LineChart
+                        xAxis={[{ data: [1, 2, 3, 5, 7, 8, 11, 12, 13, 15, 17, 18] }]}
+                        series={[
+                            {
+                            data: [2, 5.5, 20, 78.2, 115.3, 162.1, 200, 340, 370, 480, 562, 672],
+                            },
+                        ]}
+                        height={300}
+                        width={500}
+                    />
+                </div>
+                <div className={styles.chart}>
+                    <h4 className={styles["chart-heading"]}>Daily Hours</h4>
+                    <LineChart
+                        xAxis={[{ data: [1, 2, 3, 5, 7, 8, 11, 12, 13, 15, 17, 18] }]}
+                        series={[
+                            {
+                            data: [2, 5.5, 20, 78.2, 115.3, 162.1, 200, 340, 370, 480, 562, 672],
+                            },
+                        ]}
+                        height={300}
+                        width={500}
+                    />
+                </div>
+            </div>
+            <div className={styles["single-line"]}>
+                <h3 className={styles["big-card-heading"]}>Equipment-Specific Statistics</h3>
+                <button type="button" className={styles["selected-equipment"]}>
+                    CNC Mill
+                    <KeyboardArrowDownIcon />
+                </button>
+            </div>
+            <div className={styles["big-card"]}>
+                <div className={styles.chart}>
+                    <h4 className={styles["chart-heading"]}>Cumulative Hours</h4>
+                    <LineChart
+                        xAxis={[{ data: [1, 2, 3, 5, 7, 8, 11, 12, 13, 15, 17, 18] }]}
+                        series={[
+                            {
+                            data: [2, 5.5, 20, 78.2, 115.3, 162.1, 200, 340, 370, 480, 562, 672],
+                            },
+                        ]}
+                        height={300}
+                        // width={500}
+                    />
+                </div>
+                <div className={styles.chart}>
+                    <h4 className={styles["chart-heading"]}>Daily Hours</h4>
+                    <LineChart
+                        xAxis={[{ data: [1, 2, 3, 5, 7, 8, 11, 12, 13, 15, 17, 18] }]}
+                        series={[
+                            {
+                            data: [2, 5.5, 20, 78.2, 115.3, 162.1, 200, 340, 370, 480, 562, 672],
+                            },
+                        ]}
+                        height={300}
+                        // width={500}
+                    />
+                </div>
+                <div>
+                    <h4 className={styles["pie-chart-heading"]}>User Distribution</h4>
+                    <PieChart
+                        series={[{ innerRadius: 50, outerRadius: 100, data, arcLabel: 'value' }]}
+                        {...settings}
+                    />
+                </div>
+            </div>
+
+            {/* <div className={styles.highlights}>
                 <div className={styles.highlight}>
                     <p>Most used machine<br /><span className={styles.emphasis}>Sewing Machine</span></p>
                 </div>
@@ -57,7 +129,7 @@ function AdminDashboardUsageStats() {
                         {...settings}
                     />
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
