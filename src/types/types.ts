@@ -5,6 +5,9 @@ export type CertificateData = Tables<{ schema: 'private' }, 'credential_summary'
 export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 export type IssueReportCardData = Tables<'view_issue_report_cards'>;
 
+export type TrainingPrerequisites = Tables<'credential_model_prerequisites'>
+export type MakerspaceCreds = Tables<'makerspace_credential_models'>;
+
 export interface UserCredential {
     credential_id: string;
     credential_name: string;

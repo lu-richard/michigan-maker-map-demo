@@ -8,7 +8,7 @@ import type { CertificateData } from "../types/types";
 // This type helps us sort our data
 type SortDirection = "asc" | "desc" | null;
 
-export default function Certificates() {
+export default function MyTrainings() {
   // Get the current user's session from our app context
   const { profile } = useAppContext();
   
