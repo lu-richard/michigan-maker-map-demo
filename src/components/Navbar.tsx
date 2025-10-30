@@ -36,6 +36,7 @@ function Navbar() {
 
     const findButtonRef = useRef<HTMLButtonElement>(null);
     const profilePhotoImgRef = useRef<HTMLImageElement>(null);
+    const profileDetailPath = `/profile-detail/${profile!["user_id"]}`;
 
     const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | HTMLImageElement | null>) => {
         ref.current?.classList.toggle(styles.active);
@@ -110,7 +111,9 @@ function Navbar() {
                 <img src={profilePhoto} ref={profilePhotoImgRef} className={styles["profile-photo"]} onClick={() => toggleDropdown(profilePhotoImgRef)} />
                 <div className={styles.dropdown}>
                     <div className={styles["dropdown-profile"]}>
-                        <img src={profilePhoto} className={styles["profile-photo"]} />
+                        <Link to={profileDetailPath}>
+                            <img src={profilePhoto} className={styles["profile-photo"]} />
+                        </Link>
                         <p className={styles["profile-name"]}>{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
                         <p className={styles["profile-email"]}>{profile!.uniqname}@umich.edu</p>
                         <button type="button" className={styles["sign-out-button"]} onClick={signOutUser}>Sign Out</button>

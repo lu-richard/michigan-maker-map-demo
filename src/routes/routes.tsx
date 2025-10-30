@@ -20,6 +20,7 @@ import AdminDashboardHome from "../pages/AdminDashboardHome";
 import AdminDashboardUsageStats from "../pages/AdminDashboardUsageStats";
 import AdminDashboardTraining from "../pages/AdminDashboardTraining";
 import AdminProfileDetail from "../pages/AdminProfileDetail";
+import ProfileDetail from "../pages/ProfileDetail";
 
 const routes = [
     {
@@ -59,6 +60,7 @@ const routes = [
                     { path: 'admin-profile-detail/:id', element: <AdminProfileDetail /> },
                     { path: 'askmaizey', element: <AskMaizey /> },
                     { path: 'blog', element: <Blog /> },
+                    { path: 'profile-detail/:id', element: <ProfileDetail /> },
                 ]
             },
         ]

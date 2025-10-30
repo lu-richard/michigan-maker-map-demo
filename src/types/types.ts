@@ -5,17 +5,7 @@ export type CertificateData = Tables<{ schema: 'private' }, 'credential_summary'
 export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_cards'>;
 export type IssueReportCardData = Tables<'view_issue_report_cards'>;
 
-export interface UserCredential {
-    credential_id: string;
-    credential_name: string;
-    credential_status: string;
-    completion_date: string | null;
-    issuing_makerspace_name: string;
-}
-
-export type UserCredentialAdminData = Omit<Tables<'view_user_credentials_admin'>, 'user_credential_list'> & {
-    user_credential_list: UserCredential[];
-};
+export type AdminCredential = Tables<'view_credentials_admin'>;
 
 interface MakerspaceEquipment {
     equipment_id: string;
@@ -40,6 +30,8 @@ export interface ProfileData {
     is_grad_student?: boolean;
     locale?: Database["public"]["Enums"]["locale"];
 }
+
+// export type ProfileData = Omit<Tables<'profiles'>, 'created_at' | 'last_signed_in'>;
 
 export interface AppContextType {
     profile: ProfileData | null;

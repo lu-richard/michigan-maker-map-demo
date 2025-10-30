@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import type { UserCredentialAdminData } from "../types/types";
+import type { AdminCredential, ProfileData } from "../types/types";
 import supabase from "../lib/supabase";
 import Loading from "./Loading";
 import styles from '../styles/adminProfileDetail.module.css';
@@ -10,7 +10,8 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const useAdminProfileDetailData = () => {
     const { id } = useParams();
-    const [adminProfile, setAdminProfile] = useState<UserCredentialAdminData | null>(null);
+    const [profile, setProfile] = useState<ProfileData | null>(null);
+    const [credentials, setCredentials] = useState<AdminCredential[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
     // const [debouncedSearchValue, setDebouncedSearchValue] = useState("");
@@ -22,15 +23,29 @@ const useAdminProfileDetailData = () => {
     // }, []);
 
     useEffect(() => {
+        const fetchProfile = async () => {
+            const { data, error } = await supabase.from('profiles').select('user_id, uniqname, first_name, middle_initial, last_name, roles').eq('user_id', id!).maybeSingle();
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            setProfile(data);
+        };
+
+        const fetchCredentials = async () => {
+            const { data, error } = await supabase.from('view_credentials_admin').select().eq('recipient_user_id', id!);
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            setCredentials(data);
+        }
+
         const fetchAdminProfile = async () => {
             try {
-                const { data, error } = await supabase.from('view_user_credentials_admin').select().eq('user_id', id!).maybeSingle();
-
-                if (error) {
-                    throw new Error(error.message);
-                }
-
-                setAdminProfile(data as UserCredentialAdminData | null);
+                await Promise.all([fetchProfile(), fetchCredentials()]);
             }
             catch (e) {
                 console.error((e as Error).message);
@@ -43,22 +58,22 @@ const useAdminProfileDetailData = () => {
         fetchAdminProfile();
     }, []);
 
-    return { searchValue, setSearchValue, adminProfile, loading };
+    return { searchValue, setSearchValue, profile, credentials, loading };
 };
 
 function AdminProfileDetail() {
-    const { searchValue, setSearchValue, adminProfile, loading } = useAdminProfileDetailData();
+    const { searchValue, setSearchValue, profile, credentials, loading } = useAdminProfileDetailData();
 
     return (
         <>
             {
                 loading ? <Loading /> :
-                adminProfile ?
+                profile ?
                 <div className={styles.container}>
                     <h1 className={styles["main-heading"]}>View User Trainings</h1>
-                    <h2 className={styles["student-name"]}>{adminProfile["first_name"]} {adminProfile["middle_initial"] && adminProfile["middle_initial"] + ". "}{adminProfile["last_name"]}</h2>
+                    <h2 className={styles["student-name"]}>{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</h2>
                     <div className={styles["roles"]}>
-                        {adminProfile.roles?.map((role) => <p key={role} className={styles.role}>{labels[role]}</p>)}
+                        {profile.roles?.map((role) => <p key={role} className={styles.role}>{labels[role]}</p>)}
                         <p className={`${styles.role} ${styles["modify-or-revoke"]}`}>Modify or Revoke a Certificate</p>
                     </div>
                     <div className={styles["search-bar"]}>
@@ -73,9 +88,9 @@ function AdminProfileDetail() {
                         <p className={styles["column-name"]}>Quick Approve</p>
                     </div>
                     {
-                        adminProfile["user_credential_list"].length === 0 ? <p className={styles["no-results-message"]}>No Certificates Yet</p> :
+                        credentials.length === 0 ? <p className={styles["no-results-message"]}>No Certificates Yet</p> :
                         <div>
-                            {adminProfile.user_credential_list.map((userCredential) => <AdminCredentialListItem key={userCredential["credential_id"]} userCredential={userCredential} />)}
+                            {credentials.map((userCredential) => <AdminCredentialListItem key={userCredential["credential_id"]} userCredential={userCredential} />)}
                         </div>
                     }
                 </div> :

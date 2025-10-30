@@ -1,4 +1,6 @@
 import CoverImage from '../assets/jpgs/makerspace.jpeg';
+import FindMakerspaceImage from '../assets/jpgs/find_makerspace.jpg';
+import FindEquipmentImage from '../assets/jpgs/find_equipment.jpeg';
 import styles from '../styles/home.module.css';
 import { Link } from 'react-router-dom';
 
@@ -21,9 +23,11 @@ function Home() {
                 <div className={styles.cards}>
                     <Link to='makerspaces' className={styles.card}>
                         <h3 className={styles["card-heading"]}>Find a Facility</h3>
+                        <img src={FindMakerspaceImage} className={styles["card-image"]} />
                     </Link>
                     <Link to='equipment' className={styles.card}>
                         <h3 className={styles["card-heading"]}>Find Equipment</h3>
+                        <img src={FindEquipmentImage} className={styles["card-image"]} />
                     </Link>
                 </div>
             </div>
