@@ -13,14 +13,15 @@ import AskMaizey from "../pages/AskMaizey";
 import Blog from "../pages/Blog";
 import ProtectedRoute from "../components/ProtectedRoute";
 import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
-import Certificates from "../pages/Certificates";
-import Training from "../pages/Training";
+// import Training from "../pages/Training";
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminDashboardHome from "../pages/AdminDashboardHome";
 import AdminDashboardUsageStats from "../pages/AdminDashboardUsageStats";
 import AdminDashboardTraining from "../pages/AdminDashboardTraining";
 import AdminProfileDetail from "../pages/AdminProfileDetail";
 import ProfileDetail from "../pages/ProfileDetail";
+import MyTrainings from "../pages/MyTrainings";
+import SkillTree from "../pages/SkillTree";
 
 const routes = [
     {
@@ -45,9 +46,9 @@ const routes = [
                     { path: 'equipment', element: <EquipmentCatalog /> },
                     { path: 'equipment-detail/:id', element: <EquipmentDetail /> },
                     { path: 'dashboard', element: <MakerProfile /> },
-                    { path: 'dashboard/my-trainings', element: <Certificates /> },
+                    { path: 'dashboard/my-trainings', element: <MyTrainings /> },
                     { path: 'dashboard/wishlist', element: <MakerProfile /> },
-                    { path: 'dashboard/trainings', element: <Training /> },
+                    { path: 'dashboard/trainings', element: <SkillTree /> },
                     {
                         path: 'admindashboard',
                         element: <AdminDashboard />,

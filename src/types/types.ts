@@ -6,6 +6,20 @@ export type EquipmentCardData = Tables<{ schema: 'private' }, 'view_equipment_ca
 export type IssueReportCardData = Tables<'view_issue_report_cards'>;
 
 export type AdminCredential = Tables<'view_credentials_admin'>;
+export type TrainingPrerequisites = Tables<'credential_model_prerequisites'>
+export type MakerspaceCreds = Tables<'makerspace_credential_models'>;
+
+export interface UserCredential {
+    credential_id: string;
+    credential_name: string;
+    credential_status: string;
+    completion_date: string | null;
+    issuing_makerspace_name: string;
+}
+
+export type UserCredentialAdminData = Omit<Tables<'view_user_credentials_admin'>, 'user_credential_list'> & {
+    user_credential_list: UserCredential[];
+};
 
 interface MakerspaceEquipment {
     equipment_id: string;
