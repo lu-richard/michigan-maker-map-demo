@@ -5,6 +5,7 @@ import supabase from "../lib/supabase";
 import type { ProfileData } from "../types/types";
 import { useParams } from 'react-router-dom';
 import Loading from "./Loading";
+import labels from "../constants/labels";
 
 const useProfileDetailData = () => {
     const { id } = useParams();
@@ -63,9 +64,16 @@ function ProfileDetail() {
                 profile ?
                 <div className={styles.container}>
                     <div className={styles["top-info"]}>
-                        <img src={profilePhoto} />
+                        <img src={profilePhoto} className={styles["profile-photo"]} />
                         <p className={styles.name}>{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
+                        {profile!.pronouns && <p className={styles.pronouns}>{profile!.pronouns}</p>}
                         <p className={styles.email}>{profile!.uniqname}@umich.edu</p>
+                        {
+                            profile!.roles &&
+                            <div className={styles.tags}>
+                                {profile!.roles.map((role) => <p key={role} className={styles.tag}>{labels[role]}</p>)}
+                            </div>
+                        }
                     </div>
                 </div> :
                 <p>The page you are looking for does not exist.</p>

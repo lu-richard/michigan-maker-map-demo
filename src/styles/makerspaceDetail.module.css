@@ -7,6 +7,9 @@
 
 .main-content {
     padding: 3rem 4rem;
+}
+
+.cover-description {
     display: flex;
 }
 
@@ -91,4 +94,22 @@
 
 .equipment-list * {
     margin-left: 1.5rem;
+}
+
+.floorplan {
+    margin-top: 2rem;
+    max-width: 45vw;
+}
+
+.floorplan-heading {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.floorplan-line {
+    border-top: 0.05rem solid #000;
+}
+
+.floorplan-image {
+    max-width: inherit;
 }

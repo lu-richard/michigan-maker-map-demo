@@ -17,6 +17,10 @@ function AdminDashboard() {
                     <p className={styles["tab-name"]}>Usage Statistics</p>
                     <div className={styles["hover-line"]}></div>
                 </Link>
+                <Link to='add-equipment-model' className={styles.tab}>
+                    <p className={styles["tab-name"]}>Add Equipment Model</p>
+                    <div className={styles["hover-line"]}></div>
+                </Link>
             </div>
             <Outlet />
         </>

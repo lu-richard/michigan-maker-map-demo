@@ -22,6 +22,7 @@ import AdminProfileDetail from "../pages/AdminProfileDetail";
 import ProfileDetail from "../pages/ProfileDetail";
 import MyTrainings from "../pages/MyTrainings";
 import SkillTree from "../pages/SkillTree";
+import AdminAddEquipmentModel from "../pages/AdminAddEquipmentModel";
 
 const routes = [
     {
@@ -56,6 +57,7 @@ const routes = [
                             { index: true, element: <AdminDashboardHome /> },
                             { path: 'training', element: <AdminDashboardTraining /> },
                             { path: 'usage', element: <AdminDashboardUsageStats /> },
+                            { path: 'add-equipment-model', element: <AdminAddEquipmentModel/> },
                         ]
                     },
                     { path: 'admin-profile-detail/:id', element: <AdminProfileDetail /> },

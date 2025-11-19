@@ -11,6 +11,7 @@ const useMakerspaceDetailData = () => {
     const { id } = useParams();
     const [makerspace, setMakerspace] = useState<MakerspaceDetailData | null>(null);
     const [coverImage, setCoverImage] = useState<string | null>(null);
+    const [floorplanImage, setFloorplanImage] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -25,12 +26,20 @@ const useMakerspaceDetailData = () => {
                 setMakerspace(data as MakerspaceDetailData | null);
 
                 if (data?.["cover_image"]) {
-                    const { data: image } = supabase
+                    const { data: coverImg } = supabase
                         .storage
                         .from('makerspace-photos')
                         .getPublicUrl(data["cover_image"]);
                 
-                    setCoverImage(image.publicUrl);
+                    setCoverImage(coverImg.publicUrl);
+                }
+                if (data?.["floorplan_image"]) {
+                    const { data: floorplanImg } = supabase
+                        .storage
+                        .from('makerspace-photos')
+                        .getPublicUrl(data["floorplan_image"]);
+                    
+                    setFloorplanImage(floorplanImg.publicUrl);
                 }
             }
             catch (e) {
@@ -44,11 +53,11 @@ const useMakerspaceDetailData = () => {
         fetchMakerspace();
     }, []);
 
-    return { makerspace, coverImage, loading };
+    return { makerspace, coverImage, floorplanImage, loading };
 };
 
 function MakerspaceDetail() {
-    const { makerspace, coverImage, loading } = useMakerspaceDetailData();
+    const { makerspace, coverImage, floorplanImage, loading } = useMakerspaceDetailData();
     
     const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         (e.currentTarget as HTMLElement).classList.toggle(styles.active);
@@ -77,27 +86,37 @@ function MakerspaceDetail() {
                         </div>
                     </div>
                     <div className={styles["main-content"]}>
-                        {coverImage && <img src={coverImage} className={styles["cover-image"]} />}
-                        <section className={styles["text-content"]}>
-                            <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
-                            <p>{makerspace.description}</p>
-                            <button type="button" className={styles.collapsible} onClick={toggleEquipmentList}>
-                                <span className={styles["collapsible-title"]}>Equipment</span>
-                                <KeyboardArrowDownIcon className={styles.expand} />
-                                <KeyboardArrowUpIcon className={styles.collapse} />
-                            </button>
-                            <ul className={styles["equipment-list"]}>
-                                {makerspace["equipment_list"].map((makerspaceEquipment) => {
-                                    const equipmentDetailPath = `/equipment-detail/${makerspaceEquipment["equipment_id"]}`;
+                        <div className={styles["cover-description"]}>
+                            {coverImage && <img src={coverImage} className={styles["cover-image"]} />}
+                            <section className={styles["text-content"]}>
+                                <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
+                                <p>{makerspace.description}</p>
+                                <button type="button" className={styles.collapsible} onClick={toggleEquipmentList}>
+                                    <span className={styles["collapsible-title"]}>Equipment</span>
+                                    <KeyboardArrowDownIcon className={styles.expand} />
+                                    <KeyboardArrowUpIcon className={styles.collapse} />
+                                </button>
+                                <ul className={styles["equipment-list"]}>
+                                    {makerspace["equipment_list"].map((makerspaceEquipment) => {
+                                        const equipmentDetailPath = `/equipment-detail/${makerspaceEquipment["equipment_id"]}`;
 
-                                    return <li key={makerspaceEquipment["equipment_id"]}><Link to={equipmentDetailPath}>{makerspaceEquipment["equipment_name"]}</Link></li>;
-                                })}
-                            </ul>
-                            <div className={styles.contact}>
-                                <h4 className={styles.h4}>Contact</h4>
-                                <p>{makerspace["contact_email"]}<br />{`(${makerspace["contact_phone"].substring(0, 3)}) ${makerspace["contact_phone"].substring(3, 6)}-${makerspace["contact_phone"].substring(6)}`}</p>
+                                        return <li key={makerspaceEquipment["equipment_id"]}><Link to={equipmentDetailPath}>{makerspaceEquipment["equipment_name"]}</Link></li>;
+                                    })}
+                                </ul>
+                                <div className={styles.contact}>
+                                    <h4 className={styles.h4}>Contact</h4>
+                                    <p>{makerspace["contact_email"]}<br />{`(${makerspace["contact_phone"].substring(0, 3)}) ${makerspace["contact_phone"].substring(3, 6)}-${makerspace["contact_phone"].substring(6)}`}</p>
+                                </div>
+                            </section>
+                        </div>
+                        {
+                            floorplanImage &&
+                            <div className={styles.floorplan}>
+                                <h4 className={styles["floorplan-heading"]}>Floor Plan</h4>
+                                <div className={styles["floorplan-line"]}></div>
+                                <img src={floorplanImage} className={styles["floorplan-image"]} />
                             </div>
-                        </section>
+                        }
                     </div>
                 </>
                 : <p>The page you are looking for does not exist.</p>
