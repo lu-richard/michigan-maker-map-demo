@@ -146,7 +146,7 @@ function App() {
         {
           profile &&
           <footer>
-            <p className={styles.footer}>&copy; 2025 Michigan Map Maker</p>
+            <p className={styles.footer}>&copy; 2025 Make Michigan</p>
           </footer>
         }
       </AppContext.Provider>
