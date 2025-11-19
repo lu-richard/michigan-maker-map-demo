@@ -2,13 +2,13 @@ import styles from '../styles/adminAddEquipmentModel.module.css';
 import { useState } from 'react';
 
 function AdminAddEquipment() {
-    const [name, setName] = useState("");
+    const [model, setModel] = useState("");
     const [make, setMake] = useState("");
     const [type, setType] = useState("");
     const [fullName, setFullName] = useState("");
     const [isCNC, setIsCNC] = useState(false);
     const [specsURL, setSpecsURL] = useState("");
-    const [capabilities, setCapabilities] = useState<String[] | null>(null);
+    // const [capabilities, setCapabilities] = useState<String[] | null>(null);
 
     return (
         <div className={styles.container}>
