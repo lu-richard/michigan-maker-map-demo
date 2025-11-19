@@ -8,7 +8,7 @@ function AdminAddEquipmentModel() {
     const [fullName, setFullName] = useState("");
     const [isCNC, setIsCNC] = useState(false);
     const [specsURL, setSpecsURL] = useState("");
-    const [capabilities, setCapabilities] = useState<String[] | null>(null);
+    // const [capabilities, setCapabilities] = useState<String[] | null>(null);
 
     return (
         <div className={styles.container}>
