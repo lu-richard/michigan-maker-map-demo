@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 3rem 1.35rem 4rem;
+    padding: 1rem 3rem 1.35rem 4rem;
     background-color: #00274C;
     color: #fff;
 }
@@ -88,7 +88,7 @@
 }
 
 .logo-image {
-    width: 3rem;
+    width: 25rem;
 }
 
 .logo-heading {

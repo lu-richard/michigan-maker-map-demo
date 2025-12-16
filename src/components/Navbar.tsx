@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
 import { useAppContext } from '../context/AppContext';
 import { useState, useEffect, useRef } from 'react';
-import BlockM from '../assets/svgs/Block_M-Hex.svg';
+import Logo from '../assets/pngs/logo.png';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
@@ -73,8 +73,9 @@ function Navbar() {
     return (
         <div className={styles["navbar"]}>
             <Link to='/' className={styles.logo}>
-                <img src={BlockM} className={styles["logo-image"]} />
-                <h1 className={styles["logo-heading"]}>| Make Michigan</h1>
+                {/* <img src={BlockM} className={styles["logo-image"]} />
+                <h1 className={styles["logo-heading"]}>| Make Michigan</h1> */}
+                <img src={Logo} className={styles["logo-image"]} />
             </Link>
             <div className={styles.tabs}>
                 <div className={styles.tab}>
@@ -104,6 +105,10 @@ function Navbar() {
                 </div>
                 <div className={styles.tab}>
                     <Link to='blog' className={styles["tab-link"]}>Community</Link>
+                    <div className={styles["hover-line"]}></div>
+                </div>
+                <div className={styles.tab}>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScFpee0rI46Xj1YNfye96hyqpbYxS8xYetnc2skQxjjheX99g/viewform" target="_blank" className={styles["tab-link"]}>Report an Issue</a>
                     <div className={styles["hover-line"]}></div>
                 </div>
             </div>

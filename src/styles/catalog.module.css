@@ -65,7 +65,7 @@
     grid-template-columns: repeat(3, minmax(15rem, 1fr));
     gap: 1.5rem;
     max-width: 80vw;
-    margin: 8rem auto 2rem auto;
+    margin: 8.5rem auto 2rem auto;
 }
 
 .equipment-grid {
@@ -73,7 +73,7 @@
     grid-template-columns: repeat(4, minmax(10rem, 1fr));
     gap: 1rem;
     max-width: 80vw;
-    margin: 8rem auto 2rem auto;
+    margin: 8.5rem auto 2rem auto;
 }
 
 .no-results-message {
@@ -83,7 +83,7 @@
 
 .num-results {
     text-align: center;
-    margin-bottom: 3rem;
+    margin: 4rem 0 3rem 0;
 }
 
 .more-results-button {

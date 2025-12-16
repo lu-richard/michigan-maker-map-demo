@@ -21,13 +21,15 @@ function MakerspaceCard({ makerspaceCard }: { makerspaceCard: MakerspaceCardData
 
     return (
         <Link to={makerspaceDetailPath} className={styles.card}>
-            {coverImage && <img src={coverImage} />}
-            <h1 className={styles.name}>{makerspaceCard["makerspace_name"]}</h1>
-            <div className={styles.location}>
-                <p>{makerspaceCard.building}</p>
-                <p>{makerspaceCard.rooms?.map((room, index) => <span key={room}>{room}{index < makerspaceCard.rooms!.length - 1 && ', '}</span>)}</p>
+            {coverImage && <img src={coverImage} className={styles["card-image"]} />}
+            <div className={styles["card-text"]}>
+                <h1 className={styles.name}>{makerspaceCard["makerspace_name"]}</h1>
+                <div className={styles.location}>
+                    <p>{makerspaceCard.building}</p>
+                    <p>{makerspaceCard.rooms?.map((room, index) => <span key={room}>{room}{index < makerspaceCard.rooms!.length - 1 && ', '}</span>)}</p>
+                </div>
+                <p>{makerspaceCard.description && (makerspaceCard.description.length <= 200 ? makerspaceCard.description : `${makerspaceCard.description.substring(0, 200)}...`)}</p>
             </div>
-            <p>{makerspaceCard.description && (makerspaceCard.description.length <= 200 ? makerspaceCard.description : `${makerspaceCard.description.substring(0, 200)}...`)}</p>
         </Link>
     );
 }

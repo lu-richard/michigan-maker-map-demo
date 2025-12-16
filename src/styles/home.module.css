@@ -1,10 +1,10 @@
 .container {
     padding: 8rem 15rem;
+    position: relative;
 }
 
 .main-content {
-    z-index: 2;
-    position: relative;
+    /* z-index: 2; */
 }
 
 .text-content {
@@ -23,9 +23,9 @@
 .cover-image {
     width: 100%;
     opacity: 0.15;
-    clip-path: inset(15% 0 35% 0);
+    clip-path: inset(0 0 50% 0);
     position: absolute;
-    top: -3.5rem;
+    top: 0;
     left: 0;
     z-index: 1;
 }
