@@ -134,7 +134,7 @@
 }
 
 .headshot-image {
-    clip-path: circle(50%);
+    clip-path: circle(48%);
     max-width: 7rem;
     margin-bottom: 1rem;
 }
