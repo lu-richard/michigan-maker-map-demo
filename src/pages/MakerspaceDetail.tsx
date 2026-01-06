@@ -6,6 +6,7 @@ import styles from '../styles/makerspaceDetail.module.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Loading from "./Loading";
+import headshots from '../constants/headshots';
 
 const useMakerspaceDetailData = () => {
     const { id } = useParams();
@@ -87,7 +88,20 @@ function MakerspaceDetail() {
                     </div>
                     <div className={styles["main-content"]}>
                         <div className={styles["cover-description"]}>
-                            {coverImage && <img src={coverImage} className={styles["cover-image"]} />}
+                            {
+                                coverImage &&
+                                <div>
+                                    <img src={coverImage} className={styles["cover-image"]} />
+                                    {
+                                        floorplanImage &&
+                                        <div className={styles.floorplan}>
+                                            <h4 className={styles["floorplan-heading"]}>Floor Plan</h4>
+                                            <div className={styles["floorplan-line"]}></div>
+                                            <img src={floorplanImage} className={styles["floorplan-image"]} />
+                                        </div>
+                                    }    
+                                </div>
+                            }
                             <section className={styles["text-content"]}>
                                 <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
                                 <p>{makerspace.description}</p>
@@ -107,16 +121,40 @@ function MakerspaceDetail() {
                                     <h4 className={styles.h4}>Contact</h4>
                                     <p>{makerspace["contact_email"]}<br />{`(${makerspace["contact_phone"].substring(0, 3)}) ${makerspace["contact_phone"].substring(3, 6)}-${makerspace["contact_phone"].substring(6)}`}</p>
                                 </div>
+                                <div className={styles.headshots}>
+                                    {
+                                        makerspace.staff_ids?.map((staffId) =>
+                                        <div key={staffId} className={styles.headshot}>
+                                            {headshots[staffId].imgPath && <img src={headshots[staffId].imgPath} className={styles["headshot-image"]} />}
+                                            <p className={styles["headshot-name"]}>{staffId}</p>
+                                            <p className={styles["headshot-title"]}>{headshots[staffId].title}</p>
+                                            {headshots[staffId].email && <p className={styles["headshot-email"]}>{headshots[staffId].email}</p>}
+                                            {headshots[staffId].phone && <p>{headshots[staffId].phone}</p>}
+                                        </div>)
+                                    }
+                                    {/* <div className={styles.headshot}>
+                                        <img src={headshots["Chris Gordon"]} className={styles["headshot-image"]} />
+                                        <p className={styles["headshot-name"]}>Chris Gordon</p>
+                                    </div>
+                                    <div className={styles.headshot}>
+                                        <img src={headshots["Casey Dixon"]} className={styles["headshot-image"]} />
+                                        <p className={styles["headshot-name"]}>Casey Dixon</p>
+                                    </div>
+                                    <div className={styles.headshot}>
+                                        <img src={headshots["Blake DesRosiers"]} className={styles["headshot-image"]} />
+                                        <p className={styles["headshot-name"]}>Blake DesRosiers</p>
+                                    </div>
+                                    <div className={styles.headshot}>
+                                        <img src={headshots["Vanessa Korte"]} className={styles["headshot-image"]} />
+                                        <p className={styles["headshot-name"]}>Vanessa Korte</p>
+                                    </div>
+                                    <div className={styles.headshot}>
+                                        <img src={headshots["Jared Roy"]} className={styles["headshot-image"]} />
+                                        <p className={styles["headshot-name"]}>Jared Roy</p>
+                                    </div> */}
+                                </div>
                             </section>
                         </div>
-                        {
-                            floorplanImage &&
-                            <div className={styles.floorplan}>
-                                <h4 className={styles["floorplan-heading"]}>Floor Plan</h4>
-                                <div className={styles["floorplan-line"]}></div>
-                                <img src={floorplanImage} className={styles["floorplan-image"]} />
-                            </div>
-                        }
                     </div>
                 </>
                 : <p>The page you are looking for does not exist.</p>
