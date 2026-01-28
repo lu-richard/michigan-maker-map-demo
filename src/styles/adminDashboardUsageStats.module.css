@@ -2,10 +2,39 @@
     padding-inline: 7rem;
 }
 
+.tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--neutral-100);
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    width: fit-content;
+    gap: 0.2rem;
+}
+
+.tab {
+    background-color: var(--neutral-100);
+    border-radius: 0.25rem;
+    padding: 0.5rem 2rem;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+.tab.active {
+    background-color: var(--main-bg-color);
+}
+
+
+.tab-heading {
+    font-size: 0.9rem;
+}
+
 .main-heading {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     font-weight: 500;
     margin-bottom: 2.5rem;
+    text-align: center;
 }
 
 .highlights {

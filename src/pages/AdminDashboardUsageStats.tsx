@@ -1,26 +1,40 @@
-import { LineChart } from '@mui/x-charts/LineChart';
-import { PieChart } from '@mui/x-charts/PieChart';
+// import { LineChart } from '@mui/x-charts/LineChart';
+// import { PieChart } from '@mui/x-charts/PieChart';
 import styles from '../styles/adminDashboardUsageStats.module.css';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { NavLink, Outlet } from 'react-router-dom';
 
 function AdminDashboardUsageStats() {
-    const data = [
-        { label: 'Undergraduate (Non-ME)', value: 206, color: '#0088FE' },
-        { label: 'Undergraduate (ME)', value: 152, color: '#00C49F' },
-        { label: 'Graduate', value: 74, color: '#FFBB28' },
-    ];
+    // const data = [
+    //     { label: 'Undergraduate (Non-ME)', value: 206, color: '#0088FE' },
+    //     { label: 'Undergraduate (ME)', value: 152, color: '#00C49F' },
+    //     { label: 'Graduate', value: 74, color: '#FFBB28' },
+    // ];
 
-    const settings = {
-        margin: { left: 60 },
-        width: 300,
-        height: 300,
-        hideLegend: false,
-    };
+    // const settings = {
+    //     margin: { left: 60 },
+    //     width: 300,
+    //     height: 300,
+    //     hideLegend: false,
+    // };
 
     return (
         <div className={styles.container} >
             <h2 className={styles["main-heading"]}>Usage Statistics</h2>
-            <h3 className={styles["big-card-heading"]}>Facility-Wide Statistics</h3>
+            <div className={styles.tabs}>
+                <NavLink to='/admindashboard/usage' end className={({ isActive }) => isActive ? `${styles.tab} ${styles.active}` : styles.tab}>
+                    <p className={styles["tab-heading"]}>Facility</p>
+                </NavLink>
+                <NavLink to='equipment' className={({ isActive }) => isActive ? `${styles.tab} ${styles.active}` : styles.tab}>
+                    <p className={styles["tab-heading"]}>Equipment</p>
+                </NavLink>
+                <NavLink to='user' className={({ isActive }) => isActive ? `${styles.tab} ${styles.active}` : styles.tab}>
+                    <p className={styles["tab-heading"]}>User</p>
+                </NavLink>
+            </div>
+            <Outlet />
+
+            {/* <h3 className={styles["big-card-heading"]}>Facility-Wide Statistics</h3>
             <div className={styles["big-card"]}>
                 <div className={styles.chart}>
                     <h4 className={styles["chart-heading"]}>Cumulative Hours</h4>
@@ -90,7 +104,7 @@ function AdminDashboardUsageStats() {
                         {...settings}
                     />
                 </div>
-            </div>
+            </div> */}
 
             {/* <div className={styles.highlights}>
                 <div className={styles.highlight}>

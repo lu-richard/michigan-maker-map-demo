@@ -23,6 +23,9 @@ import ProfileDetail from "../pages/ProfileDetail";
 import MyTrainings from "../pages/MyTrainings";
 import SkillTree from "../pages/SkillTree";
 import AdminAddEquipmentModel from "../pages/AdminAddEquipmentModel";
+import AdminDashboardUsageStatsFacility from "../pages/AdminDashboardUsageStatsFacility";
+import AdminDashboardUsageStatsEquipment from "../pages/AdminDashboardUsageStatsEquipment";
+import AdminDashboardUsageStatsUser from "../pages/AdminDashboardUsageStatsUser";
 
 const routes = [
     {
@@ -56,7 +59,15 @@ const routes = [
                         children: [
                             { index: true, element: <AdminDashboardHome /> },
                             { path: 'training', element: <AdminDashboardTraining /> },
-                            { path: 'usage', element: <AdminDashboardUsageStats /> },
+                            {
+                                path: 'usage',
+                                element: <AdminDashboardUsageStats />,
+                                children: [
+                                    { index: true, element: <AdminDashboardUsageStatsFacility /> },
+                                    { path: 'equipment', element: <AdminDashboardUsageStatsEquipment /> },
+                                    { path: 'user', element: <AdminDashboardUsageStatsUser /> },
+                                ],
+                            },
                             { path: 'add-equipment-model', element: <AdminAddEquipmentModel/> },
                         ]
                     },
