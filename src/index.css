@@ -1,12 +1,32 @@
 @import './fonts.css';
+@import 'tailwindcss';
 
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+} */
+
+ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
 }
 
-:root {
+@theme {
+  --color-main-bg: #fff;
+  --color-text: #000;
+  --color-navy-blue: #00274C;
+  --color-maize: #FFCB05;
+  --color-arb-blue: #2F65A7;
+  --color-angell-ash: #989C97;
+  --color-neutral-100: #F3F4F6;
+  --color-neutral-200: #D1D5DC;
+  --color-neutral-300: #99A1AF;
+  --color-neutral-400: #6A7282;
+  --font-sans: 'Montserrat', Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* :root {
   font-family: 'Montserrat', Avenir, Helvetica, Arial, sans-serif;
   --main-bg-color: #fff;
   --text-color: #000;
@@ -18,15 +38,8 @@
   --neutral-200: #D1D5DC;
   --neutral-300: #99A1AF;
   --neutral-400: #6A7282;
-}
+} */
 
 #root {
   min-height: 100vh;
-}
-
-
-button {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
 }
