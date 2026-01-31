@@ -1,5 +1,5 @@
 import type { MakerspaceCardData } from "../types/types";
-import styles from '../styles/makerspaceCard.module.css';
+// import styles from '../styles/makerspaceCard.module.css';
 import supabase from "../lib/supabase";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -20,11 +20,11 @@ function MakerspaceCard({ makerspaceCard }: { makerspaceCard: MakerspaceCardData
     }, []);
 
     return (
-        <Link to={makerspaceDetailPath} className={styles.card}>
-            {coverImage && <img src={coverImage} className={styles["card-image"]} />}
-            <div className={styles["card-text"]}>
-                <h1 className={styles.name}>{makerspaceCard["makerspace_name"]}</h1>
-                <div className={styles.location}>
+        <Link to={makerspaceDetailPath} className="flex flex-col bg-main-bg drop-shadow-xl/10 border border-neutral-300 rounded-2xl text-text">
+            {coverImage && <img src={coverImage} className="rounded-t-2xl" />}
+            <div className="p-12 pt-2">
+                <h1 className="text-xl mt-4 font-medium">{makerspaceCard["makerspace_name"]}</h1>
+                <div className="mt-2 mb-5">
                     <p>{makerspaceCard.building}</p>
                     <p>{makerspaceCard.rooms?.map((room, index) => <span key={room}>{room}{index < makerspaceCard.rooms!.length - 1 && ', '}</span>)}</p>
                 </div>

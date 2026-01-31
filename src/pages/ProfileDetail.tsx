@@ -1,5 +1,5 @@
 import { useAppContext } from "../context/AppContext";
-import styles from '../styles/profileDetail.module.css';
+// import styles from '../styles/profileDetail.module.css';
 import { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import type { ProfileData } from "../types/types";
@@ -62,16 +62,16 @@ function ProfileDetail() {
             {
                 loading ? <Loading /> :
                 profile ?
-                <div className={styles.container}>
-                    <div className={styles["top-info"]}>
-                        <img src={profilePhoto} className={styles["profile-photo"]} />
-                        <p className={styles.name}>{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
-                        {profile!.pronouns && <p className={styles.pronouns}>{profile!.pronouns}</p>}
-                        <p className={styles.email}>{profile!.uniqname}@umich.edu</p>
+                <div className="py-8 px-16 h-[80vh]">
+                    <div className="flex flex-col justify-center items-center">
+                        <img src={profilePhoto} className="w-120 [clip-path:circle(35%)]" />
+                        <p className="text-4xl font-medium mt-4">{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
+                        {profile!.pronouns && <p className="font-light text-xl mt-3">{profile!.pronouns}</p>}
+                        <p className="mt-4 text-xl">{profile!.uniqname}@umich.edu</p>
                         {
                             profile!.roles &&
-                            <div className={styles.tags}>
-                                {profile!.roles.map((role) => <p key={role} className={styles.tag}>{labels[role]}</p>)}
+                            <div className="flex mt-10">
+                                {profile!.roles.map((role) => <p key={role} className="py-2 px-5 border border-neutral-300 rounded-3xl mr-3 text-xl">{labels[role]}</p>)}
                             </div>
                         }
                     </div>

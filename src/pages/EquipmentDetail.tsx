@@ -3,7 +3,7 @@ import type { EquipmentDetailData } from "../types/types";
 import { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import Loading from "./Loading";
-import styles from '../styles/equipmentDetail.module.css';
+// import styles from '../styles/equipmentDetail.module.css';
 import labels from "../constants/labels";
 
 const useEquipmentDetailData = () => {
@@ -55,27 +55,27 @@ function EquipmentDetail() {
                 loading ? <Loading /> :
                 equipment ?
                 <>
-                    <div className={styles["top-bar"]}>
+                    <div className="py-12 px-80 bg-arb-blue text-[#fff] flex justify-between font-light">
                         <div>
-                            <h1 className={styles.title}>{equipment["equipment_type"]}<span className={styles["equipment-model-name"]}>{equipment["equipment_model_name"]}</span></h1>
-                            <section className={styles["top-bar-subinfo"]}>
-                                <p className={styles.subheading}>{equipment["makerspace_name"]}</p>
+                            <h1 className="text-4xl font-semibold">{equipment["equipment_type"]}<span className="ml-6 italic font-light text-2xl">{equipment["equipment_model_name"]}</span></h1>
+                            <section className="mt-4">
+                                <p className="font-medium">{equipment["makerspace_name"]}</p>
                                 <p>{equipment.building}</p>
                                 <p>{equipment.rooms?.map((room, index) => <span key={room}>{room}{index < equipment.rooms!.length - 1 && ', '}</span>)}</p>
                             </section>
                         </div>
-                        <div className={styles["top-bar-side-info"]}>
-                            <h4 className={`${styles.subheading} ${styles.functions}`}>Functions</h4>
+                        <div>
+                            <h4 className="text-lg font-medium underline">Functions</h4>
                             <p>{equipment.capabilities?.map((capability, index) => <span key={index}>{capability}{index < equipment.capabilities!.length - 1 && ', '}</span>)}</p>
-                            <h4 className={`${styles.subheading} ${styles["credential-model"]}`}>Necessary Credential:</h4>
+                            <h4 className="text-lg font-medium mt-8">Necessary Credential:</h4>
                             <p>{equipment["credential_model_name"]}</p>
                         </div>
                     </div>
-                    <div className={styles["main-content"]}>
-                        {coverImage && <div className={styles["image-container"]}><img src={coverImage} className={styles["cover-image"]} /></div>}
-                        <section className={styles["text-content"]}>
-                            <section className={styles["text-content-section"]}>
-                                <h2 className={styles["text-content-heading"]}>Status & Usage</h2>
+                    <div className="py-12 px-16 flex">
+                        {coverImage && <div className="block mx-auto w-1/2 px-36 self-start"><img src={coverImage} className="w-full" /></div>}
+                        <section className="text-xl ml-8 w-1/2">
+                            <section className="mb-12">
+                                <h2 className="font-medium underline mb-2">Status & Usage</h2>
                                 <p>Current Status: {equipment["equipment_status"] || "N/A"}</p>
                                 {equipment.materials && <p>Materials: {equipment.materials.map((material, index) => <span key={material}>{material}{index < equipment.materials!.length - 1 && ', '}</span>)}</p>}
                                 {typeof equipment["equipment_specific_specs"] === "object" && equipment["equipment_specific_specs"] && Object.entries(equipment["equipment_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
@@ -87,8 +87,8 @@ function EquipmentDetail() {
                                     </>
                                 }
                             </section>
-                            <section className={styles["text-content-section"]}>
-                                <h2 className={styles["text-content-heading"]}>Specifications</h2>
+                            <section className="mb-12">
+                                <h2 className="font-medium underline mb-2">Specifications</h2>
                                 <p>Model: {equipment.model}</p>
                                 <p>Make: {equipment.make}</p>
                                 <p>CNC: {equipment["is_cnc"] ? "Yes" : "No"}</p>

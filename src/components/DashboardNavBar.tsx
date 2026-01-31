@@ -1,4 +1,4 @@
-import styles from '../styles/dashboardNavBar.module.css';
+// import styles from '../styles/dashboardNavBar.module.css';
 import { Link, useLocation } from 'react-router-dom';
 
 const tabs = [
@@ -12,13 +12,13 @@ function DashboardNavBar() {
     const location = useLocation();
 
     return (
-        <div className={styles.navbar}>
-            <div className={styles.tabs}>
+        <div className="flex justify-space-between items-center px-6 bg-main-bg shadow-sm h-16">
+            <div className="flex h-full">
                 {tabs.map(tab => (
                     <Link
                         key={tab.to}
                         to={tab.to}
-                        className={`${styles.tab} ${location.pathname === tab.to ? styles.active : ''}`}
+                        className={`px-6 flex items-center h-full relative ${location.pathname === tab.to ? "text-navy-blue" : "text-neutral-400"}`}
                     >
                         {tab.label}
                     </Link>

@@ -80,15 +80,15 @@ function Navbar() {
             </Link>
             <div className="self-end mr-12 flex justify-center items-center">
                 <div className="relative group mx-8">
-                    <button type="button" ref={findButtonRef} className="flex justify-center items-center" onClick={() => setTabOpen(0)}>
+                    <button type="button" ref={findButtonRef} className="flex justify-center items-center" onClick={() => setTabOpen((isTabOpen) => isTabOpen === 0 ? null : 0)}>
                         Find
-                        <KeyboardArrowDownIcon className={`transition-transform ${tabOpen === 0 ? "rotate-180" : ""}`} />
+                        <KeyboardArrowDownIcon className={`${tabOpen === 0 && "transition-transform rotate-180"}`} />
                     </button>
                     <div className={`absolute bottom-0 left-0  h-0.5 ${tabOpen === 0 ? "w-full bg-main-bg" : "w-0 bg-maize transition-all group-hover:w-full"}`}></div>
                     <div className={`absolute top-full left-0 mt-2 w-48 bg-white text-slate-900 shadow-xl rounded-lg py-2 z-2 ${tabOpen === 0 ? "block" : "hidden"}`}>
-                        <Link to='map' className="block text-text py-2 px-4">Makerspace Map</Link>
-                        <Link to='makerspaces' className="block text-text py-2 px-4">Search Makerspaces</Link>
-                        <Link to='equipment' className="block text-text py-2 px-4">Search Equipment</Link>
+                        <Link to='map' className="block text-text py-2 px-4" onClick={() => setTabOpen(null)}>Makerspace Map</Link>
+                        <Link to='makerspaces' className="block text-text py-2 px-4" onClick={() => setTabOpen(null)}>Search Makerspaces</Link>
+                        <Link to='equipment' className="block text-text py-2 px-4" onClick={() => setTabOpen(null)}>Search Equipment</Link>
                     </div>
                 </div>
                 <div className="relative group mx-8" onClick={() => setTabOpen(1)}>

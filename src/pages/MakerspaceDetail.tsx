@@ -2,9 +2,8 @@ import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import type { MakerspaceDetailData } from "../types/types";
 import supabase from "../lib/supabase";
-import styles from '../styles/makerspaceDetail.module.css';
+// import styles from '../styles/makerspaceDetail.module.css';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Loading from "./Loading";
 import headshots from '../constants/headshots';
 
@@ -59,10 +58,11 @@ const useMakerspaceDetailData = () => {
 
 function MakerspaceDetail() {
     const { makerspace, coverImage, floorplanImage, loading } = useMakerspaceDetailData();
+    const [toggleEquipmentList, setToggleEquipmentList] = useState(false);
     
-    const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        (e.currentTarget as HTMLElement).classList.toggle(styles.active);
-    };
+    // const toggleEquipmentList = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    //     (e.currentTarget as HTMLElement).classList.toggle(styles.active);
+    // };
 
     return (
         <>
@@ -70,88 +70,67 @@ function MakerspaceDetail() {
                 loading ? <Loading /> :
                 makerspace ?
                 <>
-                    <div className={styles["top-bar"]}>
+                    <div className="py-6 px-80 bg-arb-blue text-[#fff] flex">
                         <div>
                             <h1>{makerspace["makerspace_name"]}</h1>
                             <p>{makerspace.building}</p>
                             <p>{makerspace.rooms?.map((room, index) => <span key={room}>{room}{index < makerspace.rooms!.length - 1 && ', '}</span>)}</p>
-                            <div className={styles.tags}>
-                                {makerspace.theme?.map((tag) => <p key={tag} className={styles.tag}>{tag}</p>)}
+                            <div className="mt-4 flex">
+                                {makerspace.theme?.map((tag) => <p key={tag} className="py-2 px-4 bg-maize rounded-3xl text-text mr-3 text-sm">{tag}</p>)}
                             </div>
                         </div>
-                        <div className={styles.audience}>
-                            <h3 className={styles["audience-heading"]}>Who Can Use This Space?</h3>
+                        <div className="mt-2 ml-80">
+                            <h3 className="text-nowrap">Who Can Use This Space?</h3>
                             <ul>
                                 {makerspace.audience?.map((aud, index) => <li key={index}>{aud}</li>)}
                             </ul>
                         </div>
                     </div>
-                    <div className={styles["main-content"]}>
-                        <div className={styles["cover-description"]}>
+                    <div className="py-12 px-16">
+                        <div className="flex">
                             {
                                 coverImage &&
                                 <div>
-                                    <img src={coverImage} className={styles["cover-image"]} />
+                                    <img src={coverImage} className="block mx-auto max-w-[45vw] self-start" />
                                     {
                                         floorplanImage &&
-                                        <div className={styles.floorplan}>
-                                            <h4 className={styles["floorplan-heading"]}>Floor Plan</h4>
-                                            <div className={styles["floorplan-line"]}></div>
-                                            <img src={floorplanImage} className={styles["floorplan-image"]} />
+                                        <div className="mt-8 max-w-[45vw]">
+                                            <h4 className="text-xl font-medium">Floor Plan</h4>
+                                            <div className="border-t"></div>
+                                            <img src={floorplanImage} />
                                         </div>
                                     }    
                                 </div>
                             }
-                            <section className={styles["text-content"]}>
-                                <p className={styles.status}>Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
+                            <section className="text-lg ml-12">
+                                <p className="mb-4">Current Status: {makerspace["makerspace_status"] || "N/A"}</p>
                                 <p>{makerspace.description}</p>
-                                <button type="button" className={styles.collapsible} onClick={toggleEquipmentList}>
-                                    <span className={styles["collapsible-title"]}>Equipment</span>
-                                    <KeyboardArrowDownIcon className={styles.expand} />
-                                    <KeyboardArrowUpIcon className={styles.collapse} />
+                                <button type="button" className="mt-4 flex justify-center items-center cursor-pointer" onClick={() => setToggleEquipmentList((toggleEquipmentList) => !toggleEquipmentList)}>
+                                    <span className={`${toggleEquipmentList && "underline"}`}>Equipment</span>
+                                    <KeyboardArrowDownIcon className={`${toggleEquipmentList && "transition-transform rotate-180"}`} />
                                 </button>
-                                <ul className={styles["equipment-list"]}>
+                                <ul className={toggleEquipmentList ? "max-h-none" : "max-h-0 overflow-hidden"}>
                                     {makerspace["equipment_list"].map((makerspaceEquipment) => {
                                         const equipmentDetailPath = `/equipment-detail/${makerspaceEquipment["equipment_id"]}`;
 
-                                        return <li key={makerspaceEquipment["equipment_id"]}><Link to={equipmentDetailPath}>{makerspaceEquipment["equipment_name"]}</Link></li>;
+                                        return <li key={makerspaceEquipment["equipment_id"]} className="ml-6"><Link to={equipmentDetailPath}>{makerspaceEquipment["equipment_name"]}</Link></li>;
                                     })}
                                 </ul>
-                                <div className={styles.contact}>
-                                    <h4 className={styles.h4}>Contact</h4>
+                                <div className="mt-12 text-4">
+                                    <h4 className="underline">Contact</h4>
                                     <p>{makerspace["contact_email"]}<br />{`(${makerspace["contact_phone"].substring(0, 3)}) ${makerspace["contact_phone"].substring(3, 6)}-${makerspace["contact_phone"].substring(6)}`}</p>
                                 </div>
-                                <div className={styles.headshots}>
+                                <div className="grid grid-cols-3 gap-2 mt-12 ml-4">
                                     {
                                         makerspace.staff_ids?.map((staffId) =>
-                                        <div key={staffId} className={styles.headshot}>
-                                            {headshots[staffId].imgPath && <img src={headshots[staffId].imgPath} className={styles["headshot-image"]} />}
-                                            <p className={styles["headshot-name"]}>{staffId}</p>
-                                            <p className={styles["headshot-title"]}>{headshots[staffId].title}</p>
-                                            {headshots[staffId].email && <p className={styles["headshot-email"]}>{headshots[staffId].email}</p>}
+                                        <div key={staffId} className="text-sm flex flex-col justify-center items-center py-8 bg-main-bg rounded-4xl drop-shadow-xl/20">
+                                            {headshots[staffId].imgPath && <img src={headshots[staffId].imgPath} className="[clip-path:circle(48%)] max-w-28 mb-4" />}
+                                            <p className="text-4 font-medium mb-1">{staffId}</p>
+                                            <p className="itlaic mb-2 max-w-48">{headshots[staffId].title}</p>
+                                            {headshots[staffId].email && <p className="text-navy-blue mb-1">{headshots[staffId].email}</p>}
                                             {headshots[staffId].phone && <p>{headshots[staffId].phone}</p>}
                                         </div>)
                                     }
-                                    {/* <div className={styles.headshot}>
-                                        <img src={headshots["Chris Gordon"]} className={styles["headshot-image"]} />
-                                        <p className={styles["headshot-name"]}>Chris Gordon</p>
-                                    </div>
-                                    <div className={styles.headshot}>
-                                        <img src={headshots["Casey Dixon"]} className={styles["headshot-image"]} />
-                                        <p className={styles["headshot-name"]}>Casey Dixon</p>
-                                    </div>
-                                    <div className={styles.headshot}>
-                                        <img src={headshots["Blake DesRosiers"]} className={styles["headshot-image"]} />
-                                        <p className={styles["headshot-name"]}>Blake DesRosiers</p>
-                                    </div>
-                                    <div className={styles.headshot}>
-                                        <img src={headshots["Vanessa Korte"]} className={styles["headshot-image"]} />
-                                        <p className={styles["headshot-name"]}>Vanessa Korte</p>
-                                    </div>
-                                    <div className={styles.headshot}>
-                                        <img src={headshots["Jared Roy"]} className={styles["headshot-image"]} />
-                                        <p className={styles["headshot-name"]}>Jared Roy</p>
-                                    </div> */}
                                 </div>
                             </section>
                         </div>
