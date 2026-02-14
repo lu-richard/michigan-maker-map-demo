@@ -1,6 +1,6 @@
 // import { LineChart } from '@mui/x-charts/LineChart';
 // import { PieChart } from '@mui/x-charts/PieChart';
-import styles from '../styles/adminDashboardUsageStats.module.css';
+// import styles from '../styles/adminDashboardUsageStats.module.css';
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { NavLink, Outlet } from 'react-router-dom';
 
@@ -19,17 +19,17 @@ function AdminDashboardUsageStats() {
     // };
 
     return (
-        <div className={styles.container} >
-            <h2 className={styles["main-heading"]}>Usage Statistics</h2>
-            <div className={styles.tabs}>
-                <NavLink to='/admindashboard/usage' end className={({ isActive }) => isActive ? `${styles.tab} ${styles.active}` : styles.tab}>
-                    <p className={styles["tab-heading"]}>Facility</p>
+        <div className="px-16" >
+            <h2 className="text-2xl font-medium mb-4 text-center">Usage Statistics</h2>
+            <div className="flex justify-center items-center rounded-sm p-1 w-fit gap-1">
+                <NavLink to='/admindashboard/usage' end className={({ isActive }) => `border border-neutral-300 rounded-sm py-2 px-8 text-text ${isActive ? "bg-main-bg" : "bg-neutral-100"}`}>
+                    <p className="text-sm">Facility</p>
                 </NavLink>
-                <NavLink to='equipment' className={({ isActive }) => isActive ? `${styles.tab} ${styles.active}` : styles.tab}>
-                    <p className={styles["tab-heading"]}>Equipment</p>
+                <NavLink to='equipment' className={({ isActive }) => `border border-neutral-300 rounded-sm py-2 px-8 text-text ${isActive ? "bg-main-bg" : "bg-neutral-100"}`}>
+                    <p className="text-sm">Equipment</p>
                 </NavLink>
-                <NavLink to='user' className={({ isActive }) => isActive ? `${styles.tab} ${styles.active}` : styles.tab}>
-                    <p className={styles["tab-heading"]}>User</p>
+                <NavLink to='user' className={({ isActive }) => `border border-neutral-300 rounded-sm py-2 px-8 text-text ${isActive ? "bg-main-bg" : "bg-neutral-100"}`}>
+                    <p className="text-sm">User</p>
                 </NavLink>
             </div>
             <Outlet />

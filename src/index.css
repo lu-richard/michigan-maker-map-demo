@@ -7,22 +7,22 @@
   box-sizing: border-box;
 } */
 
-ul {
-  list-style-type: disc;
-  padding-left: 1.25rem;
-}
-
 @theme {
   --color-main-bg: #fff;
   --color-text: #000;
   --color-navy-blue: #00274C;
   --color-maize: #FFCB05;
   --color-arb-blue: #2F65A7;
+  --color-arb-blue-hover: #2F4FA7;
   --color-angell-ash: #989C97;
   --color-neutral-100: #F3F4F6;
   --color-neutral-200: #D1D5DC;
   --color-neutral-300: #99A1AF;
   --color-neutral-400: #6A7282;
+  --color-checkmark-green: #00AD3A;
+  --color-checkmark-green-light: rgb(0, 173, 58, 0.1);
+  --color-red: #FF0000;
+  --color-red-light: rgb(255, 0, 0, 0.1);
   --font-sans: 'Montserrat', Avenir, Helvetica, Arial, sans-serif;
 }
 
@@ -40,6 +40,6 @@ ul {
   --neutral-400: #6A7282;
 } */
 
-#root {
+/* #root {
   min-height: 100vh;
-}
+} */

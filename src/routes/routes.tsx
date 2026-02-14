@@ -15,7 +15,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import UnauthenticatedRoute from "../components/UnauthenticatedRoute";
 // import Training from "../pages/Training";
 import AdminDashboard from "../pages/AdminDashboard";
-import AdminDashboardHome from "../pages/AdminDashboardHome";
+import AdminDashboardReports from "../pages/AdminDashboardReports";
 import AdminDashboardUsageStats from "../pages/AdminDashboardUsageStats";
 import AdminDashboardTraining from "../pages/AdminDashboardTraining";
 import AdminProfileDetail from "../pages/AdminProfileDetail";
@@ -26,6 +26,7 @@ import AdminAddEquipmentModel from "../pages/AdminAddEquipmentModel";
 import AdminDashboardUsageStatsFacility from "../pages/AdminDashboardUsageStatsFacility";
 import AdminDashboardUsageStatsEquipment from "../pages/AdminDashboardUsageStatsEquipment";
 import AdminDashboardUsageStatsUser from "../pages/AdminDashboardUsageStatsUser";
+import ReportDetail from "../pages/ReportDetail";
 
 const routes = [
     {
@@ -57,7 +58,8 @@ const routes = [
                         path: 'admindashboard',
                         element: <AdminDashboard />,
                         children: [
-                            { index: true, element: <AdminDashboardHome /> },
+                            { index: true, element: <AdminDashboardReports /> },
+                            { path: 'report-detail/:id', element: <ReportDetail /> },
                             { path: 'training', element: <AdminDashboardTraining /> },
                             {
                                 path: 'usage',

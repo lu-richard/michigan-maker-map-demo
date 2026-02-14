@@ -97,7 +97,7 @@ function MakerspaceCatalog() {
                         <p className="text-center mt-16 mb-12">Results 1-{makerspaceCards.length}</p>
                         {
                           makerspaceCards.length === searchLimit &&
-                          <button type="button" className="block mx-auto bg-arb-blue text-[#fff] py-3 px-5 rounded-3xl" onClick={() => setSearchLimit((searchLimit) => searchLimit + 9)}>See More</button>
+                          <button type="button" className="block mx-auto bg-arb-blue text-[#fff] py-3 px-5 rounded-3xl hover:bg-arb-blue-hover cursor-pointer" onClick={() => setSearchLimit((searchLimit) => searchLimit + 9)}>See More</button>
                         }
                       </> :
                       <p className="text-center mt-32">No results found.</p>

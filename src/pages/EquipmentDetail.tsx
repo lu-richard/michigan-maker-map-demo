@@ -75,24 +75,26 @@ function EquipmentDetail() {
                         {coverImage && <div className="block mx-auto w-1/2 px-36 self-start"><img src={coverImage} className="w-full" /></div>}
                         <section className="text-xl ml-8 w-1/2">
                             <section className="mb-12">
-                                <h2 className="font-medium underline mb-2">Status & Usage</h2>
-                                <p>Current Status: {equipment["equipment_status"] || "N/A"}</p>
-                                {equipment.materials && <p>Materials: {equipment.materials.map((material, index) => <span key={material}>{material}{index < equipment.materials!.length - 1 && ', '}</span>)}</p>}
-                                {typeof equipment["equipment_specific_specs"] === "object" && equipment["equipment_specific_specs"] && Object.entries(equipment["equipment_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{key}: {value}</p>)}
+                                <p><span className="font-medium">Current Status:</span> {equipment["equipment_status"] || "N/A"}</p>
                                 {
-                                    equipment.notes &&
-                                    <>
-                                        <br />
-                                        <p>{equipment.notes}</p>
-                                    </>
+                                    equipment.materials && equipment.materials.length > 0 &&
+                                    <p className="mt-4"><span className="font-medium">Materials:</span> {equipment.materials.join(', ')}</p>
                                 }
+                                {
+                                    typeof equipment["equipment_specific_specs"] === "object" && equipment["equipment_specific_specs"] && Object.entries(equipment["equipment_specific_specs"]).map(([key, value]) => <p key={key} className="mt-4"><span className="font-medium">{labels[key as keyof typeof labels] || key}:</span> {value as string}</p>)
+                                }
+                                {equipment.notes && <p className="mt-4">{equipment.notes}</p>}
                             </section>
                             <section className="mb-12">
                                 <h2 className="font-medium underline mb-2">Specifications</h2>
-                                <p>Model: {equipment.model}</p>
-                                <p>Make: {equipment.make}</p>
-                                <p>CNC: {equipment["is_cnc"] ? "Yes" : "No"}</p>
-                                {typeof equipment["equipment_model_specific_specs"] === "object" && equipment["equipment_model_specific_specs"] && Object.entries(equipment["equipment_model_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}>{labels[key as keyof typeof labels] || key}: {value}</p>)}
+                                <p><span className="font-medium">Model:</span> {equipment.model}</p>
+                                <p><span className="font-medium">Make:</span> {equipment.make}</p>
+                                <p><span className="font-medium">CNC:</span> {equipment["is_cnc"] ? "Yes" : "No"}</p>
+                                {
+                                    typeof equipment["equipment_model_specific_specs"] === "object" &&
+                                    equipment["equipment_model_specific_specs"] &&
+                                    Object.entries(equipment["equipment_model_specific_specs"]).map(([key, value], index) => typeof value === "string" && <p key={index}><span className="font-medium">{labels[key as keyof typeof labels] || key}:</span> {value}</p>)
+                                }
                             </section>
                         </section>
                     </div>

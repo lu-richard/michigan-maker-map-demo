@@ -7,7 +7,7 @@ function UnauthenticatedRoute() {
     const { profile, loading } = useAppContext();
 
     if (loading) {
-        return <Loading />;
+        return <div className="h-[100vh]"><Loading /></div>;
     }
 
     if (profile) {

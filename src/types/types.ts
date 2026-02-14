@@ -45,8 +45,6 @@ export interface ProfileData {
     locale?: Database["public"]["Enums"]["locale"];
 }
 
-// export type ProfileData = Omit<Tables<'profiles'>, 'created_at' | 'last_signed_in'>;
-
 export interface AppContextType {
     profile: ProfileData | null;
     setProfile: React.Dispatch<React.SetStateAction<ProfileData | null>> | null;

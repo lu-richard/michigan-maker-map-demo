@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useAppContext } from "../context/AppContext";
 import supabase from "../lib/supabase";
-import styles from "../styles/dataTable.module.css";
+// import styles from "../styles/dataTable.module.css";
 import DashboardNavBar from "../components/DashboardNavBar";
 import type { CertificateData } from "../types/types";
 
@@ -199,25 +199,25 @@ export default function MyTrainings() {
     const primary = raw.split(",")[0].trim();
 
     // Map known variants to CSS classes (fallback provided)
-    let statusClass = styles.statusRevoked;
+    let statusClass = "bg-[#f3f4f6] text-[#374151]";
     switch (primary) {
       case "active_user":
-        statusClass = styles.statusActive;
+        statusClass = "bg-[#dcfce7] text-[#166534]";
         break;
       case "pending_user":
-        statusClass = styles.statusPending;
+        statusClass = "bg-[#fef3c7] text-[#92400e]";
         break;
       case "expired":
-        statusClass = styles.statusExpired;
+        statusClass = "bg-[#fee2e2] text-[#dc2626]";
         break;
       case "invalidated":
-        statusClass = styles.statusRevoked;
+        statusClass = "bg-[#f3f4f6] text-[#374151]";
         break;
       case "operator":
-        statusClass = styles.statusSuperseded;
+        statusClass = "bg-[#e0e7ff] text-[#3730a3]";
         break;
       default:
-        statusClass = styles.statusRevoked;
+        statusClass = "bg-[#f3f4f6] text-[#374151]";
     }
 
     // Friendly label: replace underscores with spaces and Title Case
@@ -225,7 +225,7 @@ export default function MyTrainings() {
       ? primary.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
       : "Unknown";
 
-    return <span className={`${styles.statusBadge} ${statusClass}`}>{label}</span>;
+    return <span className={`py-1 px-2 rounded-sm text-xs font-medium uppercase ${statusClass}`}>{label}</span>;
   };
   // Main component render
   return (
@@ -236,18 +236,18 @@ export default function MyTrainings() {
         
         {/* Show error message if there's an error */}
         {error && (
-          <div className={styles.error}>
+          <div className="p-4 bg-[#fef2f2] border border-[#fecaca] text-[#dc2626] rounded-md mb-4">
             Error: {error}
           </div>
         )}
 
-        <div className={styles.datatable}>
+        <div className="bg-main-bg border border-neutral-100 rounded-sm box-shadow-sm text-navy-blue overflow-hidden">
           {/* Toolbar with search and controls */}
-          <div className={styles.toolbar}>
-            <div className={styles.left}>
+          <div className="flex justify-between items-center p-4 border-b border-b-[#f1f5f9] bg-[#f8fafc] gap-3 ">
+            <div className="flex items-center gap-3">
               <input
                 type="text"
-                className={styles.search}
+                className="py-2 px-3 border border-[#d1d5db] rounded-md min-w-[200px] text-sm"
                 placeholder="Search certificates..."
                 value={search}
                 onChange={(e) => {
@@ -255,13 +255,13 @@ export default function MyTrainings() {
                   setCurrentPage(1); // Reset to first page when searching
                 }}
               />
-              <div className={styles.resultCount}>
+              <div className="text-[#6b7280] text-sm font-medium">
                 {processedData.length} result{processedData.length !== 1 ? 's' : ''}
               </div>
             </div>
 
-            <div className={styles.right}>
-              <label className={styles.rowsLabel}>
+            <div className="flex items-center gap-3">
+              <label className="text-sm text-[#374151] flex items-center gap-1.5">
                 Rows per page:
                 <select
                   value={rowsPerPage}
@@ -281,7 +281,7 @@ export default function MyTrainings() {
 
           {/* Show loading state */}
           {loading && (
-            <div className={styles.loading}>
+            <div className="flex justify-center items-center p-12 text-[#6b7280]">
               <div>Loading certificates...</div>
             </div>
           )}
@@ -289,8 +289,8 @@ export default function MyTrainings() {
           {/* Show table when not loading */}
           {!loading && (
             <>
-              <div className={styles.tableWrap}>
-                <table className={styles.table}>
+              <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
+                <table className="w-full border-collapse text-sm">
                   <thead>
                     <tr>
                       {columns.map((column) => {
@@ -300,13 +300,13 @@ export default function MyTrainings() {
                         return (
                           <th
                             key={String(column.key)}
-                            className={column.sortable ? styles.sortable : ""}
+                            className={column.sortable ? "cursor-pointer user-select-none transition-colors duration-200" : ""}
                             onClick={() => column.sortable && handleSort(column.key)}
                           >
-                            <div className={styles.thContent}>
+                            <div className="flex items-center gap-2">
                               <span>{column.label}</span>
                               {column.sortable && (
-                                <span className={styles.sortIcon}>
+                                <span className="text-xs text-[#6b7280] min-w-3">
                                   {isActive 
                                     ? (isAscending ? "▲" : "▼")
                                     : "↕"
@@ -338,7 +338,7 @@ export default function MyTrainings() {
                     {/* Show message when no data */}
                     {currentPageData.length === 0 && (
                       <tr>
-                        <td colSpan={columns.length} className={styles.empty}>
+                        <td colSpan={columns.length} className="text-center py-8 text-[#6b7280] italic">
                           {search.trim() ? "No certificates match your search" : "No certificates found"}
                         </td>
                       </tr>
@@ -348,10 +348,10 @@ export default function MyTrainings() {
               </div>
 
               {/* Pagination */}
-              <div className={styles.pagination}>
+              <div className="flex justify-between items-center p-4 border-t border-t-[#f1f5f9] bg-[#f8fafc]">
                 <div>
                   <button
-                    className={styles.pButton}
+                    className="py-2 px-4 border border-[#d1d5db] rounded-md text-sm bg-main-bg text-[#374151] cursor-pointer transition duration-200"
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
                   >
@@ -361,7 +361,7 @@ export default function MyTrainings() {
                     Page {currentPage} of {totalPages}
                   </span>
                   <button
-                    className={styles.pButton}
+                    className="py-2 px-4 border border-[#d1d5db] rounded-md text-sm bg-main-bg text-[#374151] cursor-pointer transition duration-200"
                     onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                     disabled={currentPage === totalPages}
                   >
@@ -369,7 +369,7 @@ export default function MyTrainings() {
                   </button>
                 </div>
 
-                <div className={styles.pageInfo}>
+                <div className="text-[#6b7280] text-sm">
                   Showing {currentPageData.length === 0 ? 0 : startIndex + 1}–{Math.min(endIndex, processedData.length)} of {processedData.length}
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import styles from '../styles/adminAddEquipmentModel.module.css';
+// import styles from '../styles/adminAddEquipmentModel.module.css';
 import { useState } from 'react';
 
 function AdminAddEquipmentModel() {
@@ -11,37 +11,37 @@ function AdminAddEquipmentModel() {
     // const [capabilities, setCapabilities] = useState<String[] | null>(null);
 
     return (
-        <div className={styles.container}>
-            <h1 className={styles["main-heading"]}>Add Equipment Model</h1>
-            <p className={styles["main-heading-subinfo"]}>Add a new equipment model to the database. You can create as many instances of an existing model as needed under Add Equipment.</p>
-            <div className={styles["basic-info"]}>
-                <div className={styles.question}>
-                    <h2 className={styles["question-heading"]}>Model</h2>
-                    <input type="text" value={model} className={styles["text-field"]} onChange={(e) => setModel(e.target.value)} />
+        <div className="px-60">
+            <h1 className="font-medium">Add Equipment Model</h1>
+            <p className="mt-4 max-w-[45vw]">Add a new equipment model to the database. You can create as many instances of an existing model as needed under Add Equipment.</p>
+            <div className="flex items-center mt-6">
+                <div className="max-w-96 w-full mt-4 mr-4">
+                    <h2 className="text-4">Model</h2>
+                    <input type="text" value={model} className="block p-2 border border-neutral-200 rounded-sm  mt-2 w-full" onChange={(e) => setModel(e.target.value)} />
                 </div>
-                <div className={styles.question}>
-                    <h2 className={styles["question-heading"]}>Make</h2>
-                    <input type="text" value={make} className={styles["text-field"]} onChange={(e) => setMake(e.target.value)} />
+                <div className="max-w-96 w-full mt-4 mr-4">
+                    <h2 className="text-4">Make</h2>
+                    <input type="text" value={make} className="block p-2 border border-neutral-200 rounded-sm  mt-2 w-full" onChange={(e) => setMake(e.target.value)} />
                 </div>
-                <div className={styles.question}>
-                    <h2 className={styles["question-heading"]}>Equipment Type &#40;e.g. Lathe, 3D Printer&#41;</h2>
-                    <input type="text" value={type} className={styles["text-field"]} onChange={(e) => setType(e.target.value)} />
+                <div className="max-w-96 w-full mt-4">
+                    <h2 className="text-4">Equipment Type &#40;e.g. Lathe, 3D Printer&#41;</h2>
+                    <input type="text" value={type} className="block p-2 border border-neutral-200 rounded-sm  mt-2 w-full" onChange={(e) => setType(e.target.value)} />
                 </div>
             </div>
-            <div className={styles.question}>
-                <h2 className={styles["question-heading"]}>Full Name &#40;OPTIONAL&#41;</h2>
-                <input type="text" value={fullName} className={styles["text-field"]} onChange={(e) => setFullName(e.target.value)} />
+            <div className="max-w-96 w-full mt-4">
+                <h2 className="text-4">Full Name &#40;OPTIONAL&#41;</h2>
+                <input type="text" value={fullName} className="block p-2 border border-neutral-200 rounded-sm  mt-2 w-full" onChange={(e) => setFullName(e.target.value)} />
             </div>
-            <div className={styles.question}>
-                <h2 className={styles["question-heading"]}>Is CNC</h2>
-                <input type="checkbox" checked={isCNC} className={styles.checkbox} onChange={() => setIsCNC((isCNC) => !isCNC)} />
+            <div className="max-w-96 w-full mt-4">
+                <h2 className="text-4">Is CNC</h2>
+                <input type="checkbox" checked={isCNC} className="h-6 w-6 mt-2" onChange={() => setIsCNC((isCNC) => !isCNC)} />
             </div>
-            <div className={styles.question}>
-                <h2 className={styles["question-heading"]}>Specifications URL</h2>
-                <input type="text" value={specsURL} className={styles["text-field"]} onChange={(e) => setSpecsURL(e.target.value)} />
+            <div className="max-w-96 w-full mt-4">
+                <h2 className="text-4">Specifications URL</h2>
+                <input type="text" value={specsURL} className="block p-2 border border-neutral-200 rounded-sm  mt-2 w-full" onChange={(e) => setSpecsURL(e.target.value)} />
             </div>
-            <div className={styles.question}>
-                <h2 className={styles["question-heading"]}>Capabilities</h2>
+            <div className="max-w-96 w-full mt-4">
+                <h2 className="text-4">Capabilities</h2>
             </div>
 
         </div>

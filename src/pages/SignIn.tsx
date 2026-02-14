@@ -38,7 +38,7 @@ function SignIn() {
     return (
         <>
             {
-                loading ? <Loading /> :
+                loading ? <div className="h-[100vh]"><Loading /></div> :
                 <div className="flex flex-col justify-center items-center h-screen bg-navy-blue">
                     <div className="p-12 bg-main-bg rounded-3xl w-[40vw]">
                         <h1 className="text-2xl font-semibold">Sign In</h1>
