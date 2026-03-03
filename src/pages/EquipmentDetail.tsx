@@ -52,23 +52,23 @@ function EquipmentDetail() {
     return (
         <>
             {
-                loading ? <Loading /> :
+                loading ? <div className="h-[80vh]"><Loading /></div> :
                 equipment ?
                 <>
                     <div className="py-12 px-80 bg-arb-blue text-[#fff] flex justify-between font-light">
                         <div>
                             <h1 className="text-4xl font-semibold">{equipment["equipment_type"]}<span className="ml-6 italic font-light text-2xl">{equipment["equipment_model_name"]}</span></h1>
                             <section className="mt-4">
-                                <p className="font-medium">{equipment["makerspace_name"]}</p>
-                                <p>{equipment.building}</p>
-                                <p>{equipment.rooms?.map((room, index) => <span key={room}>{room}{index < equipment.rooms!.length - 1 && ', '}</span>)}</p>
+                                <p className="font-medium text-xl">{equipment["makerspace_name"]}</p>
+                                <p className="text-lg">{equipment.building}</p>
+                                <p className="text-lg">{equipment.rooms?.map((room, index) => <span key={room}>{room}{index < equipment.rooms!.length - 1 && ', '}</span>)}</p>
                             </section>
                         </div>
                         <div>
-                            <h4 className="text-lg font-medium underline">Functions</h4>
-                            <p>{equipment.capabilities?.map((capability, index) => <span key={index}>{capability}{index < equipment.capabilities!.length - 1 && ', '}</span>)}</p>
-                            <h4 className="text-lg font-medium mt-8">Necessary Credential:</h4>
-                            <p>{equipment["credential_model_name"]}</p>
+                            <h4 className="text-xl font-medium underline">Functions</h4>
+                            <p className="text-lg">{equipment.capabilities?.map((capability, index) => <span key={index}>{capability}{index < equipment.capabilities!.length - 1 && ', '}</span>)}</p>
+                            <h4 className="text-xl font-medium mt-8">Necessary Credential:</h4>
+                            <p className="text-lg">{equipment["credential_model_name"]}</p>
                         </div>
                     </div>
                     <div className="py-12 px-16 flex">

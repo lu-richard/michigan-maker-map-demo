@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import type { KeyboardEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import supabase from '../lib/supabase'
 import type { MakerspaceCardData } from '../types/types'
+import labels from '../constants/labels'
 
 interface Props {
   // if callers supply makerspaces, the component will use that instead of fetching
@@ -17,6 +19,7 @@ export default function Sidebar({ makerspaces: propsMakerspaces, onSelect, class
   const [remoteMakerspaces, setRemoteMakerspaces] = useState<MakerspaceCardData[] | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate();
 
   // debounce input to avoid querying on every keystroke
   useEffect(() => {
@@ -127,7 +130,10 @@ export default function Sidebar({ makerspaces: propsMakerspaces, onSelect, class
               role="button"
               tabIndex={0}
               onKeyDown={(e) => handleKey(e, m)}
-              onClick={() => onSelect?.(m)}
+              onClick={() => {
+                onSelect?.(m);
+                navigate("/dashboard/trainings");
+              }}
               style={{
                 padding: 10,
                 borderRadius: 6,
@@ -156,7 +162,7 @@ export default function Sidebar({ makerspaces: propsMakerspaces, onSelect, class
                 <div style={{ fontWeight: 600 }}>{m.makerspace_name}</div>
                 <div style={{ fontSize: 12, color: '#666' }}>{m.building ?? ''}</div>
                 {m.themes && m.themes.length > 0 && (
-                  <div style={{ marginTop: 6, fontSize: 11, color: '#444' }}>{m.themes.join(', ')}</div>
+                  <div style={{ marginTop: 6, fontSize: 11, color: '#444' }}>{m.themes.map((tag) => labels[tag as keyof typeof labels]).join(', ')}</div>
                 )}
               </div>
             </li>

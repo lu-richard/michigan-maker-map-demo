@@ -6,6 +6,8 @@ import supabase from "../lib/supabase";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Loading from "./Loading";
 import headshots from '../constants/headshots';
+import labels from "../constants/labels";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const useMakerspaceDetailData = () => {
     const { id } = useParams();
@@ -67,22 +69,25 @@ function MakerspaceDetail() {
     return (
         <>
             {
-                loading ? <Loading /> :
+                loading ? <div className="h-[80vh]"><Loading /></div> :
                 makerspace ?
                 <>
-                    <div className="py-6 px-80 bg-arb-blue text-[#fff] flex">
+                    <div className="py-12 pl-56 pr-80 bg-arb-blue text-[#fff] flex justify-between">
                         <div>
-                            <h1>{makerspace["makerspace_name"]}</h1>
-                            <p>{makerspace.building}</p>
-                            <p>{makerspace.rooms?.map((room, index) => <span key={room}>{room}{index < makerspace.rooms!.length - 1 && ', '}</span>)}</p>
-                            <div className="mt-4 flex">
-                                {makerspace.theme?.map((tag) => <p key={tag} className="py-2 px-4 bg-maize rounded-3xl text-text mr-3 text-sm">{tag}</p>)}
-                            </div>
+                            <h1 className="text-3xl font-bold">{makerspace["makerspace_name"]}</h1>
+                            <p className="text-lg font-light mt-2">{makerspace.building}</p>
+                            <p className="text-lg font-light">{makerspace.rooms?.map((room, index) => <span key={room}>{room}{index < makerspace.rooms!.length - 1 && ', '}</span>)}</p>
+                            {
+                                makerspace.themes &&
+                                <div className="mt-4 flex">
+                                    {makerspace.themes.map((tag) => <p key={tag} className="py-2 px-4 bg-maize rounded-3xl text-text mr-3 text-sm">{labels[tag as keyof typeof labels]}</p>)}
+                                </div>
+                            }
                         </div>
-                        <div className="mt-2 ml-80">
-                            <h3 className="text-nowrap">Who Can Use This Space?</h3>
+                        <div className="mt-2">
+                            <h3 className="text-nowrap font-semibold text-xl">Who Can Use This Space?</h3>
                             <ul>
-                                {makerspace.audience?.map((aud, index) => <li key={index}>{aud}</li>)}
+                                {makerspace.audience?.map((aud, index) => <li key={index} className="text-lg">{aud}</li>)}
                             </ul>
                         </div>
                     </div>
@@ -110,11 +115,15 @@ function MakerspaceDetail() {
                                     <KeyboardArrowDownIcon className={`${toggleEquipmentList && "transition-transform rotate-180"}`} />
                                 </button>
                                 <ul className={toggleEquipmentList ? "max-h-none" : "max-h-0 overflow-hidden"}>
-                                    {makerspace["equipment_list"].map((makerspaceEquipment) => {
-                                        const equipmentDetailPath = `/equipment-detail/${makerspaceEquipment["equipment_id"]}`;
-
-                                        return <li key={makerspaceEquipment["equipment_id"]} className="ml-6"><Link to={equipmentDetailPath}>{makerspaceEquipment["equipment_name"]}</Link></li>;
-                                    })}
+                                    {
+                                        makerspace["equipment_list"]?.map(
+                                            (makerspaceEquipment) =>
+                                            <li key={makerspaceEquipment["equipment_id"]} className="flex justify-center items-center gap-1 w-fit ml-4">
+                                                <Link to={`/equipment-detail/${makerspaceEquipment["equipment_id"]}`}>{makerspaceEquipment["equipment_name"]}</Link>
+                                                <ArrowForwardIcon />
+                                            </li>
+                                        )
+                                    }
                                 </ul>
                                 <div className="mt-12 text-4">
                                     <h4 className="underline">Contact</h4>

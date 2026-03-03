@@ -38,6 +38,12 @@ const labels = {
     operator: "Operator",
     expired: "Expired",
     invalidated: "Invalidated",
+    electronics: "Electronics",
+    "3d_printing": "3D Printing",
+    woodworking: "Woodworking",
+    collaborative: "Collaborative",
+    music: "Music",
+    fiber_arts: "Fiber Arts",
 };
 
 export default labels;

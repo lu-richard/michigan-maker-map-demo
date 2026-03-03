@@ -3,12 +3,8 @@ import supabase from '../lib/supabase'
 import DashboardNavBar from '../components/DashboardNavBar'
 import Sidebar from '../components/SkillTreeSidebar'
 import { useAppContext } from '../context/AppContext' 
-import type { MakerspaceCardData, MakerspaceCreds, TrainingPrerequisites } from '../types/types'
-
-type CredentialModel = {
-  credential_model_id: string
-  credential_model_name: string
-}
+import type { MakerspaceCardData, MakerspaceCreds, TrainingPrerequisites, CredentialModelLink } from '../types/types'
+import { Link, Outlet } from 'react-router-dom'
 
 /**
  * Fetch makerspace_credential_models rows for a makerspace.
@@ -28,13 +24,13 @@ export async function fetchMakerspaceCredRows(
  */
 export async function fetchCredentialModelsByIds(
   ids: string[]
-): Promise<{ data: CredentialModel[] | null; error: any }> {
+): Promise<{ data: CredentialModelLink[] | null; error: any }> {
   if (!ids || ids.length === 0) return { data: [], error: null }
   const { data, error } = await supabase
     .from('credential_models')
     .select('credential_model_id, credential_model_name')
     .in('credential_model_id', ids)
-  return { data: (data as CredentialModel[]) ?? null, error }
+  return { data: (data as CredentialModelLink[]) ?? null, error }
 }
 
 /**
@@ -43,7 +39,7 @@ export async function fetchCredentialModelsByIds(
  * Returns a map keyed by dependent id: { prerequisite_ids: [...], prerequisite_models: [...] }
  */
 export async function fetchPrereqsForDependentModels(dependentIds: string[]): Promise<{
-  prereqMap: Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModel[] }>
+  prereqMap: Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModelLink[] }>
   error: any
 }> {
   if (!dependentIds || dependentIds.length === 0) {
@@ -75,9 +71,9 @@ export async function fetchPrereqsForDependentModels(dependentIds: string[]): Pr
 
   if (modelsErr) return { prereqMap: {}, error: modelsErr }
 
-  const prereqModelsArr = (prereqModels as CredentialModel[]) ?? []
+  const prereqModelsArr = (prereqModels as CredentialModelLink[]) ?? []
 
-  const prereqMap: Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModel[] }> = {}
+  const prereqMap: Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModelLink[] }> = {}
   for (const depId of Object.keys(map)) {
     const ids = Array.from(map[depId])
     prereqMap[depId] = {
@@ -98,17 +94,17 @@ export async function fetchPrereqsForDependentModels(dependentIds: string[]): Pr
 
 // ...existing code...
 
-function TrainingTree({
+export function TrainingTree({
   models,
   prereqMap,
   completedIds = new Set<string>(),
 }: {
-  models: CredentialModel[]
-  prereqMap: Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModel[] }>
+  models: CredentialModelLink[]
+  prereqMap: Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModelLink[] }>
   completedIds?: Set<string>
 }) {
   // Build node map (include prereq models)
-  const allNodesById = new Map<string, CredentialModel>()
+  const allNodesById = new Map<string, CredentialModelLink>()
   models.forEach((m) => allNodesById.set(m.credential_model_id, m))
   for (const dep of Object.keys(prereqMap)) {
     for (const pm of prereqMap[dep].prerequisite_models ?? []) {
@@ -282,7 +278,7 @@ function TrainingTree({
         const node = allNodesById.get(id)!
         const isDone = completedIds.has(id)
         return (
-          <div
+          <Link to={`training-detail/${id}`}
             key={id}
             style={{
               position: 'absolute',
@@ -327,7 +323,7 @@ function TrainingTree({
 
               <div style={{ paddingRight: isDone ? 8 : 0 }}>{node.credential_model_name}</div>
             </div>
-          </div>
+          </Link>
         )
       })}
     </div>
@@ -340,8 +336,8 @@ export default function SkillTree() {
   const { profile } = useAppContext()                               // changed code: get logged-in user
   const [selectedMakerspace, setSelectedMakerspace] = useState<MakerspaceCardData | null>(null)
 
-  const [credentialModels, setCredentialModels] = useState<CredentialModel[] | null>(null)
-  const [prereqMap, setPrereqMap] = useState<Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModel[] }> | null>(null)
+  const [credentialModels, setCredentialModels] = useState<CredentialModelLink[] | null>(null)
+  const [prereqMap, setPrereqMap] = useState<Record<string, { prerequisite_ids: string[]; prerequisite_models: CredentialModelLink[] }> | null>(null)
   const [credsLoading, setCredsLoading] = useState(false)
   const [credsError, setCredsError] = useState<string | null>(null)
 
@@ -451,7 +447,6 @@ export default function SkillTree() {
         <main
           style={{
             flex: 1,
-            padding: 20,
             overflowY: 'auto',
             display: 'flex',
             flexDirection: 'column',
@@ -460,27 +455,27 @@ export default function SkillTree() {
         >
             
           {selectedMakerspace ? (
-            <>
-          
-              <h1 style={{ marginTop: 0 }}>{selectedMakerspace.makerspace_name}</h1>
+            <Outlet context={{ selectedMakerspace, credsLoading, credsError, credentialModels, prereqMap, completedModelIds }}/>
+            // <>
+            //   <h1 style={{ marginTop: 0 }}>{selectedMakerspace.makerspace_name}</h1>
 
-              {credsLoading && <div>Loading trainings…</div>}
-              {!credsLoading && credsError && <div style={{ color: 'crimson' }}>{credsError}</div>}
+            //   {credsLoading && <div>Loading trainings…</div>}
+            //   {!credsLoading && credsError && <div style={{ color: 'crimson' }}>{credsError}</div>}
 
-              {!credsLoading && !credsError && (credentialModels ?? []).length === 0 && (
-                <div style={{ color: '#666' }}>No trainings available for this makerspace.</div>
-              )}
+            //   {!credsLoading && !credsError && (credentialModels ?? []).length === 0 && (
+            //     <div style={{ color: '#666' }}>No trainings available for this makerspace.</div>
+            //   )}
 
-              {!credsLoading && !credsError && credentialModels && credentialModels.length > 0 && (
-                <section>
-                    <TrainingTree
-                        models={credentialModels}
-                        prereqMap={prereqMap ?? {}}
-                        completedIds={completedModelIds}
-                    />
-                  </section>
-              )}
-            </>
+            //   {!credsLoading && !credsError && credentialModels && credentialModels.length > 0 && (
+            //     <section>
+            //         <TrainingTree
+            //             models={credentialModels}
+            //             prereqMap={prereqMap ?? {}}
+            //             completedIds={completedModelIds}
+            //         />
+            //       </section>
+            //   )}
+            // </>
           ) : (
             <h1>Select a makerspace from the left</h1>
           )}

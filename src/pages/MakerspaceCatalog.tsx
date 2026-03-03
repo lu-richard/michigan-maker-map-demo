@@ -67,7 +67,7 @@ function MakerspaceCatalog() {
     return (
         <>
             {
-                loading ? <Loading /> :
+                loading ? <div className="h-[80vh]"><Loading /></div> :
                 errorMessage ? <p className="text-center mt-[35vh]">{errorMessage}</p> :
                 <div className="p-14">
                     <div className="absolute left-12">

@@ -27,6 +27,8 @@ import AdminDashboardUsageStatsFacility from "../pages/AdminDashboardUsageStatsF
 import AdminDashboardUsageStatsEquipment from "../pages/AdminDashboardUsageStatsEquipment";
 import AdminDashboardUsageStatsUser from "../pages/AdminDashboardUsageStatsUser";
 import ReportDetail from "../pages/ReportDetail";
+import SkillTreeVisual from "../pages/SkillTreeVisual";
+import CredentialModelDetail from "../pages/CredentialModelDetail";
 
 const routes = [
     {
@@ -53,7 +55,14 @@ const routes = [
                     { path: 'dashboard', element: <MakerProfile /> },
                     { path: 'dashboard/my-trainings', element: <MyTrainings /> },
                     { path: 'dashboard/wishlist', element: <MakerProfile /> },
-                    { path: 'dashboard/trainings', element: <SkillTree /> },
+                    {
+                        path: 'dashboard/trainings',
+                        element: <SkillTree />,
+                        children: [
+                            { index: true, element: <SkillTreeVisual /> },
+                            { path: 'training-detail/:id', element: <CredentialModelDetail /> },
+                        ],
+                    },
                     {
                         path: 'admindashboard',
                         element: <AdminDashboard />,

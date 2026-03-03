@@ -4,7 +4,6 @@ import supabase from "../lib/supabase";
 import Loading from "./Loading";
 import type { IssueReportCardData } from "../types/types";
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
