@@ -25,26 +25,51 @@ const useEquipmentCatalogData = () => {
   }, [searchValue]);
 
   useEffect(() => {
-    const fetchEquipmentCards = async () => {
+  //   const fetchEquipmentCards = async () => {
+  //     try {
+  //       setLoading(true);
+        
+  //       let query = supabase.schema('private').from('view_equipment_cards').select();
+
+  //       if (debouncedSearchValue !== "") {
+  //         query = query.textSearch('fts', debouncedSearchValue, {
+  //           type: 'websearch',
+  //           config: 'english',
+  //         });
+  //       }
+
+  //       const { data, error } = await query.order(isOrderedByModelName ? 'equipment_model_name' : 'equipment_type', { ascending: !isDescending }).limit(searchLimit);
+
+  //       if (error) {
+  //           throw new Error(error.message);
+  //       }
+
+  //       setEquipmentCards(data);
+  //     }
+  //     catch (e) {
+  //       console.error((e as Error).message);
+  //       setErrorMessage("An error occurred. Please refresh this page.");
+  //     }
+  //     finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchEquipmentCards();
+  // }, [debouncedSearchValue, searchLimit, isDescending, isOrderedByModelName]);
+  const fetchEquipmentCards = async () => {
       try {
         setLoading(true);
         
-        let query = supabase.schema('private').from('view_equipment_cards').select();
+        const response = await fetch("http://127.0.0.1:8000/equipment-cards/");
 
-        if (debouncedSearchValue !== "") {
-          query = query.textSearch('fts', debouncedSearchValue, {
-            type: 'websearch',
-            config: 'english',
-          });
+        if (!response.ok) {
+          throw new Error(`Response status: ${response.status}`);
         }
 
-        const { data, error } = await query.order(isOrderedByModelName ? 'equipment_model_name' : 'equipment_type', { ascending: !isDescending }).limit(searchLimit);
-
-        if (error) {
-            throw new Error(error.message);
-        }
-
-        setEquipmentCards(data);
+        const data = await response.json();
+        
+        setEquipmentCards(data.results);
       }
       catch (e) {
         console.error((e as Error).message);

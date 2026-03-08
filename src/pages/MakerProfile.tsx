@@ -1,6 +1,7 @@
 import DashboardNavBar from '../components/DashboardNavBar';
 import styles from '../styles/dashboard.module.css';
 import { useAppContext } from '../context/AppContext';
+import { useEffect } from 'react';
 
 //     const useDashboardData = () => {
 //     const [profile, setProfile] = useState<DashboardData | null>(null);
@@ -53,11 +54,34 @@ import { useAppContext } from '../context/AppContext';
 //     return { profile, session };
 // };
 
+
 function MakerProfile() {
     // const context = useContext(AppContext);
     // console.log('App context in Dashboard:', context);
     // const { profile } = context ?? {};
     // console.log('Profile data:', profile);
+
+    
+    useEffect(() => {
+        const fetchCanvasAPIData = async () => {
+            try {
+                const data = await fetch("https://canvas.instructure.com/api/v1/courses/14186829/users?enrollment_type=student");
+
+                if (!data.ok) {
+                    throw new Error(`Failed to fetch. Error status: ${data.status}`)
+                }
+
+                const response = await data.json();
+
+                console.log(response);
+            }
+            catch (e) {
+                console.error((e as Error).message);
+            }
+        }
+
+        fetchCanvasAPIData();
+    }, []);
 
     const { profile } = useAppContext();
     return (

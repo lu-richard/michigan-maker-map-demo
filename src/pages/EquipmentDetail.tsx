@@ -15,13 +15,22 @@ const useEquipmentDetailData = () => {
     useEffect(() => {
         const fetchEquipment = async () => {
             try {
-                const { data, error } = await supabase.from('view_equipment_detail_pages').select().eq('equipment_id', id!).maybeSingle();
+                // const { data, error } = await supabase.from('view_equipment_detail_pages').select().eq('equipment_id', id!).maybeSingle();
 
-                if (error) {
-                    throw new Error(error.message);
+                // if (error) {
+                //     throw new Error(error.message);
+                // }
+
+                // setEquipment(data);
+                const response = await fetch(`http://127.0.0.1:8000/equipment-detail/${id}`);
+
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
                 }
 
-                setEquipment(data);
+                const data = await response.json();
+
+                setEquipment(data.results);
 
                 if (data?.manufacturer_image_urls?.length) {
                     const { data: image } = supabase
