@@ -2,9 +2,11 @@
 import { Link } from 'react-router-dom';
 import supabase from '../lib/supabase';
 import { useAppContext } from '../context/AppContext';
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Logo from '../assets/pngs/logo.png';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { DropdownMenu, DropdownMenuSeparator, DropdownMenuLabel, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '../components/ui/dropdown-menu';
+import { Button } from './ui/button';
 // import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 // const useNavbarData = () => {
@@ -19,7 +21,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 //                     .storage
 //                     .from('profile-photos')
 //                     .getPublicUrl(profile!["image_url"]);
-                
+
 //                 setProfilePhoto(image.publicUrl);
 //             }
 //         };
@@ -65,20 +67,20 @@ function Navbar() {
                     .storage
                     .from('profile-photos')
                     .getPublicUrl(profile!["image_url"]);
-                
+
                 setProfilePhoto(image.publicUrl);
             }
         };
 
         fetchProfilePhoto();
     }, []);
-    
+
     return (
-        <div className="flex justify-space-between items-center pt-4 pr-12 pb-6 pl-16 bg-navy-blue text-[#fff]">
-            <Link to='/' className="flex justify-center items-center">
+        <div className="flex justify-center items-center gap-8 pt-6 pr-12 pb-6 pl-16 bg-navy-blue text-[#fff]">
+            <Link to='/' className="border border-red-500 flex justify-center items-center">
                 <img src={Logo} className="w-100" />
             </Link>
-            <div className="self-end mr-12 flex justify-center items-center">
+            <div className="border border-red-500 mr-12 flex justify-center items-center">
                 <div className="relative group mx-8">
                     <button type="button" ref={findButtonRef} className="flex justify-center items-center" onClick={() => setTabOpen((isTabOpen) => isTabOpen === 0 ? null : 0)}>
                         Find
@@ -112,9 +114,9 @@ function Navbar() {
                     <div className={`absolute bottom-0 left-0  h-0.5 ${tabOpen === 5 ? "w-full bg-main-bg" : "w-0 bg-maize transition-all group-hover:w-full"}`}></div>
                 </div>
             </div>
-            <div className="relative">
-                <div className="w-20 [clip-path:circle(35%)]" onClick={() => setProfileOpen((isProfileOpen) => !isProfileOpen)}>
-                    <img src={profilePhoto} ref={profilePhotoImgRef} />
+            {/* <div className="border border-red-500 relative">
+                <div className="w-20 h-20 rounded-full" onClick={() => setProfileOpen((isProfileOpen) => !isProfileOpen)}>
+                    <img src={profilePhoto} ref={profilePhotoImgRef} className="w-full h-full object-cover"/>
                 </div>
                 <div className={`absolute bg-main-bg text-text shadow-2xl rounded-2xl overflow-hidden -left-15 z-3 ${profileOpen ? 'max-h-none' : 'max-h-0'}`}>
                     <div className="flex flex-col justify-center items-center py-8 px-8">
@@ -126,6 +128,27 @@ function Navbar() {
                         <button type="button" className="bg-arb-blue px-4 py-3 rounded-3xl mt-4" onClick={signOutUser}>Sign Out</button>
                     </div>
                 </div>
+            </div> */}
+            <div className="border border-red-500">
+                <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-20 h-20 rounded-full overflow-hidden">
+                        <img src={profilePhoto} className="w-full h-full object-cover" />
+                    </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="center">
+                        <DropdownMenuGroup>
+                        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                        <DropdownMenuItem asChild>
+                            <Link to={profileDetailPath}>Profile</Link>
+                        </DropdownMenuItem>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuGroup>
+                        <DropdownMenuItem onClick={signOutUser}>Sign Out</DropdownMenuItem>
+                        </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
         </div>
     );
