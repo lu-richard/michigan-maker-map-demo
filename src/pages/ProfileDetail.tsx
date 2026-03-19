@@ -1,6 +1,6 @@
 import { useAppContext } from "../context/AppContext";
 // import styles from '../styles/profileDetail.module.css';
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import type { ProfileData } from "../types/types";
 import { useParams } from 'react-router-dom';
@@ -46,7 +46,7 @@ const useProfileDetailData = () => {
                 .storage
                 .from('profile-photos')
                 .getPublicUrl(profile["image_url"]);
-            
+
             setProfilePhoto(image.publicUrl);
         }
     }, [profile]);
