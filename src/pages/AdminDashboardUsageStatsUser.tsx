@@ -12,7 +12,6 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-
 interface User {
   id: string;
   username: string;
