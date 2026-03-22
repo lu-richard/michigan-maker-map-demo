@@ -116,14 +116,14 @@ function Navbar() {
                 <div className="w-20 [clip-path:circle(35%)]" onClick={() => setProfileOpen((isProfileOpen) => !isProfileOpen)}>
                     <img src={profilePhoto} ref={profilePhotoImgRef} />
                 </div>
-                <div className={`absolute bg-main-bg text-text shadow-2xl rounded-2xl overflow-hidden -left-15 z-3 ${profileOpen ? 'max-h-none' : 'max-h-0'}`}>
+                <div className={`absolute bg-main-bg text-text shadow-2xl rounded-2xl overflow-hidden -left-25 z-3 ${profileOpen ? 'max-h-none' : 'max-h-0'}`}>
                     <div className="flex flex-col justify-center items-center py-8 px-8">
                         <Link to={profileDetailPath}>
                             <img src={profilePhoto} className="w-20 [clip-path:circle(35%)]" />
                         </Link>
                         <p className="mt-1 font-medium text-5">{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
                         <p className="font-light text-[0.9rem] mb-1">{profile!.uniqname}@umich.edu</p>
-                        <button type="button" className="bg-arb-blue px-4 py-3 rounded-3xl mt-4" onClick={signOutUser}>Sign Out</button>
+                        <button type="button" className="bg-arb-blue px-4 py-3 rounded-3xl mt-4 text-[#fff] hover:bg-arb-blue-hover cursor-pointer" onClick={signOutUser}>Sign Out</button>
                     </div>
                 </div>
             </div>

@@ -7,16 +7,56 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const useCredentialModelDetailData = () => {
-    const { id } = useParams();
+    const { makerspaceId, credModelId } = useParams();
     const [unlockedEquipment, setUnlockedEquipment] = useState<EquipmentLink[]>([]);
     const [credentialModel, setCredentialModel] = useState<CredentialModel | null>(null);
     const [loading, setLoading] = useState(true);
-    const { selectedMakerspace, prereqMap } = useOutletContext<SkillTreeContext>();
+    const { selectedMakerspace, setSelectedMakerspace, prereqMap } = useOutletContext<SkillTreeContext>();
 
     useEffect(() => {
-        const credentialModelQuery = supabase.from('credential_models').select().eq('credential_model_id', id!).maybeSingle();
-        const unlockedEquipmentQuery = supabase.from('equipment').select('equipment_id, equipment_name').eq('credential_model_id', id!);
+        if (!selectedMakerspace) {
+            const fetchMakerspaceCredentialModel = async () => {
+                try {
+                    const { data, error } = await supabase.from('makerspace_credential_models').select().eq('makerspace_id', makerspaceId!).eq('credential_model_id', credModelId!).maybeSingle();
 
+                    if (error) {
+                        throw new Error(error.message);
+                    }
+
+                    if (!data) {
+                        throw new Error("Credential model not found for this makerspace");
+                    }
+                }
+                catch (e) {
+                    console.error((e as Error).message);
+                }
+            }
+
+            fetchMakerspaceCredentialModel();
+
+            const fetchSelectedMakerspace = async () => {
+                try {
+                    const { data, error } = await supabase.schema('private').from('view_makerspace_cards').select().eq('makerspace_id', makerspaceId!).maybeSingle();
+
+                    if (error) {
+                        throw new Error(error.message);
+                    }
+
+                    setSelectedMakerspace(data);
+                }
+                catch (e) {
+                    console.error((e as Error).message);
+                }
+            }
+
+            fetchSelectedMakerspace();
+        }
+    }, []);
+
+    useEffect(() => {
+        const credentialModelQuery = supabase.from('credential_models').select().eq('credential_model_id', credModelId!).maybeSingle();
+        const unlockedEquipmentQuery = supabase.from('equipment').select('equipment_id, equipment_name').eq('credential_model_id', credModelId!);
+        
         const fetchCredentialModelDetailData = async () => {
             try {
                 const [
@@ -27,6 +67,7 @@ const useCredentialModelDetailData = () => {
                 if (credModelError) {
                     throw new Error(credModelError.message);
                 }
+
                 if (unlockEqError) {
                     throw new Error(unlockEqError.message);
                 }
@@ -43,7 +84,7 @@ const useCredentialModelDetailData = () => {
         };
 
         fetchCredentialModelDetailData();
-    }, [id]);
+    }, []);
 
     return { credentialModel, unlockedEquipment, selectedMakerspace, prereqMap, loading };
 };
@@ -60,18 +101,18 @@ function CredentialModelDetail() {
                     <Link to="/dashboard/trainings" className="absolute top-5 left-5 text-[#fff]">
                         <ArrowBackIosIcon />
                     </Link>
-                    <div className="h-[40vh] bg-arb-blue py-16 pl-24 pr-32 text-[#fff]">
+                    <div className="bg-arb-blue py-16 pl-24 pr-32 text-[#fff]">
                         <div className="flex justify-between items-center mb-3">
-                            <h1 className="text-4xl font-semibold">{credentialModel["credential_model_name"]}</h1>
+                            <h1 className="text-3xl font-semibold max-w-130">{credentialModel["credential_model_name"]}</h1>
                             <div>
-                                <h3 className="text-2xl font-semibold">Prerequisites:</h3>
+                                <h3 className="text-xl font-semibold">Prerequisites:</h3>
                                 {
                                     prereqMap?.[credentialModel["credential_model_id"]]?.prerequisite_models ?
                                     <>
                                         {
                                             prereqMap[credentialModel["credential_model_id"]].prerequisite_models.map((prereqModel) =>
-                                                <Link to={`/dashboard/trainings/training-detail/${prereqModel["credential_model_id"]}`} className="flex justify-center items-center gap-1 text-xl" key={prereqModel["credential_model_id"]}>
-                                                    <p>{prereqModel["credential_model_name"]}</p>
+                                                <Link to={`/dashboard/trainings/training-detail/${prereqModel["credential_model_id"]}`} className="flex items-center text-xl" key={prereqModel["credential_model_id"]}>
+                                                    <p className="max-w-90">{prereqModel["credential_model_name"]}</p>
                                                     <ArrowForwardIcon />
                                                 </Link>
                                             )
@@ -81,12 +122,12 @@ function CredentialModelDetail() {
                                 }
                             </div>
                         </div>
-                        <Link to={`/makerspace-detail/${selectedMakerspace["makerspace_id"]}`} className="text-2xl font-semibold flex justify-center items-center gap-1 w-fit">
-                            <h3>{selectedMakerspace["makerspace_name"]}</h3>
+                        <Link to={`/makerspace-detail/${selectedMakerspace!["makerspace_id"]}`} className="text-xl font-semibold flex justify-center items-center gap-1 w-fit">
+                            <h3>{selectedMakerspace!["makerspace_name"]}</h3>
                             <ArrowForwardIcon />
                         </Link>
-                        <h4 className="text-xl">{selectedMakerspace.building}</h4>
-                        <p className="text-lg font-light">{selectedMakerspace.rooms?.map((room, index) => <span key={room}>{room}{index < selectedMakerspace.rooms!.length - 1 && ', '}</span>)}</p>
+                        <h4 className="text-xl">{selectedMakerspace!.building}</h4>
+                        <p className="text-lg font-light">{selectedMakerspace!.rooms?.map((room, index) => <span key={room}>{room}{index < selectedMakerspace!.rooms!.length - 1 && ', '}</span>)}</p>
                     </div>
                     <div className="py-16 pl-24 pr-32 flex justify-center gap-20">
                         <section className="flex-2">

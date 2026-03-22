@@ -659,7 +659,8 @@ export type Database = {
         Row: {
           building: string
           capabilities: string[] | null
-          credential_model_name: string
+          credential_model_id: string | null
+          credential_model_name: string | null
           equipment_id: string
           equipment_model_name: string
           equipment_model_specific_specs: Json | null
@@ -672,6 +673,7 @@ export type Database = {
           is_cnc: boolean
           last_serviced: string | null
           make: string
+          makerspace_id: string
           makerspace_name: string
           manufacturer_image_urls: string[] | null
           materials: string[] | null

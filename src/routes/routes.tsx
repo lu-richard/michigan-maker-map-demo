@@ -60,7 +60,7 @@ const routes = [
                         element: <SkillTree />,
                         children: [
                             { index: true, element: <SkillTreeVisual /> },
-                            { path: 'training-detail/:id', element: <CredentialModelDetail /> },
+                            { path: 'training-detail/:makerspaceId/:credModelId', element: <CredentialModelDetail /> },
                         ],
                     },
                     {
