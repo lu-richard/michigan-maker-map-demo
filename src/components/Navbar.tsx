@@ -38,7 +38,7 @@ function Navbar() {
 
     const findButtonRef = useRef<HTMLButtonElement>(null);
     const profilePhotoImgRef = useRef<HTMLImageElement>(null);
-    const profileDetailPath = `/profile-detail/${profile!["user_id"]}`;
+    const ProfileHomePath = `/profile-detail/${profile!["user_id"]}`;
 
     const [tabOpen, setTabOpen] = useState<number | null>(null);
     const [profileOpen, setProfileOpen] = useState(false);
@@ -77,10 +77,10 @@ function Navbar() {
 
     return (
         <div className="flex justify-center items-center gap-8 pt-6 pr-12 pb-6 pl-16 bg-navy-blue text-[#fff]">
-            <Link to='/' className="border border-red-500 flex justify-center items-center">
+            <Link to='/' className="flex justify-center items-center">
                 <img src={Logo} className="w-100" />
             </Link>
-            <div className="border border-red-500 mr-12 flex justify-center items-center">
+            <div className="mr-12 flex justify-center items-center">
                 <div className="relative group mx-8">
                     <button type="button" ref={findButtonRef} className="flex justify-center items-center" onClick={() => setTabOpen((isTabOpen) => isTabOpen === 0 ? null : 0)}>
                         Find
@@ -120,7 +120,7 @@ function Navbar() {
                 </div>
                 <div className={`absolute bg-main-bg text-text shadow-2xl rounded-2xl overflow-hidden -left-15 z-3 ${profileOpen ? 'max-h-none' : 'max-h-0'}`}>
                     <div className="flex flex-col justify-center items-center py-8 px-8">
-                        <Link to={profileDetailPath}>
+                        <Link to={ProfileHomePath}>
                             <img src={profilePhoto} className="w-20 [clip-path:circle(35%)]" />
                         </Link>
                         <p className="mt-1 font-medium text-5">{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
@@ -129,10 +129,10 @@ function Navbar() {
                     </div>
                 </div>
             </div> */}
-            <div className="border border-red-500">
+            <div>
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-20 h-20 rounded-full overflow-hidden">
+                    <Button variant="destructive" className="w-20 h-20 rounded-full overflow-hidden bg-main-bg">
                         <img src={profilePhoto} className="w-full h-full object-cover" />
                     </Button>
                     </DropdownMenuTrigger>
@@ -140,12 +140,14 @@ function Navbar() {
                         <DropdownMenuGroup>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuItem asChild>
-                            <Link to={profileDetailPath}>Profile</Link>
+                            <Link to={ProfileHomePath}>Profile</Link>
                         </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                        <DropdownMenuItem onClick={signOutUser}>Sign Out</DropdownMenuItem>
+                        <DropdownMenuItem onClick={signOutUser}>
+                            <p className='text-red-500'>Sign Out</p>
+                        </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>

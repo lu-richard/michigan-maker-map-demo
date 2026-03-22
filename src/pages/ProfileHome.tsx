@@ -1,13 +1,15 @@
 import { useAppContext } from "../context/AppContext";
-// import styles from '../styles/profileDetail.module.css';
+// import styles from '../styles/ProfileHome.module.css';
 import React, { useState, useEffect } from "react";
 import supabase from "../lib/supabase";
 import type { ProfileData } from "../types/types";
 import { useParams } from 'react-router-dom';
 import Loading from "./Loading";
-import labels from "../constants/labels";
+import ProfileInfo from "./ProfileInfo";
+import ProfileSettings from "./ProfileSettings";
+import ProfileCertifications from "./ProfileCertifications";
 
-const useProfileDetailData = () => {
+const useProfileHomeData = () => {
     const { id } = useParams();
     const { profile: currUserProfile } = useAppContext();
     const [profile, setProfile] = useState<ProfileData | null>(currUserProfile);
@@ -54,32 +56,49 @@ const useProfileDetailData = () => {
     return { profile, profilePhoto, loading };
 };
 
-function ProfileDetail() {
-    const { profile, profilePhoto, loading } = useProfileDetailData();
+function ProfileHome() {
+    const { profile, profilePhoto, loading } = useProfileHomeData();
+    const [page, setPage] = useState<number>(0); // 0 = info, 1 = certifications, 2 = settings
 
     return (
-        <>
-            {
-                loading ? <Loading /> :
-                profile ?
-                <div className="py-8 px-16 h-[80vh]">
-                    <div className="flex flex-col justify-center items-center">
-                        <img src={profilePhoto} className="w-120 [clip-path:circle(35%)]" />
-                        <p className="text-4xl font-medium mt-4">{profile!["first_name"]} {profile!["middle_initial"] && profile!["middle_initial"] + ". "}{profile!["last_name"]}</p>
-                        {profile!.pronouns && <p className="font-light text-xl mt-3">{profile!.pronouns}</p>}
-                        <p className="mt-4 text-xl">{profile!.uniqname}@umich.edu</p>
-                        {
-                            profile!.roles &&
-                            <div className="flex mt-10">
-                                {profile!.roles.map((role) => <p key={role} className="py-2 px-5 border border-neutral-300 rounded-3xl mr-3 text-xl">{labels[role]}</p>)}
-                            </div>
-                        }
-                    </div>
-                </div> :
+        <div className="h-[80vh] py-8">
+            <div className="flex items-end gap-10 border-b border-neutral-300 mb-8">
+                <button
+                    type="button"
+                    onClick={() => setPage(0)}
+                    className={`pl-8 relative pb-3 font-medium text-slate-600`}
+                >
+                    Profile
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setPage(1)}
+                    className={`relative pb-3 font-medium text-slate-600`}
+                >
+                    Certifications
+                </button>
+                <button
+                    type="button"
+                    onClick={() => setPage(2)}
+                    className={`relative pb-3 font-medium text-slate-600"`}
+                >
+                    Settings
+                </button>
+            </div>
+
+            {loading ? (
+                <Loading />
+            ) : profile ? (
+                <div className="py-8 px-16">
+                    {page === 0 && <ProfileInfo profilePhoto={profilePhoto} profile={profile} />}
+                    {page === 1 && <ProfileCertifications />}
+                    {page === 2 && <ProfileSettings />}
+                </div>
+            ) : (
                 <p>The page you are looking for does not exist.</p>
-            }
-        </>
+            )}
+        </div>
     );
 }
 
-export default ProfileDetail;
+export default ProfileHome;

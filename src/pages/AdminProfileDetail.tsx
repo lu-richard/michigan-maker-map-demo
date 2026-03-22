@@ -54,7 +54,7 @@ const useAdminProfileDetailData = () => {
                 setLoading(false);
             }
         };
-        
+
         fetchAdminProfile();
     }, []);
 

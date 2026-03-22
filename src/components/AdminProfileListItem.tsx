@@ -4,10 +4,10 @@ import labels from "../constants/labels";
 import { Link } from "react-router-dom";
 
 function AdminProfileListItem({ profileListItem }: { profileListItem: ProfileData }) {
-    const adminProfileDetailPath = `/admin-profile-detail/${profileListItem["user_id"]}`;
+    const adminProfileHomePath = `/admin-profile-detail/${profileListItem["user_id"]}`;
 
     return (
-        <Link to={adminProfileDetailPath} className={styles.container}>
+        <Link to={adminProfileHomePath} className={styles.container}>
             <p className={styles.name}>{profileListItem["first_name"]} {profileListItem["last_name"]}</p>
             <p className={styles.uniqname}>{profileListItem["uniqname"]}</p>
             <div className={styles.roles}>
