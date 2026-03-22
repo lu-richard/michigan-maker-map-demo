@@ -15,7 +15,6 @@ const useCredentialModelDetailData = () => {
 
     useEffect(() => {
         const credentialModelQuery = supabase.from('credential_models').select().eq('credential_model_id', id!).maybeSingle();
-
         const unlockedEquipmentQuery = supabase.from('equipment').select('equipment_id, equipment_name').eq('credential_model_id', id!);
 
         const fetchCredentialModelDetailData = async () => {
@@ -44,25 +43,6 @@ const useCredentialModelDetailData = () => {
         };
 
         fetchCredentialModelDetailData();
-        // const fetchCredentialModel = async () => {
-        //     try {
-        //         const { data, error } = await supabase.from('credential_models').select().eq('credential_model_id', id!).maybeSingle();
-
-        //         if (error) {
-        //             throw new Error(error.message);
-        //         }
-
-        //         setCredentialModel(data);
-        //     }
-        //     catch (e) {
-        //         console.error((e as Error).message);
-        //     }
-        //     finally {
-        //         setLoading(false);
-        //     }
-        // };
-
-        // fetchCredentialModel();
     }, [id]);
 
     return { credentialModel, unlockedEquipment, selectedMakerspace, prereqMap, loading };
