@@ -11,12 +11,12 @@ type SortDirection = "asc" | "desc" | null;
 export default function Certificates() {
   // Get the current user's session from our app context
   const { profile } = useAppContext();
-  
+
   // State variables to manage our component
   const [credentials, setCredentials] = useState<CertificateData[]>([]); // Store the credential data
   const [loading, setLoading] = useState(false); // Track if we're loading data
   const [error, setError] = useState<string | null>(null); // Store any error messages
-  
+
   // State for table functionality
   const [search, setSearch] = useState(""); // What the user is searching for
   const [sortKey, setSortKey] = useState<keyof CertificateData | null>(null); // Which column to sort by
@@ -72,7 +72,7 @@ export default function Certificates() {
         }
       } catch (err: any) {
         console.error("Error fetching credentials:", err);
-        
+
         // Only update state if component is still mounted
         if (isMounted) {
           setError(err.message || "Failed to fetch credentials");
@@ -102,7 +102,7 @@ export default function Certificates() {
     // Step 1: Filter based on search term
     if (search.trim()) {
       const searchLower = search.toLowerCase();
-      filtered = credentials.filter((credential) => 
+      filtered = credentials.filter((credential) =>
         // Search through all the credential data
         Object.values(credential).some((value) =>
           String(value || "").toLowerCase().includes(searchLower)
@@ -125,9 +125,9 @@ export default function Certificates() {
         if (sortKey.includes("date") || sortKey === "completion_date") {
           const dateA = new Date(String(valueA));
           const dateB = new Date(String(valueB));
-          
+
           if (!isNaN(dateA.getTime()) && !isNaN(dateB.getTime())) {
-            return sortDirection === "asc" 
+            return sortDirection === "asc"
               ? dateA.getTime() - dateB.getTime()
               : dateB.getTime() - dateA.getTime();
           }
@@ -136,7 +136,7 @@ export default function Certificates() {
         // Default: sort as strings
         const stringA = String(valueA).toLowerCase();
         const stringB = String(valueB).toLowerCase();
-        
+
         if (stringA < stringB) return sortDirection === "asc" ? -1 : 1;
         if (stringA > stringB) return sortDirection === "asc" ? 1 : -1;
         return 0;
@@ -175,12 +175,12 @@ export default function Certificates() {
   // Function to format dates nicely
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "—"; // Show dash for null dates
-    
+
     try {
       const date = new Date(dateString);
       // Check if date is valid
       if (isNaN(date.getTime())) return dateString;
-      
+
       // Format as MM/DD/YYYY
       return date.toLocaleDateString();
     } catch {
@@ -231,7 +231,7 @@ export default function Certificates() {
       <DashboardNavBar />
       <div style={{ padding: "24px" }}>
         <h1 style={{ marginBottom: "24px", color: "#1f2937" }}>My Certificates</h1>
-        
+
         {/* Show error message if there's an error */}
         {error && (
           <div className={styles.error}>
@@ -294,7 +294,7 @@ export default function Certificates() {
                       {columns.map((column) => {
                         const isActive = sortKey === column.key;
                         const isAscending = sortDirection === "asc";
-                        
+
                         return (
                           <th
                             key={String(column.key)}
@@ -305,7 +305,7 @@ export default function Certificates() {
                               <span>{column.label}</span>
                               {column.sortable && (
                                 <span className={styles.sortIcon}>
-                                  {isActive 
+                                  {isActive
                                     ? (isAscending ? "▲" : "▼")
                                     : "↕"
                                   }
@@ -332,7 +332,7 @@ export default function Certificates() {
                         <td>{formatDate(credential.expiration_date)}</td>
                       </tr>
                     ))}
-                    
+
                     {/* Show message when no data */}
                     {currentPageData.length === 0 && (
                       <tr>
