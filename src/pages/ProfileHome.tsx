@@ -61,35 +61,47 @@ function ProfileHome() {
     const [page, setPage] = useState<number>(0); // 0 = info, 1 = certifications, 2 = settings
 
     return (
-        <div className="h-[80vh] py-8">
-            <div className="flex items-end gap-10 border-b border-neutral-300 mb-8">
+        <div className="w-full">
+            <div className="flex items-center mb-6 px-28 bg-main-bg drop-shadow-sm">
                 <button
                     type="button"
                     onClick={() => setPage(0)}
-                    className={`pl-8 relative pb-3 font-medium text-slate-600`}
+                    className={`group relative mr-10 p-5 font-medium text-text ${page === 0 ? "text-navy-blue" : ""}`}
                 >
                     Profile
+                    <span
+                        className={`pointer-events-none absolute left-0 -bottom-px h-0.5 w-full rounded-full ${page === 0 ? "bg-navy-blue" : "bg-transparent"}`}
+                        aria-hidden
+                    />
                 </button>
                 <button
                     type="button"
                     onClick={() => setPage(1)}
-                    className={`relative pb-3 font-medium text-slate-600`}
+                    className={`group relative mr-10 p-5 font-medium text-text ${page === 1 ? "text-navy-blue" : ""}`}
                 >
                     Certifications
+                    <span
+                        className={`pointer-events-none absolute left-0 -bottom-px h-0.5 w-full rounded-full ${page === 1 ? "bg-navy-blue" : "bg-transparent"}`}
+                        aria-hidden
+                    />
                 </button>
                 <button
                     type="button"
                     onClick={() => setPage(2)}
-                    className={`relative pb-3 font-medium text-slate-600"`}
+                    className={`group relative mr-10 p-5 font-medium text-text ${page === 2 ? "text-navy-blue" : ""}`}
                 >
                     Settings
+                    <span
+                        className={`pointer-events-none absolute left-0 -bottom-px h-0.5 w-full rounded-full ${page === 2 ? "bg-navy-blue" : "bg-transparent"}`}
+                        aria-hidden
+                    />
                 </button>
             </div>
 
             {loading ? (
                 <Loading />
             ) : profile ? (
-                <div className="py-8 px-16">
+                <div className="py-8 mx-32">
                     {page === 0 && <ProfileInfo profilePhoto={profilePhoto} profile={profile} />}
                     {page === 1 && <ProfileCertifications />}
                     {page === 2 && <ProfileSettings />}

@@ -37,11 +37,10 @@ function Navbar() {
     const [profilePhoto, setProfilePhoto] = useState("https://njbzosjkwbqlnhieyvug.supabase.co/storage/v1/object/public/profile-photos/default_pfp.png");
 
     const findButtonRef = useRef<HTMLButtonElement>(null);
-    const profilePhotoImgRef = useRef<HTMLImageElement>(null);
+    // const profilePhotoImgRef = useRef<HTMLImageElement>(null);
     const ProfileHomePath = `/profile-detail/${profile!["user_id"]}`;
 
     const [tabOpen, setTabOpen] = useState<number | null>(null);
-    const [profileOpen, setProfileOpen] = useState(false);
 
     // const toggleDropdown = (ref: React.RefObject<HTMLButtonElement | HTMLImageElement | null>) => {
     //     ref.current?.classList.toggle(styles.active);
@@ -132,21 +131,24 @@ function Navbar() {
             <div>
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="destructive" className="w-20 h-20 rounded-full overflow-hidden bg-main-bg">
-                        <img src={profilePhoto} className="w-full h-full object-cover" />
+                    <Button
+                        variant="ghost"
+                        className="h-20 w-20 shrink-0 overflow-hidden rounded-full border-0 p-0 shadow-none hover:bg-transparent hover:text-inherit focus-visible:bg-transparent aria-expanded:bg-transparent data-[state=open]:bg-transparent focus-visible:ring-2 focus-visible:ring-maize/60 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-blue"
+                    >
+                        <img src={profilePhoto} alt="" className="h-full w-full object-cover" />
                     </Button>
-                    </DropdownMenuTrigger>
+                </DropdownMenuTrigger>
                     <DropdownMenuContent align="center">
                         <DropdownMenuGroup>
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuItem asChild>
-                            <Link to={ProfileHomePath}>Profile</Link>
+                            <Link to={ProfileHomePath} onClick={() => setTabOpen(null)}>Profile</Link>
                         </DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                         <DropdownMenuItem onClick={signOutUser}>
-                            <p className='text-red-500'>Sign Out</p>
+                            <p>Sign Out</p>
                         </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
