@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import labels from "../constants/labels";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ProfileData } from '@/types/types';
@@ -14,10 +14,17 @@ type ProfileInfoProps = {
 
 const ProfileInfo = ({ profilePhoto, profile }: ProfileInfoProps) => {
 
-    const [skills, setSkills] = useState(["Coding", "3D Printing", "Prototyping", "CAD", "Embedded Systems"])
-    const [teams, setTeams] = useState(["EcoData", "TechPlus", "M-Fly"])
-    const [bio, setBio] = useState("Click Edit to Change")
-    const [makerLevel, setMakerLevel] = useState("Learner")
+    const [skills, setSkills] = useState<string[]>([])
+    const [teams, setTeams] = useState<string[]>([])
+    const [bio, setBio] = useState<string>("")
+    const [makerLevel, setMakerLevel] = useState<string>("")
+
+    useEffect(() => {
+        setSkills(["Coding", "3D Printing", "Prototyping", "CAD", "Embedded Systems"])
+        setTeams(["EcoData", "TechPlus", "M-Fly"])
+        setBio("Click Edit to Change")
+        setMakerLevel("Learner")
+    }, [])
 
   return (
     <div className="w-full pb-16">

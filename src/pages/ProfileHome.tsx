@@ -9,6 +9,8 @@ import ProfileInfo from "./ProfileInfo";
 import ProfileSettings from "./ProfileSettings";
 import ProfileCertifications from "./ProfileCertifications";
 
+void React
+
 const useProfileHomeData = () => {
     const { id } = useParams();
     const { profile: currUserProfile } = useAppContext();
