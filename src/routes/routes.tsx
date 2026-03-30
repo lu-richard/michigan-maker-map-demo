@@ -31,6 +31,8 @@ import SkillTreeVisual from "../pages/SkillTreeVisual";
 import CredentialModelDetail from "../pages/CredentialModelDetail";
 import React from "react";
 
+void React
+
 const routes = [
     {
         path: '/',

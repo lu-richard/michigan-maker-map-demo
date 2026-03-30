@@ -1,5 +1,7 @@
 import React from 'react'
 
+void React
+
 const ProfileSettings = () => {
   return (
     <div className="w-full pb-16">
