@@ -105,7 +105,7 @@ function ProfileHome() {
             ) : profile ? (
                 <div className="py-8 mx-32">
                     {page === 0 && <ProfileInfo profilePhoto={profilePhoto} profile={profile} />}
-                    {page === 1 && <ProfileCertifications profile={profile} />}
+                    {page === 1 && <ProfileCertifications />}
                     {page === 2 && <ProfileSettings />}
                 </div>
             ) : (
